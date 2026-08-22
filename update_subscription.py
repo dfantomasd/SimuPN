@@ -24,8 +24,6 @@ PROXY_SITES = [
     "domain:telegram.dog", "domain:telegra.ph",
     "domain:gemini.google.com", "domain:generativelanguage.googleapis.com",
     "domain:accounts.google.com", "domain:ai.google.dev",
-    "domain:clients6.google.com", "domain:ogs.google.com",
-    "domain:deepmind.google",
     "domain:googleapis.com", "domain:gstatic.com", "domain:googleusercontent.com",
     "domain:chatgpt.com", "domain:chat.openai.com", "domain:openai.com",
     "domain:oaistatic.com", "domain:oaiusercontent.com", "domain:auth0.com",
