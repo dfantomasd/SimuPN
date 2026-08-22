@@ -49,7 +49,7 @@ jobs:
           nodes = [line for line in lines if line.startswith("vless://")]
           assert nodes and all(urlsplit(line).scheme == "vless" for line in nodes)
           assert json.loads(Path("status.json").read_text())["server_count"] == len(nodes)
-          print(f"Subscription OK: {len(nodes)} exact-source VLESS servers + SIMUTIN")
+          print(f"Subscription OK: {len(nodes)} exact-source VLESS servers + Russia routing")
           PY
 
       - name: Commit refreshed mirror
