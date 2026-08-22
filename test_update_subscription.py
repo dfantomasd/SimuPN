@@ -10,6 +10,19 @@ import update_subscription
 
 
 class MirrorTests(unittest.TestCase):
+    def test_extracts_and_deduplicates_liberty_html_cards(self):
+        first = {"remarks": "France", "outbounds": [], "routing": {}}
+        replacement = {"remarks": "France", "outbounds": [{"protocol": "freedom"}], "routing": {}}
+        second = {"remarks": "Finland", "outbounds": [], "routing": {}}
+        page = "<html data-a='{}' data-b='{}' data-c='{}'></html>".format(
+            json.dumps(first), json.dumps(second), json.dumps(replacement)
+        )
+        configs = update_subscription.deduplicate_configs(
+            update_subscription.extract_configs(page)
+        )
+        self.assertEqual([item["remarks"] for item in configs], ["France", "Finland"])
+        self.assertEqual(configs[0]["outbounds"], [{"protocol": "freedom"}])
+
     def test_preserves_reality_parameters_and_shared_uuid_nodes(self):
         def config(address, public_key, remarks):
             return {
@@ -68,6 +81,71 @@ class MirrorTests(unittest.TestCase):
         ]
         self.assertEqual(len(update_subscription.build_subscription(configs)), 1)
 
+    def test_ranking_prefers_verified_fast_node_and_keeps_reserve(self):
+        def config(address, remarks):
+            return {
+                "remarks": remarks,
+                "outbounds": [{
+                    "protocol": "vless",
+                    "settings": {"vnext": [{
+                        "address": address, "port": 443,
+                        "users": [{"id": "id", "encryption": "none"}],
+                    }]},
+                    "streamSettings": {
+                        "network": "tcp", "security": "reality",
+                        "realitySettings": {"serverName": "example.com", "publicKey": "key"},
+                    },
+                }],
+            }
+
+        configs = [
+            config("203.0.113.1", "🇫🇮 Финляндия"),
+            config("203.0.113.2", "🇩🇪 Германия"),
+            config("203.0.113.3", "🇫🇷 Франция"),
+        ]
+        records = update_subscription.server_records(configs)
+        measurements = {"servers": {
+            records[0]["key"]: {"latency_ms": 35, "consecutive_failures": 2},
+            records[1]["key"]: {"latency_ms": 55, "speed_mbps": 20, "tunnel_ok": True},
+            records[2]["key"]: {"latency_ms": 80, "speed_mbps": 2, "tunnel_ok": True},
+        }}
+        lines = update_subscription.build_subscription(configs, measurements)
+        self.assertIn("203.0.113.2", lines[0])
+        self.assertIn("20.0%20Mbps", lines[0])
+        self.assertIn("203.0.113.3", lines[1])
+        self.assertIn("203.0.113.1", lines[2])
+
+    def test_russian_exit_is_demoted_even_when_fast(self):
+        def config(address, remarks):
+            return {
+                "remarks": remarks,
+                "outbounds": [{
+                    "protocol": "vless",
+                    "settings": {"vnext": [{
+                        "address": address, "port": 443,
+                        "users": [{"id": "id", "encryption": "none"}],
+                    }]},
+                    "streamSettings": {
+                        "network": "tcp", "security": "reality",
+                        "realitySettings": {"serverName": "example.com", "publicKey": "key"},
+                    },
+                }],
+            }
+        configs = [config("203.0.113.1", "Fast unknown"), config("203.0.113.2", "Finland")]
+        records = update_subscription.server_records(configs)
+        measurements = {"servers": {
+            records[0]["key"]: {
+                "latency_ms": 5, "speed_mbps": 50, "tunnel_ok": True,
+                "exit_country": "RU",
+            },
+            records[1]["key"]: {
+                "latency_ms": 30, "speed_mbps": 10, "tunnel_ok": True,
+                "exit_country": "FI",
+            },
+        }}
+        lines = update_subscription.build_subscription(configs, measurements)
+        self.assertIn("203.0.113.2", lines[0])
+
     def test_minimal_routing_keeps_russia_direct_and_required_apps_proxied(self):
         configs = [{
             "routing": {"rules": [{
@@ -113,6 +191,32 @@ class MirrorTests(unittest.TestCase):
             fallback = Path(directory) / "whitelist_configs_combined.json"
             fallback.write_bytes(b'[{"outbounds": []}]')
             with mock.patch.object(update_subscription, "fetch_source", side_effect=OSError("gone")):
+                self.assertEqual(
+                    update_subscription.load_source(fallback_path=fallback),
+                    fallback.read_bytes(),
+                )
+
+    def test_suspiciously_small_liberty_update_uses_snapshot(self):
+        def config(address):
+            return {
+                "remarks": address,
+                "outbounds": [{
+                    "protocol": "vless",
+                    "settings": {"vnext": [{
+                        "address": address, "port": 443,
+                        "users": [{"id": "id", "encryption": "none"}],
+                    }]},
+                    "streamSettings": {
+                        "network": "tcp", "security": "reality",
+                        "realitySettings": {"serverName": "example.com", "publicKey": "key"},
+                    },
+                }],
+            }
+        with tempfile.TemporaryDirectory() as directory:
+            fallback = Path(directory) / "whitelist_configs_combined.json"
+            fallback.write_text(json.dumps([config(f"203.0.113.{i}") for i in range(1, 21)]))
+            tiny = json.dumps([config("198.51.100.1")]).encode()
+            with mock.patch.object(update_subscription, "fetch_source", return_value=tiny):
                 self.assertEqual(
                     update_subscription.load_source(fallback_path=fallback),
                     fallback.read_bytes(),
