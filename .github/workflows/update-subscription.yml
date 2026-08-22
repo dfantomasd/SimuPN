@@ -85,6 +85,11 @@ jobs:
           assert len(measurements["servers"]) == len(nodes)
           assert all("latency_ms" in value or "latency_error" in value
                      for value in measurements["servers"].values())
+          checked = [value for value in measurements["servers"].values()
+                     if value.get("tunnel_ok") and value.get("services")]
+          assert checked
+          required = {"gemini", "telegram", "youtube", "instagram", "chatgpt"}
+          assert all(required <= set(value["services"]) for value in checked)
           print(f"Subscription OK: {len(nodes)} ranked Liberty VLESS servers + Russia routing")
           PY
 
