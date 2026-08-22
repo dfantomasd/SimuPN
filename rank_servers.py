@@ -22,17 +22,6 @@ import update_subscription
 GLOBALPING_API = "https://api.globalping.io/v1/measurements"
 SPEED_TEST_URL = "https://speed.cloudflare.com/__down?bytes=524288"
 EXIT_TRACE_URL = "https://www.cloudflare.com/cdn-cgi/trace"
-SERVICE_CHECKS = {
-    # Gemini needs both the web frontend and the Google Generative Language API.
-    "gemini": (
-        "https://gemini.google.com/app",
-        "https://generativelanguage.googleapis.com/",
-    ),
-    "telegram": ("https://telegram.org/",),
-    "youtube": ("https://www.youtube.com/generate_204",),
-    "instagram": ("https://www.instagram.com/",),
-    "chatgpt": ("https://chatgpt.com/",),
-}
 
 
 def api_json(url, payload=None, timeout=30):
@@ -148,49 +137,6 @@ def wait_for_xray(process, ports, timeout=8):
         raise TimeoutError(f"Xray did not open {len(pending)} test ports")
 
 
-def curl_status(port, url):
-    """Return an HTTP status through one tested VLESS tunnel.
-
-    A 4xx response still proves that the service is reachable (ChatGPT commonly
-    returns 403 to a non-browser GitHub runner). 5xx and transport failures do
-    not prove that the mobile app can use the node.
-    """
-    completed = subprocess.run(
-        [
-            "curl", "--silent", "--show-error", "--location", "--http1.1",
-            "--socks5-hostname", f"127.0.0.1:{port}",
-            "--connect-timeout", "5", "--max-time", "10",
-            "--output", "/dev/null", "--write-out", "%{http_code}", url,
-        ],
-        text=True, capture_output=True, timeout=15,
-    )
-    try:
-        code = int(completed.stdout.strip())
-    except ValueError:
-        code = 0
-    return {
-        "ok": completed.returncode == 0 and 200 <= code < 500,
-        "code": code,
-        **({} if completed.returncode == 0 else {
-            "error": completed.stderr.strip()[:120] or f"curl {completed.returncode}"
-        }),
-    }
-
-
-def check_services(port):
-    services = {}
-    for name, urls in SERVICE_CHECKS.items():
-        attempts = [curl_status(port, url) for url in urls]
-        services[name] = {
-            "ok": all(attempt["ok"] for attempt in attempts),
-            "codes": [attempt["code"] for attempt in attempts],
-        }
-        errors = [attempt.get("error") for attempt in attempts if attempt.get("error")]
-        if errors:
-            services[name]["error"] = "; ".join(errors)[:180]
-    return services
-
-
 def curl_speed(port):
     command = [
         "curl", "--silent", "--show-error", "--location", "--http1.1",
@@ -227,7 +173,6 @@ def curl_speed(port):
             )
             result["exit_ip"] = values.get("ip")
             result["exit_country"] = values.get("loc")
-        result["services"] = check_services(port)
     return result
 
 
@@ -338,7 +283,7 @@ def merge_measurements(records, latency, speeds, speed_attempted, previous):
         else:
             for field in (
                 "tunnel_ok", "speed_mbps", "download_bytes", "download_seconds",
-                "exit_ip", "exit_country", "services", "consecutive_failures", "verified_at",
+                "exit_ip", "exit_country", "consecutive_failures", "verified_at",
             ):
                 if field in old:
                     current[field] = old[field]
@@ -349,7 +294,6 @@ def merge_measurements(records, latency, speeds, speed_attempted, previous):
         "method": {
             "latency": "median TCP connect time from two Globalping probes in Moscow",
             "speed": "512 KiB HTTPS download through the full VLESS/Xray tunnel from GitHub Actions",
-            "services": "HTTP reachability through each VLESS tunnel for Gemini, Telegram, YouTube, Instagram and ChatGPT",
             "policy": "keep all nodes; demote only after repeated tunnel failures",
         },
         "servers": servers,
@@ -374,15 +318,7 @@ def main():
     Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
     working = sum(bool(value.get("tunnel_ok")) for value in result["servers"].values())
     measured = sum(value.get("latency_ms") is not None for value in result["servers"].values())
-    compatible = sum(
-        bool(value.get("services"))
-        and all(item.get("ok") for item in value["services"].values())
-        for value in result["servers"].values()
-    )
-    print(
-        f"Ranked {len(records)} nodes: {working} tunnel-verified, "
-        f"{compatible} all-services-compatible, {measured} Moscow latency results"
-    )
+    print(f"Ranked {len(records)} nodes: {working} tunnel-verified, {measured} Moscow latency results")
 
 
 if __name__ == "__main__":

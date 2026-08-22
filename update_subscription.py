@@ -24,8 +24,6 @@ PROXY_SITES = [
     "domain:telegram.dog", "domain:telegra.ph",
     "domain:gemini.google.com", "domain:generativelanguage.googleapis.com",
     "domain:accounts.google.com", "domain:ai.google.dev",
-    "domain:clients6.google.com", "domain:ogs.google.com",
-    "domain:deepmind.google",
     "domain:googleapis.com", "domain:gstatic.com", "domain:googleusercontent.com",
     "domain:chatgpt.com", "domain:chat.openai.com", "domain:openai.com",
     "domain:oaistatic.com", "domain:oaiusercontent.com", "domain:auth0.com",
@@ -324,20 +322,12 @@ def build_subscription(configs, measurements=None):
         exit_penalty = 500 if russian_exit or "росси" in record["label"].casefold() else 0
         if record["label"].startswith("proxy-") and not data.get("exit_country"):
             exit_penalty = max(exit_penalty, 300)
-        services = data.get("services")
-        service_tier = 0
-        if services:
-            failed = [name for name, result in services.items() if not result.get("ok")]
-            if "gemini" in failed:
-                service_tier = 2
-            elif failed:
-                service_tier = 1
         if tunnel_ok:
             score = (latency if latency is not None else 500) + 160 / max(speed or 0.5, 0.5)
-            return (service_tier, 0, score + exit_penalty, index)
+            return (0, score + exit_penalty, index)
         if latency is not None and failures < 2:
-            return (3, 1, latency + exit_penalty, index)
-        return (4, 2, location_priority(record["label"]), index)
+            return (1, latency + exit_penalty, index)
+        return (2, location_priority(record["label"]), index)
 
     ordered = [record for _, record in sorted(enumerate(records), key=sort_key)]
     return [ranked_uri(record, measurements.get(record["key"], {})) for record in ordered]
@@ -369,7 +359,7 @@ def routing_profile(configs):
             "https://raw.githubusercontent.com/dfantomasd/VPN_BEST/main/"
             "routing-data/geoip.dat"
         ),
-        "LastUpdated": "1787405741",
+        "LastUpdated": "1787402951",
         "DnsHosts": {
             "lkfl2.nalog.ru": "213.24.64.175",
             "lknpd.nalog.ru": "213.24.64.181",
@@ -431,7 +421,7 @@ def generate(source_bytes, output_dir=Path("."), measurements=None):
         "server_count": len(node_lines),
         "routing": "Russia split tunnel",
         "ranking": {
-            "origin": "Moscow TCP probes + Xray tunnel throughput + app reachability",
+            "origin": "Moscow TCP probes + Xray tunnel throughput",
             "measurements_updated_at": (measurements or {}).get("updated_at"),
         },
     }
