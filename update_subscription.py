@@ -191,12 +191,12 @@ def routing_profile(configs):
         "DomesticDNSDomain": "",
         "DomesticDNSIP": "77.88.8.8",
         "Geositeurl": (
-            "https://cdn.jsdelivr.net/gh/dfantomasd/VPN@main/"
-            "routing-data/geosite.dat?v=1787392410"
+            "https://cdn.jsdelivr.net/gh/dfantomasd/VPN_BEST@main/"
+            "routing-data/geosite.dat?v=1"
         ),
         "Geoipurl": (
-            "https://cdn.jsdelivr.net/gh/dfantomasd/VPN@main/"
-            "routing-data/geoip.dat?v=1787392410"
+            "https://cdn.jsdelivr.net/gh/dfantomasd/VPN_BEST@main/"
+            "routing-data/geoip.dat?v=1"
         ),
         "LastUpdated": "1787392410",
         "DnsHosts": {
@@ -219,7 +219,9 @@ def routing_link(configs):
     payload = json.dumps(
         routing_profile(configs), ensure_ascii=False, separators=(",", ":")
     ).encode()
-    encoded = base64.urlsafe_b64encode(payload).decode().rstrip("=")
+    # Happ documents standard Base64 here. URL-safe Base64 silently fails for
+    # profiles whose payload contains '/' or '+' sextets.
+    encoded = base64.b64encode(payload).decode()
     return "happ://routing/onadd/" + encoded
 
 
@@ -245,6 +247,13 @@ def generate(source_bytes, output_dir=Path(".")):
     output_dir.joinpath("subscription_base64.txt").write_text(
         base64.b64encode(plain).decode() + "\n", encoding="utf-8"
     )
+    profile = routing_profile(configs)
+    output_dir.joinpath("routing.json").write_text(
+        json.dumps(profile, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    output_dir.joinpath("routing.txt").write_text(
+        routing_link(configs) + "\n", encoding="utf-8"
+    )
     status = {
         "source": SOURCE_URL,
         "source_sha256": hashlib.sha256(source_bytes).hexdigest(),
@@ -258,11 +267,23 @@ def generate(source_bytes, output_dir=Path(".")):
     return node_lines
 
 
+def load_source(source_file=None, fallback_path=Path("whitelist_configs_combined.json")):
+    if source_file:
+        return Path(source_file).read_bytes()
+    try:
+        return fetch_source()
+    except Exception as exc:
+        if not fallback_path.exists():
+            raise
+        print(f"Upstream unavailable ({exc}); using committed source snapshot")
+        return fallback_path.read_bytes()
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--source-file")
     args = parser.parse_args()
-    source = Path(args.source_file).read_bytes() if args.source_file else fetch_source()
+    source = load_source(args.source_file)
     lines = generate(source)
     print(f"Mirrored {len(lines)} unique VLESS servers from kenkaral45")
 

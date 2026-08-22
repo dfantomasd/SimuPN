@@ -29,6 +29,7 @@ jobs:
 
       - name: Validate generated subscription
         run: |
+          sha256sum --check routing-data/SHA256SUMS
           python3 - <<'PY'
           import base64
           import json
@@ -40,6 +41,11 @@ jobs:
           assert base64.b64decode(encoded, validate=True) == plain
           lines = plain.decode().splitlines()
           assert lines[0].startswith("happ://routing/onadd/")
+          routing_encoded = lines[0].removeprefix("happ://routing/onadd/")
+          routing = json.loads(base64.b64decode(routing_encoded, validate=True))
+          assert routing["Name"] == "Russia"
+          assert Path("routing.txt").read_text().strip() == lines[0]
+          assert json.loads(Path("routing.json").read_text()) == routing
           nodes = [line for line in lines if line.startswith("vless://")]
           assert nodes and all(urlsplit(line).scheme == "vless" for line in nodes)
           assert json.loads(Path("status.json").read_text())["server_count"] == len(nodes)
@@ -50,7 +56,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- whitelist_configs_combined.json subscription.txt subscription_base64.txt status.json
+          git add -- whitelist_configs_combined.json subscription.txt subscription_base64.txt routing.txt routing.json status.json
           if git diff --cached --quiet; then
             echo "No source changes"
             exit 0
