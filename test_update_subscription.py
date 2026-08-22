@@ -88,10 +88,18 @@ class MirrorTests(unittest.TestCase):
         self.assertIn("domain:ozon.ru", profile["DirectSites"])
         self.assertIn("domain:wildberries.ru", profile["DirectSites"])
         self.assertIn("geosite:category-ru", profile["DirectSites"])
+        self.assertIn("geosite:category-bank-ru", profile["DirectSites"])
         self.assertIn("geoip:ru", profile["DirectIp"])
-        for domain in ("domain:telegram.org", "domain:gemini.google.com", "domain:chatgpt.com"):
+        for domain in (
+            "domain:telegram.org", "domain:gemini.google.com", "domain:chatgpt.com",
+            "geosite:youtube", "domain:googlevideo.com", "domain:instagram.com",
+            "domain:cdninstagram.com", "geosite:ru-blocked",
+            "geosite:ru-geoblock", "domain:claude.ai", "domain:reddit.com",
+        ):
             self.assertIn(domain, profile["ProxySites"])
         self.assertIn("149.154.160.0/20", profile["ProxyIp"])
+        self.assertIn("geoip:ru-blocked", profile["ProxyIp"])
+        self.assertIn("geoip:ru-geoblock", profile["ProxyIp"])
         link = update_subscription.routing_link(configs)
         encoded = link.removeprefix("happ://routing/onadd/")
         decoded = json.loads(base64.b64decode(encoded))

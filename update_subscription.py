@@ -16,6 +16,11 @@ SOURCE_URL = (
     "main/whitelist_configs_combined.json"
 )
 PROXY_SITES = [
+    # The vendored geosite database maintains broad Russia-specific lists:
+    # sites blocked inside Russia and services applying geo-blocks to Russia.
+    "geosite:ru-blocked", "geosite:ru-geoblock",
+    "geosite:telegram", "geosite:youtube", "geosite:twitch",
+    "geosite:pinterest", "geosite:github",
     "domain:t.me", "domain:telegram.me", "domain:telegram.org",
     "domain:telegram.dog", "domain:telegra.ph",
     "domain:gemini.google.com", "domain:generativelanguage.googleapis.com",
@@ -23,8 +28,19 @@ PROXY_SITES = [
     "domain:googleapis.com", "domain:gstatic.com", "domain:googleusercontent.com",
     "domain:chatgpt.com", "domain:chat.openai.com", "domain:openai.com",
     "domain:oaistatic.com", "domain:oaiusercontent.com", "domain:auth0.com",
+    "geosite:youtube", "domain:youtube.com", "domain:youtu.be",
+    "domain:youtube-nocookie.com", "domain:googlevideo.com",
+    "domain:ytimg.com", "domain:ggpht.com",
+    "domain:youtubei.googleapis.com", "domain:youtube.googleapis.com",
+    "domain:instagram.com", "domain:cdninstagram.com",
+    "domain:fbcdn.net", "domain:fbsbx.com", "domain:facebook.com",
+    "domain:facebook.net", "domain:fb.com",
+    "domain:threads.net", "domain:reddit.com", "domain:redd.it",
+    "domain:anthropic.com", "domain:claude.ai", "domain:perplexity.ai",
+    "domain:copilot.microsoft.com", "domain:discord.com", "domain:discord.gg",
 ]
 PROXY_IP = [
+    "geoip:ru-blocked", "geoip:ru-geoblock",
     "91.105.192.0/23", "91.108.4.0/22", "91.108.8.0/21",
     "91.108.16.0/21", "91.108.56.0/22", "95.161.64.0/20",
     "149.154.160.0/20", "185.76.151.0/24",
@@ -36,6 +52,8 @@ DIRECT_SITES = [
     # unmatched traffic is already direct; these rules explicitly protect the
     # Russian namespaces and the services most likely to use non-.ru domains.
     "domain:ru", "domain:xn--p1ai", "geosite:category-ru",
+    "geosite:russia-inside", "geosite:category-bank-ru",
+    "geosite:sber", "geosite:tbank-ru", "geosite:whitelist",
     "domain:ozon.ru", "domain:ozonusercontent.com",
     "domain:wildberries.ru", "domain:wb.ru", "domain:wbbasket.ru",
     "domain:sberbank.ru", "domain:sber.ru",
@@ -205,7 +223,7 @@ def routing_profile(configs):
             "https://cdn.jsdelivr.net/gh/dfantomasd/VPN_BEST@main/"
             "routing-data/geoip.dat?v=1"
         ),
-        "LastUpdated": "1787392410",
+        "LastUpdated": "1787401702",
         "DnsHosts": {
             "lkfl2.nalog.ru": "213.24.64.175",
             "lknpd.nalog.ru": "213.24.64.181",
