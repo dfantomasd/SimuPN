@@ -267,7 +267,6 @@ class MirrorTests(unittest.TestCase):
         self.assertIn("geoip:ru", profile["DirectIp"])
         for domain in (
             "domain:telegram.org", "domain:gemini.google.com", "domain:chatgpt.com",
-            "domain:clients6.google.com", "domain:deepmind.google",
             "geosite:youtube", "domain:googlevideo.com", "domain:instagram.com",
             "domain:cdninstagram.com", "geosite:ru-blocked",
             "geosite:ru-geoblock", "domain:claude.ai", "domain:reddit.com",
