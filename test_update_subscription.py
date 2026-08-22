@@ -1,5 +1,9 @@
 import json
+import base64
+import tempfile
 import unittest
+from pathlib import Path
+from unittest import mock
 from urllib.parse import parse_qs, urlsplit
 
 import update_subscription
@@ -87,6 +91,20 @@ class MirrorTests(unittest.TestCase):
         for domain in ("domain:telegram.org", "domain:gemini.google.com", "domain:chatgpt.com"):
             self.assertIn(domain, profile["ProxySites"])
         self.assertIn("149.154.160.0/20", profile["ProxyIp"])
+        link = update_subscription.routing_link(configs)
+        encoded = link.removeprefix("happ://routing/onadd/")
+        decoded = json.loads(base64.b64decode(encoded))
+        self.assertEqual(decoded["Name"], "Russia")
+
+    def test_upstream_failure_uses_committed_snapshot(self):
+        with tempfile.TemporaryDirectory() as directory:
+            fallback = Path(directory) / "whitelist_configs_combined.json"
+            fallback.write_bytes(b'[{"outbounds": []}]')
+            with mock.patch.object(update_subscription, "fetch_source", side_effect=OSError("gone")):
+                self.assertEqual(
+                    update_subscription.load_source(fallback_path=fallback),
+                    fallback.read_bytes(),
+                )
 
 
 if __name__ == "__main__":
