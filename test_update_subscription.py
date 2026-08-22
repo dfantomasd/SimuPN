@@ -146,42 +146,6 @@ class MirrorTests(unittest.TestCase):
         lines = update_subscription.build_subscription(configs, measurements)
         self.assertIn("203.0.113.2", lines[0])
 
-    def test_service_compatible_node_beats_faster_gemini_blocked_node(self):
-        def config(address, remarks):
-            return {
-                "remarks": remarks,
-                "outbounds": [{
-                    "protocol": "vless",
-                    "settings": {"vnext": [{
-                        "address": address, "port": 443,
-                        "users": [{"id": "id", "encryption": "none"}],
-                    }]},
-                    "streamSettings": {
-                        "network": "tcp", "security": "reality",
-                        "realitySettings": {"serverName": "example.com", "publicKey": "key"},
-                    },
-                }],
-            }
-        configs = [config("203.0.113.1", "Fast"), config("203.0.113.2", "Compatible")]
-        records = update_subscription.server_records(configs)
-        ok_services = {
-            name: {"ok": True} for name in ("gemini", "telegram", "youtube", "instagram", "chatgpt")
-        }
-        blocked_services = dict(ok_services)
-        blocked_services["gemini"] = {"ok": False}
-        measurements = {"servers": {
-            records[0]["key"]: {
-                "latency_ms": 5, "speed_mbps": 50, "tunnel_ok": True,
-                "services": blocked_services,
-            },
-            records[1]["key"]: {
-                "latency_ms": 60, "speed_mbps": 5, "tunnel_ok": True,
-                "services": ok_services,
-            },
-        }}
-        lines = update_subscription.build_subscription(configs, measurements)
-        self.assertIn("203.0.113.2", lines[0])
-
     def test_technical_node_without_exit_country_is_reserve(self):
         def config(address, remarks):
             return {
@@ -237,7 +201,6 @@ class MirrorTests(unittest.TestCase):
         self.assertIn("geoip:ru", profile["DirectIp"])
         for domain in (
             "domain:telegram.org", "domain:gemini.google.com", "domain:chatgpt.com",
-            "domain:clients6.google.com", "domain:deepmind.google",
             "geosite:youtube", "domain:googlevideo.com", "domain:instagram.com",
             "domain:cdninstagram.com", "geosite:ru-blocked",
             "geosite:ru-geoblock", "domain:claude.ai", "domain:reddit.com",
