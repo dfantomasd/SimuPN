@@ -20,7 +20,24 @@ class RankServersTests(unittest.TestCase):
         )["servers"]["node-key"]
         self.assertTrue(result["tunnel_ok"])
         self.assertEqual(result["consecutive_failures"], 0)
+        self.assertEqual(result["consecutive_successes"], 1)
+        self.assertTrue(result["publishable"])
         self.assertEqual(result["latency_ms"], 42)
+
+    def test_service_results_are_persisted(self):
+        services = {
+            name: {"ok": True, "codes": [200]}
+            for name in rank_servers.SERVICE_CHECKS
+        }
+        result = rank_servers.merge_measurements(
+            [self.record()], {},
+            {"node-key": {
+                "tunnel_ok": True, "speed_mbps": 12.5, "services": services,
+            }},
+            True, {"servers": {}},
+        )["servers"]["node-key"]
+        self.assertEqual(result["services"], services)
+        self.assertTrue(result["services"]["gemini"]["ok"])
 
     def test_fresh_results_are_smoothed_to_prevent_hourly_reordering(self):
         previous = {"servers": {"node-key": {
@@ -51,7 +68,7 @@ class RankServersTests(unittest.TestCase):
         self.assertTrue(result["speed_stale"])
         self.assertEqual(result["consecutive_failures"], 1)
 
-    def test_second_failed_run_demotes_node(self):
+    def test_second_failed_run_demotes_but_keeps_node_published(self):
         previous = {"servers": {"node-key": {
             "tunnel_ok": True, "speed_mbps": 9.5,
             "consecutive_failures": 1, "verified_at": "before",
@@ -63,6 +80,38 @@ class RankServersTests(unittest.TestCase):
         )["servers"]["node-key"]
         self.assertFalse(result["tunnel_ok"])
         self.assertEqual(result["consecutive_failures"], 2)
+        self.assertTrue(result["publishable"])
+
+    def test_third_failed_run_removes_node_from_publication(self):
+        previous = {"servers": {"node-key": {
+            "tunnel_ok": False, "speed_mbps": 9.5, "publishable": True,
+            "consecutive_failures": 2, "verified_at": "before",
+        }}}
+        result = rank_servers.merge_measurements(
+            [self.record()], {},
+            {"node-key": {"tunnel_ok": False, "speed_error": "third"}},
+            True, previous,
+        )["servers"]["node-key"]
+        self.assertEqual(result["consecutive_failures"], 3)
+        self.assertFalse(result["publishable"])
+
+    def test_removed_node_requires_two_successes_to_return(self):
+        previous = {"servers": {"node-key": {
+            "tunnel_ok": False, "publishable": False,
+            "consecutive_failures": 3, "consecutive_successes": 0,
+        }}}
+        first = rank_servers.merge_measurements(
+            [self.record()], {},
+            {"node-key": {"tunnel_ok": True, "speed_mbps": 8}},
+            True, previous,
+        )["servers"]["node-key"]
+        self.assertFalse(first["publishable"])
+        second = rank_servers.merge_measurements(
+            [self.record()], {},
+            {"node-key": {"tunnel_ok": True, "speed_mbps": 8}},
+            True, {"servers": {"node-key": first}},
+        )["servers"]["node-key"]
+        self.assertTrue(second["publishable"])
 
 
 if __name__ == "__main__":
