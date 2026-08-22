@@ -52,7 +52,7 @@ DIRECT_SITES = [
     # Russian namespaces and the services most likely to use non-.ru domains.
     "domain:ru", "domain:xn--p1ai", "geosite:category-ru",
     "geosite:russia-inside", "geosite:category-bank-ru",
-    "geosite:sber", "geosite:tbank-ru",
+    "geosite:sber", "geosite:tbank-ru", "geosite:whitelist",
     "domain:ozon.ru", "domain:ozonusercontent.com",
     "domain:wildberries.ru", "domain:wb.ru", "domain:wbbasket.ru",
     "domain:sberbank.ru", "domain:sber.ru",
@@ -360,23 +360,24 @@ def routing_profile(configs):
         "Name": "Russia",
         "GlobalProxy": "false",
         "RemoteDNSType": "DoH",
-        "RemoteDNSDomain": "https://dns.google/dns-query",
+        "RemoteDNSDomain": "https://8.8.8.8/dns-query",
         "RemoteDNSIP": "8.8.8.8",
         "DomesticDNSType": "DoU",
         "DomesticDNSDomain": "",
         "DomesticDNSIP": "77.88.8.8",
         "Geositeurl": (
-            "https://raw.githubusercontent.com/dfantomasd/VPN_BEST/"
-            "29251629d66d9adaad30994407a611182ecc2aea/"
+            "https://raw.githubusercontent.com/dfantomasd/VPN_BEST/main/"
             "routing-data/geosite.dat"
         ),
         "Geoipurl": (
-            "https://raw.githubusercontent.com/dfantomasd/VPN_BEST/"
-            "29251629d66d9adaad30994407a611182ecc2aea/"
+            "https://raw.githubusercontent.com/dfantomasd/VPN_BEST/main/"
             "routing-data/geoip.dat"
         ),
-        "LastUpdated": "1787408711",
-        "DnsHosts": {},
+        "LastUpdated": "1787410061",
+        "DnsHosts": {
+            "lkfl2.nalog.ru": "213.24.64.175",
+            "lknpd.nalog.ru": "213.24.64.181",
+        },
         "DirectSites": source_direct_domains(configs),
         "DirectIp": ["geoip:ru", *PRIVATE_IP],
         "ProxySites": PROXY_SITES,
@@ -416,10 +417,6 @@ def generate(source_bytes, output_dir=Path("."), measurements=None):
     lines = [
         routing_link(configs),
         "#routing-enable: 1",
-        "#subscription-autoconnect: 1",
-        "#subscription-autoconnect-type: lowestdelay",
-        "#subscription-ping-onopen-enabled: 1",
-        "#subscription-auto-update-enable: 1",
         "#profile-update-interval: 1",
         "#subscription-auto-update-open-enable: 1",
         "#profile-title: VPN_BEST",

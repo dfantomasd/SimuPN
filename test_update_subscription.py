@@ -256,14 +256,14 @@ class MirrorTests(unittest.TestCase):
         self.assertTrue(profile["Geoipurl"].startswith("https://"))
         self.assertIn("raw.githubusercontent.com/dfantomasd/VPN_BEST", profile["Geositeurl"])
         self.assertIn("raw.githubusercontent.com/dfantomasd/VPN_BEST", profile["Geoipurl"])
-        self.assertNotIn("/main/", profile["Geositeurl"])
-        self.assertNotIn("/main/", profile["Geoipurl"])
-        self.assertEqual(profile["DnsHosts"], {})
+        self.assertIn("/main/", profile["Geositeurl"])
+        self.assertIn("/main/", profile["Geoipurl"])
+        self.assertEqual(profile["RemoteDNSDomain"], "https://8.8.8.8/dns-query")
         self.assertIn("domain:ozon.ru", profile["DirectSites"])
         self.assertIn("domain:wildberries.ru", profile["DirectSites"])
         self.assertIn("geosite:category-ru", profile["DirectSites"])
         self.assertIn("geosite:category-bank-ru", profile["DirectSites"])
-        self.assertNotIn("geosite:whitelist", profile["DirectSites"])
+        self.assertIn("geosite:whitelist", profile["DirectSites"])
         self.assertIn("geoip:ru", profile["DirectIp"])
         for domain in (
             "domain:telegram.org", "domain:gemini.google.com", "domain:chatgpt.com",
@@ -281,7 +281,7 @@ class MirrorTests(unittest.TestCase):
         self.assertEqual(decoded["Name"], "Russia")
         self.assertLess(len(link), 4096)
 
-    def test_generated_subscription_enables_safe_happ_automation(self):
+    def test_generated_subscription_does_not_force_server_switching(self):
         def config(index):
             return {
                 "remarks": f"node-{index}",
@@ -302,13 +302,10 @@ class MirrorTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             update_subscription.generate(source, Path(directory))
             lines = Path(directory, "subscription.txt").read_text().splitlines()
-        for directive in (
-            "#subscription-autoconnect: 1",
-            "#subscription-autoconnect-type: lowestdelay",
-            "#subscription-ping-onopen-enabled: 1",
-            "#subscription-auto-update-enable: 1",
-        ):
-            self.assertIn(directive, lines)
+        self.assertIn("#profile-update-interval: 1", lines)
+        self.assertIn("#subscription-auto-update-open-enable: 1", lines)
+        self.assertNotIn("#subscription-autoconnect: 1", lines)
+        self.assertNotIn("#subscription-autoconnect-type: lowestdelay", lines)
 
     def test_generation_refuses_too_few_publishable_nodes(self):
         def config(index):
