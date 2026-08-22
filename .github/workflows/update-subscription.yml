@@ -39,9 +39,11 @@ jobs:
           encoded = b"".join(Path("subscription_base64.txt").read_bytes().split())
           assert base64.b64decode(encoded, validate=True) == plain
           lines = plain.decode().splitlines()
-          assert lines and all(urlsplit(line).scheme == "vless" for line in lines)
-          assert json.loads(Path("status.json").read_text())["server_count"] == len(lines)
-          print(f"Subscription OK: {len(lines)} exact-source VLESS servers")
+          assert lines[0].startswith("happ://routing/onadd/")
+          nodes = [line for line in lines if line.startswith("vless://")]
+          assert nodes and all(urlsplit(line).scheme == "vless" for line in nodes)
+          assert json.loads(Path("status.json").read_text())["server_count"] == len(nodes)
+          print(f"Subscription OK: {len(nodes)} exact-source VLESS servers + SIMUTIN")
           PY
 
       - name: Commit refreshed mirror
