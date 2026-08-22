@@ -324,6 +324,13 @@ def build_subscription(configs, measurements=None):
     def sort_key(item):
         index, record = item
         data = servers_measurements.get(record["key"], {})
+        stream = record["outbound"].get("streamSettings") or {}
+        network = str(stream.get("network") or "tcp").lower()
+        security = str(stream.get("security") or "none").lower()
+        # GitHub can reach WS/XHTTP nodes that Russian mobile operators do not.
+        # Prefer the TCP/Reality transport proven to work on the target iPhone;
+        # keep other transports available as reserves.
+        transport_tier = 0 if (network, security) == ("tcp", "reality") else 1
         latency = data.get("latency_ms")
         speed = data.get("speed_mbps")
         tunnel_ok = bool(data.get("tunnel_ok"))
@@ -334,10 +341,10 @@ def build_subscription(configs, measurements=None):
             exit_penalty = max(exit_penalty, 300)
         if tunnel_ok:
             score = (latency if latency is not None else 500) + 160 / max(speed or 0.5, 0.5)
-            return (0, score + exit_penalty, index)
+            return (0, transport_tier, score + exit_penalty, index)
         if latency is not None and failures < 2:
-            return (1, latency + exit_penalty, index)
-        return (2, location_priority(record["label"]), index)
+            return (1, transport_tier, latency + exit_penalty, index)
+        return (2, transport_tier, location_priority(record["label"]), index)
 
     publishable = [record for record in records if is_publishable(record)]
     ordered = [record for _, record in sorted(enumerate(publishable), key=sort_key)]
