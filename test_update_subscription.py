@@ -75,8 +75,12 @@ class MirrorTests(unittest.TestCase):
             }]},
         }]
         profile = update_subscription.routing_profile(configs)
-        self.assertEqual(profile["Name"], "SIMUTIN")
+        self.assertEqual(profile["Name"], "Russia")
         self.assertEqual(profile["GlobalProxy"], "false")
+        self.assertEqual(profile["UseChunkFiles"], "true")
+        self.assertRegex(profile["LastUpdated"], r"^\d{9,11}$")
+        self.assertTrue(profile["Geositeurl"].startswith("https://"))
+        self.assertTrue(profile["Geoipurl"].startswith("https://"))
         self.assertIn("domain:ozon.ru", profile["DirectSites"])
         self.assertIn("domain:wildberries.ru", profile["DirectSites"])
         self.assertNotIn("geosite:category-ru", profile["DirectSites"])

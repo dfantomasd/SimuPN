@@ -179,9 +179,9 @@ def source_direct_domains(configs):
 
 def routing_profile(configs):
     return {
-        "Name": "SIMUTIN",
+        "Name": "Russia",
         "GlobalProxy": "false",
-        "UseChunkFiles": "false",
+        "UseChunkFiles": "true",
         "RemoteDns": "8.8.8.8",
         "DomesticDns": "77.88.8.8",
         "RemoteDNSType": "DoH",
@@ -190,7 +190,19 @@ def routing_profile(configs):
         "DomesticDNSType": "DoU",
         "DomesticDNSDomain": "",
         "DomesticDNSIP": "77.88.8.8",
-        "DnsHosts": {},
+        "Geositeurl": (
+            "https://cdn.jsdelivr.net/gh/dfantomasd/VPN@main/"
+            "routing-data/geosite.dat?v=1787392410"
+        ),
+        "Geoipurl": (
+            "https://cdn.jsdelivr.net/gh/dfantomasd/VPN@main/"
+            "routing-data/geoip.dat?v=1787392410"
+        ),
+        "LastUpdated": "1787392410",
+        "DnsHosts": {
+            "lkfl2.nalog.ru": "213.24.64.175",
+            "lknpd.nalog.ru": "213.24.64.181",
+        },
         "RouteOrder": "block-direct-proxy",
         "DirectSites": source_direct_domains(configs),
         "DirectIp": PRIVATE_IP,
@@ -238,7 +250,7 @@ def generate(source_bytes, output_dir=Path(".")):
         "source_sha256": hashlib.sha256(source_bytes).hexdigest(),
         "updated_at": datetime.now(timezone.utc).isoformat(),
         "server_count": len(node_lines),
-        "routing": "SIMUTIN minimal split tunnel",
+        "routing": "Russia minimal split tunnel",
     }
     output_dir.joinpath("status.json").write_text(
         json.dumps(status, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
