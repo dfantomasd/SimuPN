@@ -78,13 +78,21 @@ jobs:
           assert Path("routing.txt").read_text().strip() == lines[0]
           assert json.loads(Path("routing.json").read_text()) == routing
           nodes = [line for line in lines if line.startswith("vless://")]
-          assert nodes and all(urlsplit(line).scheme == "vless" for line in nodes)
-          assert json.loads(Path("status.json").read_text())["server_count"] == len(nodes)
+          assert len(nodes) >= 5 and all(urlsplit(line).scheme == "vless" for line in nodes)
+          status = json.loads(Path("status.json").read_text())
+          assert status["server_count"] == len(nodes)
+          assert status["source_server_count"] >= len(nodes)
+          assert status["excluded_server_count"] == status["source_server_count"] - len(nodes)
           measurements = json.loads(Path("measurements.json").read_text())
           assert measurements["method"]["latency"].endswith("in Moscow")
-          assert len(measurements["servers"]) == len(nodes)
+          assert len(measurements["servers"]) == status["source_server_count"]
           assert all("latency_ms" in value or "latency_error" in value
                      for value in measurements["servers"].values())
+          checked = [value for value in measurements["servers"].values()
+                     if value.get("tunnel_ok") and value.get("services")]
+          assert checked
+          required = {"gemini", "telegram", "youtube", "instagram", "chatgpt"}
+          assert all(required <= set(value["services"]) for value in checked)
           print(f"Subscription OK: {len(nodes)} ranked Liberty VLESS servers + Russia routing")
           PY
 
@@ -92,11 +100,18 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- whitelist_configs_combined.json measurements.json subscription.txt subscription_base64.txt routing.txt routing.json status.json
-          if git diff --cached --quiet; then
+          files="whitelist_configs_combined.json measurements.json subscription.txt subscription_base64.txt routing.txt routing.json status.json"
+          if git diff --quiet -- $files; then
             echo "No source changes"
             exit 0
           fi
+          git fetch origin main
+          publish_dir="$RUNNER_TEMP/vpn-best-publish"
+          git worktree add "$publish_dir" origin/main
+          for file in $files; do
+            cp "$file" "$publish_dir/$file"
+          done
+          cd "$publish_dir"
+          git add -- $files
           git commit -m "Update and rank Liberty VPN servers"
-          git pull --rebase origin main
-          git push origin main
+          git push origin HEAD:main
