@@ -206,9 +206,6 @@ def routing_profile(configs):
     return {
         "Name": "Russia",
         "GlobalProxy": "false",
-        "UseChunkFiles": "true",
-        "RemoteDns": "8.8.8.8",
-        "DomesticDns": "77.88.8.8",
         "RemoteDNSType": "DoH",
         "RemoteDNSDomain": "https://8.8.8.8/dns-query",
         "RemoteDNSIP": "8.8.8.8",
@@ -216,19 +213,18 @@ def routing_profile(configs):
         "DomesticDNSDomain": "",
         "DomesticDNSIP": "77.88.8.8",
         "Geositeurl": (
-            "https://cdn.jsdelivr.net/gh/dfantomasd/VPN_BEST@main/"
-            "routing-data/geosite.dat?v=1"
+            "https://raw.githubusercontent.com/dfantomasd/VPN_BEST/main/"
+            "routing-data/geosite.dat"
         ),
         "Geoipurl": (
-            "https://cdn.jsdelivr.net/gh/dfantomasd/VPN_BEST@main/"
-            "routing-data/geoip.dat?v=1"
+            "https://raw.githubusercontent.com/dfantomasd/VPN_BEST/main/"
+            "routing-data/geoip.dat"
         ),
-        "LastUpdated": "1787401702",
+        "LastUpdated": "1787402951",
         "DnsHosts": {
             "lkfl2.nalog.ru": "213.24.64.175",
             "lknpd.nalog.ru": "213.24.64.181",
         },
-        "RouteOrder": "block-direct-proxy",
         "DirectSites": source_direct_domains(configs),
         "DirectIp": ["geoip:ru", *PRIVATE_IP],
         "ProxySites": PROXY_SITES,
