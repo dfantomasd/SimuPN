@@ -22,6 +22,21 @@ class RankServersTests(unittest.TestCase):
         self.assertEqual(result["consecutive_failures"], 0)
         self.assertEqual(result["latency_ms"], 42)
 
+    def test_service_results_are_persisted(self):
+        services = {
+            name: {"ok": True, "codes": [200]}
+            for name in rank_servers.SERVICE_CHECKS
+        }
+        result = rank_servers.merge_measurements(
+            [self.record()], {},
+            {"node-key": {
+                "tunnel_ok": True, "speed_mbps": 12.5, "services": services,
+            }},
+            True, {"servers": {}},
+        )["servers"]["node-key"]
+        self.assertEqual(result["services"], services)
+        self.assertTrue(result["services"]["gemini"]["ok"])
+
     def test_fresh_results_are_smoothed_to_prevent_hourly_reordering(self):
         previous = {"servers": {"node-key": {
             "latency_ms": 40, "tunnel_ok": True, "speed_mbps": 10,
