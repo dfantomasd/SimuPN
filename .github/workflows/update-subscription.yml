@@ -1,0 +1,58 @@
+name: Update exact kenkaral45 mirror
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-exact-source-mirror
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Test mirror converter
+        run: |
+          python3 -m py_compile update_subscription.py test_update_subscription.py
+          python3 -m unittest -v
+
+      - name: Mirror source without filtering
+        run: python3 update_subscription.py
+
+      - name: Validate generated subscription
+        run: |
+          python3 - <<'PY'
+          import base64
+          import json
+          from pathlib import Path
+          from urllib.parse import urlsplit
+
+          plain = Path("subscription.txt").read_bytes()
+          encoded = b"".join(Path("subscription_base64.txt").read_bytes().split())
+          assert base64.b64decode(encoded, validate=True) == plain
+          lines = plain.decode().splitlines()
+          assert lines and all(urlsplit(line).scheme == "vless" for line in lines)
+          assert json.loads(Path("status.json").read_text())["server_count"] == len(lines)
+          print(f"Subscription OK: {len(lines)} exact-source VLESS servers")
+          PY
+
+      - name: Commit refreshed mirror
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- whitelist_configs_combined.json subscription.txt subscription_base64.txt status.json
+          if git diff --cached --quiet; then
+            echo "No source changes"
+            exit 0
+          fi
+          git commit -m "Update exact kenkaral45 mirror"
+          git pull --rebase origin main
+          git push origin main
