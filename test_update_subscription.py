@@ -64,6 +64,26 @@ class MirrorTests(unittest.TestCase):
         ]
         self.assertEqual(len(update_subscription.build_subscription(configs)), 1)
 
+    def test_minimal_routing_keeps_russia_direct_and_required_apps_proxied(self):
+        configs = [{
+            "routing": {"rules": [{
+                "outboundTag": "direct",
+                "domain": [
+                    "domain:ozon.ru", "domain:wildberries.ru", "domain:sberbank.ru",
+                    "geosite:category-ru",
+                ],
+            }]},
+        }]
+        profile = update_subscription.routing_profile(configs)
+        self.assertEqual(profile["Name"], "SIMUTIN")
+        self.assertEqual(profile["GlobalProxy"], "false")
+        self.assertIn("domain:ozon.ru", profile["DirectSites"])
+        self.assertIn("domain:wildberries.ru", profile["DirectSites"])
+        self.assertNotIn("geosite:category-ru", profile["DirectSites"])
+        for domain in ("domain:telegram.org", "domain:gemini.google.com", "domain:chatgpt.com"):
+            self.assertIn(domain, profile["ProxySites"])
+        self.assertIn("149.154.160.0/20", profile["ProxyIp"])
+
 
 if __name__ == "__main__":
     unittest.main()
