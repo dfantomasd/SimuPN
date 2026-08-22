@@ -146,6 +146,35 @@ class MirrorTests(unittest.TestCase):
         lines = update_subscription.build_subscription(configs, measurements)
         self.assertIn("203.0.113.2", lines[0])
 
+    def test_technical_node_without_exit_country_is_reserve(self):
+        def config(address, remarks):
+            return {
+                "remarks": remarks,
+                "outbounds": [{
+                    "protocol": "vless",
+                    "settings": {"vnext": [{
+                        "address": address, "port": 443,
+                        "users": [{"id": "id", "encryption": "none"}],
+                    }]},
+                    "streamSettings": {
+                        "network": "tcp", "security": "reality",
+                        "realitySettings": {"serverName": "example.com", "publicKey": "key"},
+                    },
+                }],
+            }
+        configs = [config("203.0.113.1", "proxy-wl-unknown"), config("203.0.113.2", "Finland")]
+        records = update_subscription.server_records(configs)
+        measurements = {"servers": {
+            records[0]["key"]: {"latency_ms": 2, "speed_mbps": 50, "tunnel_ok": True},
+            records[1]["key"]: {
+                "latency_ms": 30, "speed_mbps": 10, "tunnel_ok": True,
+                "exit_country": "FI",
+            },
+        }}
+        lines = update_subscription.build_subscription(configs, measurements)
+        self.assertIn("203.0.113.2", lines[0])
+        self.assertIn("Liberty%20%E2%80%A2%20%D1%80%D0%B5%D0%B7%D0%B5%D1%80%D0%B2", lines[1])
+
     def test_minimal_routing_keeps_russia_direct_and_required_apps_proxied(self):
         configs = [{
             "routing": {"rules": [{

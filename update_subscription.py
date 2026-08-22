@@ -293,6 +293,8 @@ def ranked_uri(record, measurement):
     if label.startswith("proxy-") and exit_country:
         flag = "".join(chr(127397 + ord(letter)) for letter in exit_country)
         label = f"{flag} {COUNTRY_NAMES_RU.get(exit_country, exit_country)} • Liberty"
+    elif label.startswith("proxy-"):
+        label = f"🌐 Liberty • резерв {record['key'][:4]}"
     latency = measurement.get("latency_ms")
     speed = measurement.get("speed_mbps")
     details = []
@@ -317,12 +319,14 @@ def build_subscription(configs, measurements=None):
         tunnel_ok = bool(data.get("tunnel_ok"))
         failures = int(data.get("consecutive_failures") or 0)
         russian_exit = data.get("exit_country") == "RU"
-        russian_exit_penalty = 500 if russian_exit or "росси" in record["label"].casefold() else 0
+        exit_penalty = 500 if russian_exit or "росси" in record["label"].casefold() else 0
+        if record["label"].startswith("proxy-") and not data.get("exit_country"):
+            exit_penalty = max(exit_penalty, 300)
         if tunnel_ok:
             score = (latency if latency is not None else 500) + 160 / max(speed or 0.5, 0.5)
-            return (0, score + russian_exit_penalty, index)
+            return (0, score + exit_penalty, index)
         if latency is not None and failures < 2:
-            return (1, latency + russian_exit_penalty, index)
+            return (1, latency + exit_penalty, index)
         return (2, location_priority(record["label"]), index)
 
     ordered = [record for _, record in sorted(enumerate(records), key=sort_key)]
