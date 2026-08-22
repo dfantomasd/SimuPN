@@ -179,7 +179,7 @@ def source_direct_domains(configs):
 
 def routing_profile(configs):
     return {
-        "Name": "Ваша",
+        "Name": "Russia",
         "GlobalProxy": "false",
         "UseChunkFiles": "true",
         "RemoteDns": "8.8.8.8",
@@ -250,7 +250,7 @@ def generate(source_bytes, output_dir=Path(".")):
         "source_sha256": hashlib.sha256(source_bytes).hexdigest(),
         "updated_at": datetime.now(timezone.utc).isoformat(),
         "server_count": len(node_lines),
-        "routing": "Ваша minimal split tunnel",
+        "routing": "Russia minimal split tunnel",
     }
     output_dir.joinpath("status.json").write_text(
         json.dumps(status, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
