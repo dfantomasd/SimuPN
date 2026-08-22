@@ -31,6 +31,19 @@ PROXY_IP = [
     "2001:67c:4e8::/48", "2001:b28:f23c::/47", "2001:b28:f23f::/48",
     "2a0a:f280::/32",
 ]
+DIRECT_SITES = [
+    # Keep the embedded Happ routing deeplink compact. With GlobalProxy=false,
+    # unmatched traffic is already direct; these rules explicitly protect the
+    # Russian namespaces and the services most likely to use non-.ru domains.
+    "domain:ru", "domain:xn--p1ai", "geosite:category-ru",
+    "domain:ozon.ru", "domain:ozonusercontent.com",
+    "domain:wildberries.ru", "domain:wb.ru", "domain:wbbasket.ru",
+    "domain:sberbank.ru", "domain:sber.ru",
+    "domain:tbank.ru", "domain:tinkoff.ru", "domain:tinkoff.com",
+    "domain:alfabank.ru", "domain:gosuslugi.ru", "domain:nalog.ru",
+    "domain:mos.ru", "domain:yandex.ru", "domain:yandex.net",
+    "domain:vk.com", "domain:mail.ru",
+]
 PRIVATE_IP = [
     "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16",
     "127.0.0.0/8", "169.254.0.0/16", "::1/128", "fc00::/7", "fe80::/10",
@@ -164,17 +177,11 @@ def build_subscription(configs):
 
 
 def source_direct_domains(configs):
-    for config in configs:
-        for rule in (config.get("routing") or {}).get("rules") or []:
-            domains = rule.get("domain")
-            if rule.get("outboundTag") == "direct" and isinstance(domains, list):
-                # Keep the source's explicit domain and regexp rules. Avoid
-                # geosite dependencies in this deliberately minimal profile.
-                return list(dict.fromkeys(
-                    value for value in domains
-                    if isinstance(value, str) and not value.startswith("geosite:")
-                ))
-    return ["domain:ru", "domain:xn--p1ai", "regexp:.*\\.ru$"]
+    # The source contains hundreds of explicit domains. Embedding all of them
+    # makes the happ:// line exceed common line-scanner limits, so Happ imports
+    # the nodes but silently skips the routing profile. GlobalProxy=false makes
+    # all unmatched traffic direct; a compact explicit safety list is enough.
+    return list(DIRECT_SITES)
 
 
 def routing_profile(configs):
@@ -205,7 +212,7 @@ def routing_profile(configs):
         },
         "RouteOrder": "block-direct-proxy",
         "DirectSites": source_direct_domains(configs),
-        "DirectIp": PRIVATE_IP,
+        "DirectIp": ["geoip:ru", *PRIVATE_IP],
         "ProxySites": PROXY_SITES,
         "ProxyIp": PROXY_IP,
         "BlockSites": [],

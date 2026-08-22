@@ -87,7 +87,8 @@ class MirrorTests(unittest.TestCase):
         self.assertTrue(profile["Geoipurl"].startswith("https://"))
         self.assertIn("domain:ozon.ru", profile["DirectSites"])
         self.assertIn("domain:wildberries.ru", profile["DirectSites"])
-        self.assertNotIn("geosite:category-ru", profile["DirectSites"])
+        self.assertIn("geosite:category-ru", profile["DirectSites"])
+        self.assertIn("geoip:ru", profile["DirectIp"])
         for domain in ("domain:telegram.org", "domain:gemini.google.com", "domain:chatgpt.com"):
             self.assertIn(domain, profile["ProxySites"])
         self.assertIn("149.154.160.0/20", profile["ProxyIp"])
@@ -95,6 +96,7 @@ class MirrorTests(unittest.TestCase):
         encoded = link.removeprefix("happ://routing/onadd/")
         decoded = json.loads(base64.b64decode(encoded))
         self.assertEqual(decoded["Name"], "Russia")
+        self.assertLess(len(link), 4096)
 
     def test_upstream_failure_uses_committed_snapshot(self):
         with tempfile.TemporaryDirectory() as directory:
