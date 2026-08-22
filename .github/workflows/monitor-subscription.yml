@@ -1,0 +1,43 @@
+name: Monitor subscription freshness
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "47 */2 * * *"
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: monitor-vpn-best-subscription
+  cancel-in-progress: true
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ALERT_TITLE: "[monitor] VPN subscription update is stale"
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Check update age and manage one alert issue
+        run: |
+          updated_at="$(python3 -c 'import json; print(json.load(open("status.json"))["updated_at"])')"
+          updated_epoch="$(date --date="$updated_at" +%s)"
+          age_seconds="$(( $(date +%s) - updated_epoch ))"
+          issue_number="$(gh issue list --state open --search "\"$ALERT_TITLE\" in:title" --json number,title --jq ".[] | select(.title == env.ALERT_TITLE) | .number" | head -n 1)"
+
+          if [ "$age_seconds" -gt 10800 ]; then
+            if [ -z "$issue_number" ]; then
+              gh issue create --title "$ALERT_TITLE" --body "The committed subscription status is more than three hours old. Check the scheduled update workflow before refreshing Happ. Last successful data timestamp: $updated_at."
+            else
+              echo "Alert issue #$issue_number is already open"
+            fi
+          elif [ -n "$issue_number" ]; then
+            gh issue close "$issue_number" --comment "Subscription updates are healthy again. Current data timestamp: $updated_at."
+          else
+            echo "Subscription is fresh: $updated_at"
+          fi
