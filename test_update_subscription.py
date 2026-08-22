@@ -75,7 +75,7 @@ class MirrorTests(unittest.TestCase):
             }]},
         }]
         profile = update_subscription.routing_profile(configs)
-        self.assertEqual(profile["Name"], "Ваша")
+        self.assertEqual(profile["Name"], "Russia")
         self.assertEqual(profile["GlobalProxy"], "false")
         self.assertEqual(profile["UseChunkFiles"], "true")
         self.assertRegex(profile["LastUpdated"], r"^\d{9,11}$")
