@@ -22,6 +22,17 @@ import update_subscription
 GLOBALPING_API = "https://api.globalping.io/v1/measurements"
 SPEED_TEST_URL = "https://speed.cloudflare.com/__down?bytes=524288"
 EXIT_TRACE_URL = "https://www.cloudflare.com/cdn-cgi/trace"
+SERVICE_CHECKS = {
+    # Gemini needs both the web frontend and the Google Generative Language API.
+    "gemini": (
+        "https://gemini.google.com/app",
+        "https://generativelanguage.googleapis.com/",
+    ),
+    "telegram": ("https://telegram.org/",),
+    "youtube": ("https://www.youtube.com/generate_204",),
+    "instagram": ("https://www.instagram.com/",),
+    "chatgpt": ("https://chatgpt.com/",),
+}
 
 
 def api_json(url, payload=None, timeout=30):
@@ -137,6 +148,49 @@ def wait_for_xray(process, ports, timeout=8):
         raise TimeoutError(f"Xray did not open {len(pending)} test ports")
 
 
+def curl_status(port, url):
+    """Return an HTTP status through one tested VLESS tunnel.
+
+    A 4xx response still proves that the service is reachable (ChatGPT commonly
+    returns 403 to a non-browser GitHub runner). 5xx and transport failures do
+    not prove that the mobile app can use the node.
+    """
+    completed = subprocess.run(
+        [
+            "curl", "--silent", "--show-error", "--location", "--http1.1",
+            "--socks5-hostname", f"127.0.0.1:{port}",
+            "--connect-timeout", "5", "--max-time", "10",
+            "--output", "/dev/null", "--write-out", "%{http_code}", url,
+        ],
+        text=True, capture_output=True, timeout=15,
+    )
+    try:
+        code = int(completed.stdout.strip())
+    except ValueError:
+        code = 0
+    return {
+        "ok": completed.returncode == 0 and 200 <= code < 500,
+        "code": code,
+        **({} if completed.returncode == 0 else {
+            "error": completed.stderr.strip()[:120] or f"curl {completed.returncode}"
+        }),
+    }
+
+
+def check_services(port):
+    services = {}
+    for name, urls in SERVICE_CHECKS.items():
+        attempts = [curl_status(port, url) for url in urls]
+        services[name] = {
+            "ok": all(attempt["ok"] for attempt in attempts),
+            "codes": [attempt["code"] for attempt in attempts],
+        }
+        errors = [attempt.get("error") for attempt in attempts if attempt.get("error")]
+        if errors:
+            services[name]["error"] = "; ".join(errors)[:180]
+    return services
+
+
 def curl_speed(port):
     command = [
         "curl", "--silent", "--show-error", "--location", "--http1.1",
@@ -173,6 +227,7 @@ def curl_speed(port):
             )
             result["exit_ip"] = values.get("ip")
             result["exit_country"] = values.get("loc")
+        result["services"] = check_services(port)
     return result
 
 
@@ -268,11 +323,23 @@ def merge_measurements(records, latency, speeds, speed_attempted, previous):
                         speed[field] = old[field]
                 current.update(speed)
                 current["consecutive_failures"] = 0
+                successes = int(old.get("consecutive_successes") or 0) + 1
+                current["consecutive_successes"] = successes
+                explicitly_excluded = old.get("publishable") is False
+                # A brand-new verified node can be published immediately. A
+                # node removed after repeated failures must recover twice so a
+                # single lucky probe cannot make the iPhone select it again.
+                current["publishable"] = not explicitly_excluded or successes >= 2
                 current["verified_at"] = now
             else:
                 failures = int(old.get("consecutive_failures") or 0) + 1
                 current.update(speed)
                 current["consecutive_failures"] = failures
+                current["consecutive_successes"] = 0
+                was_publishable = bool(
+                    old.get("publishable", old.get("tunnel_ok", False))
+                )
+                current["publishable"] = was_publishable and failures < 3
                 if old.get("tunnel_ok") and failures < 2:
                     current["tunnel_ok"] = True
                     current["speed_mbps"] = old.get("speed_mbps")
@@ -283,7 +350,8 @@ def merge_measurements(records, latency, speeds, speed_attempted, previous):
         else:
             for field in (
                 "tunnel_ok", "speed_mbps", "download_bytes", "download_seconds",
-                "exit_ip", "exit_country", "consecutive_failures", "verified_at",
+                "exit_ip", "exit_country", "services", "consecutive_failures",
+                "consecutive_successes", "publishable", "verified_at",
             ):
                 if field in old:
                     current[field] = old[field]
@@ -294,7 +362,8 @@ def merge_measurements(records, latency, speeds, speed_attempted, previous):
         "method": {
             "latency": "median TCP connect time from two Globalping probes in Moscow",
             "speed": "512 KiB HTTPS download through the full VLESS/Xray tunnel from GitHub Actions",
-            "policy": "keep all nodes; demote only after repeated tunnel failures",
+            "services": "HTTP reachability through each VLESS tunnel for Gemini, Telegram, YouTube, Instagram and ChatGPT",
+            "policy": "publish a verified new node immediately; remove after 3 consecutive tunnel failures; re-add after 2 successes",
         },
         "servers": servers,
     }
@@ -318,7 +387,17 @@ def main():
     Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
     working = sum(bool(value.get("tunnel_ok")) for value in result["servers"].values())
     measured = sum(value.get("latency_ms") is not None for value in result["servers"].values())
-    print(f"Ranked {len(records)} nodes: {working} tunnel-verified, {measured} Moscow latency results")
+    compatible = sum(
+        bool(value.get("services"))
+        and all(item.get("ok") for item in value["services"].values())
+        for value in result["servers"].values()
+    )
+    published = sum(bool(value.get("publishable", True)) for value in result["servers"].values())
+    print(
+        f"Ranked {len(records)} nodes: {working} tunnel-verified, "
+        f"{published} publishable, {compatible} all-services-compatible, "
+        f"{measured} Moscow latency results"
+    )
 
 
 if __name__ == "__main__":

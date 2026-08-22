@@ -146,6 +146,68 @@ class MirrorTests(unittest.TestCase):
         lines = update_subscription.build_subscription(configs, measurements)
         self.assertIn("203.0.113.2", lines[0])
 
+    def test_service_diagnostics_do_not_change_speed_ranking(self):
+        def config(address, remarks):
+            return {
+                "remarks": remarks,
+                "outbounds": [{
+                    "protocol": "vless",
+                    "settings": {"vnext": [{
+                        "address": address, "port": 443,
+                        "users": [{"id": "id", "encryption": "none"}],
+                    }]},
+                    "streamSettings": {
+                        "network": "tcp", "security": "reality",
+                        "realitySettings": {"serverName": "example.com", "publicKey": "key"},
+                    },
+                }],
+            }
+        configs = [config("203.0.113.1", "Fast"), config("203.0.113.2", "Compatible")]
+        records = update_subscription.server_records(configs)
+        ok_services = {
+            name: {"ok": True} for name in ("gemini", "telegram", "youtube", "instagram", "chatgpt")
+        }
+        blocked_services = dict(ok_services)
+        blocked_services["gemini"] = {"ok": False}
+        measurements = {"servers": {
+            records[0]["key"]: {
+                "latency_ms": 5, "speed_mbps": 50, "tunnel_ok": True,
+                "services": blocked_services,
+            },
+            records[1]["key"]: {
+                "latency_ms": 60, "speed_mbps": 5, "tunnel_ok": True,
+                "services": ok_services,
+            },
+        }}
+        lines = update_subscription.build_subscription(configs, measurements)
+        self.assertIn("203.0.113.1", lines[0])
+
+    def test_unpublishable_node_is_excluded(self):
+        def config(address):
+            return {
+                "remarks": address,
+                "outbounds": [{
+                    "protocol": "vless",
+                    "settings": {"vnext": [{
+                        "address": address, "port": 443,
+                        "users": [{"id": "id", "encryption": "none"}],
+                    }]},
+                    "streamSettings": {
+                        "network": "tcp", "security": "reality",
+                        "realitySettings": {"serverName": "example.com", "publicKey": "key"},
+                    },
+                }],
+            }
+        configs = [config("203.0.113.1"), config("203.0.113.2")]
+        records = update_subscription.server_records(configs)
+        measurements = {"servers": {
+            records[0]["key"]: {"publishable": False, "consecutive_failures": 3},
+            records[1]["key"]: {"publishable": True, "tunnel_ok": True},
+        }}
+        lines = update_subscription.build_subscription(configs, measurements)
+        self.assertEqual(len(lines), 1)
+        self.assertIn("203.0.113.2", lines[0])
+
     def test_technical_node_without_exit_country_is_reserve(self):
         def config(address, remarks):
             return {
@@ -194,10 +256,14 @@ class MirrorTests(unittest.TestCase):
         self.assertTrue(profile["Geoipurl"].startswith("https://"))
         self.assertIn("raw.githubusercontent.com/dfantomasd/VPN_BEST", profile["Geositeurl"])
         self.assertIn("raw.githubusercontent.com/dfantomasd/VPN_BEST", profile["Geoipurl"])
+        self.assertNotIn("/main/", profile["Geositeurl"])
+        self.assertNotIn("/main/", profile["Geoipurl"])
+        self.assertEqual(profile["DnsHosts"], {})
         self.assertIn("domain:ozon.ru", profile["DirectSites"])
         self.assertIn("domain:wildberries.ru", profile["DirectSites"])
         self.assertIn("geosite:category-ru", profile["DirectSites"])
         self.assertIn("geosite:category-bank-ru", profile["DirectSites"])
+        self.assertNotIn("geosite:whitelist", profile["DirectSites"])
         self.assertIn("geoip:ru", profile["DirectIp"])
         for domain in (
             "domain:telegram.org", "domain:gemini.google.com", "domain:chatgpt.com",
@@ -214,6 +280,63 @@ class MirrorTests(unittest.TestCase):
         decoded = json.loads(base64.b64decode(encoded))
         self.assertEqual(decoded["Name"], "Russia")
         self.assertLess(len(link), 4096)
+
+    def test_generated_subscription_enables_safe_happ_automation(self):
+        def config(index):
+            return {
+                "remarks": f"node-{index}",
+                "outbounds": [{
+                    "protocol": "vless",
+                    "settings": {"vnext": [{
+                        "address": f"203.0.113.{index}", "port": 443,
+                        "users": [{"id": f"id-{index}", "encryption": "none"}],
+                    }]},
+                    "streamSettings": {
+                        "network": "tcp", "security": "reality",
+                        "realitySettings": {"serverName": "example.com", "publicKey": "key"},
+                    },
+                }],
+            }
+        configs = [config(index) for index in range(1, 6)]
+        source = (json.dumps(configs) + "\n").encode()
+        with tempfile.TemporaryDirectory() as directory:
+            update_subscription.generate(source, Path(directory))
+            lines = Path(directory, "subscription.txt").read_text().splitlines()
+        for directive in (
+            "#subscription-autoconnect: 1",
+            "#subscription-autoconnect-type: lowestdelay",
+            "#subscription-ping-onopen-enabled: 1",
+            "#subscription-auto-update-enable: 1",
+        ):
+            self.assertIn(directive, lines)
+
+    def test_generation_refuses_too_few_publishable_nodes(self):
+        def config(index):
+            return {
+                "remarks": f"node-{index}",
+                "outbounds": [{
+                    "protocol": "vless",
+                    "settings": {"vnext": [{
+                        "address": f"203.0.113.{index}", "port": 443,
+                        "users": [{"id": f"id-{index}", "encryption": "none"}],
+                    }]},
+                    "streamSettings": {
+                        "network": "tcp", "security": "reality",
+                        "realitySettings": {"serverName": "example.com", "publicKey": "key"},
+                    },
+                }],
+            }
+        configs = [config(index) for index in range(1, 7)]
+        records = update_subscription.server_records(configs)
+        measurements = {"servers": {
+            record["key"]: {"publishable": index < 4}
+            for index, record in enumerate(records)
+        }}
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(ValueError, "last-known-good"):
+                update_subscription.generate(
+                    (json.dumps(configs) + "\n").encode(), Path(directory), measurements
+                )
 
     def test_upstream_failure_uses_committed_snapshot(self):
         with tempfile.TemporaryDirectory() as directory:

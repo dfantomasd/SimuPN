@@ -52,7 +52,7 @@ DIRECT_SITES = [
     # Russian namespaces and the services most likely to use non-.ru domains.
     "domain:ru", "domain:xn--p1ai", "geosite:category-ru",
     "geosite:russia-inside", "geosite:category-bank-ru",
-    "geosite:sber", "geosite:tbank-ru", "geosite:whitelist",
+    "geosite:sber", "geosite:tbank-ru",
     "domain:ozon.ru", "domain:ozonusercontent.com",
     "domain:wildberries.ru", "domain:wb.ru", "domain:wbbasket.ru",
     "domain:sberbank.ru", "domain:sber.ru",
@@ -308,12 +308,22 @@ def ranked_uri(record, measurement):
 
 
 def build_subscription(configs, measurements=None):
-    measurements = (measurements or {}).get("servers", {})
+    servers_measurements = (measurements or {}).get("servers", {})
     records = server_records(configs)
+
+    def is_publishable(record):
+        data = servers_measurements.get(record["key"])
+        if not data:
+            return True
+        if "publishable" in data:
+            return bool(data["publishable"])
+        # Backward compatibility with measurements created before publication
+        # hysteresis was introduced.
+        return int(data.get("consecutive_failures") or 0) < 3
 
     def sort_key(item):
         index, record = item
-        data = measurements.get(record["key"], {})
+        data = servers_measurements.get(record["key"], {})
         latency = data.get("latency_ms")
         speed = data.get("speed_mbps")
         tunnel_ok = bool(data.get("tunnel_ok"))
@@ -329,8 +339,12 @@ def build_subscription(configs, measurements=None):
             return (1, latency + exit_penalty, index)
         return (2, location_priority(record["label"]), index)
 
-    ordered = [record for _, record in sorted(enumerate(records), key=sort_key)]
-    return [ranked_uri(record, measurements.get(record["key"], {})) for record in ordered]
+    publishable = [record for record in records if is_publishable(record)]
+    ordered = [record for _, record in sorted(enumerate(publishable), key=sort_key)]
+    return [
+        ranked_uri(record, servers_measurements.get(record["key"], {}))
+        for record in ordered
+    ]
 
 
 def source_direct_domains(configs):
@@ -346,24 +360,23 @@ def routing_profile(configs):
         "Name": "Russia",
         "GlobalProxy": "false",
         "RemoteDNSType": "DoH",
-        "RemoteDNSDomain": "https://8.8.8.8/dns-query",
+        "RemoteDNSDomain": "https://dns.google/dns-query",
         "RemoteDNSIP": "8.8.8.8",
         "DomesticDNSType": "DoU",
         "DomesticDNSDomain": "",
         "DomesticDNSIP": "77.88.8.8",
         "Geositeurl": (
-            "https://raw.githubusercontent.com/dfantomasd/VPN_BEST/main/"
+            "https://raw.githubusercontent.com/dfantomasd/VPN_BEST/"
+            "29251629d66d9adaad30994407a611182ecc2aea/"
             "routing-data/geosite.dat"
         ),
         "Geoipurl": (
-            "https://raw.githubusercontent.com/dfantomasd/VPN_BEST/main/"
+            "https://raw.githubusercontent.com/dfantomasd/VPN_BEST/"
+            "29251629d66d9adaad30994407a611182ecc2aea/"
             "routing-data/geoip.dat"
         ),
-        "LastUpdated": "1787402951",
-        "DnsHosts": {
-            "lkfl2.nalog.ru": "213.24.64.175",
-            "lknpd.nalog.ru": "213.24.64.181",
-        },
+        "LastUpdated": "1787408711",
+        "DnsHosts": {},
         "DirectSites": source_direct_domains(configs),
         "DirectIp": ["geoip:ru", *PRIVATE_IP],
         "ProxySites": PROXY_SITES,
@@ -392,10 +405,21 @@ def generate(source_bytes, output_dir=Path("."), measurements=None):
     node_lines = build_subscription(configs, measurements)
     if not node_lines:
         raise ValueError("source contains no valid VLESS outbounds")
+    source_count = len(server_records(configs))
+    minimum = min(5, source_count)
+    if len(node_lines) < minimum:
+        raise ValueError(
+            f"refusing to replace the last-known-good subscription: only "
+            f"{len(node_lines)} of {source_count} nodes are publishable"
+        )
 
     lines = [
         routing_link(configs),
         "#routing-enable: 1",
+        "#subscription-autoconnect: 1",
+        "#subscription-autoconnect-type: lowestdelay",
+        "#subscription-ping-onopen-enabled: 1",
+        "#subscription-auto-update-enable: 1",
         "#profile-update-interval: 1",
         "#subscription-auto-update-open-enable: 1",
         "#profile-title: VPN_BEST",
@@ -419,9 +443,16 @@ def generate(source_bytes, output_dir=Path("."), measurements=None):
         "source_sha256": hashlib.sha256(source_bytes).hexdigest(),
         "updated_at": datetime.now(timezone.utc).isoformat(),
         "server_count": len(node_lines),
+        "source_server_count": source_count,
+        "excluded_server_count": source_count - len(node_lines),
+        "tunnel_verified_count": sum(
+            bool(item.get("tunnel_ok"))
+            for item in ((measurements or {}).get("servers") or {}).values()
+        ),
         "routing": "Russia split tunnel",
         "ranking": {
             "origin": "Moscow TCP probes + Xray tunnel throughput",
+            "service_checks": "diagnostic only; never used for ranking or publication",
             "measurements_updated_at": (measurements or {}).get("updated_at"),
         },
     }
