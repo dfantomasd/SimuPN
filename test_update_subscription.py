@@ -146,6 +146,45 @@ class MirrorTests(unittest.TestCase):
         lines = update_subscription.build_subscription(configs, measurements)
         self.assertIn("203.0.113.2", lines[0])
 
+    def test_tcp_reality_is_preferred_over_faster_websocket_on_mobile(self):
+        def config(address, network, security, remarks):
+            stream = {"network": network, "security": security}
+            if security == "reality":
+                stream["realitySettings"] = {
+                    "serverName": "example.com", "publicKey": "key"
+                }
+            else:
+                stream["tlsSettings"] = {"serverName": "example.com"}
+                stream["wsSettings"] = {"path": "/vpn"}
+            return {
+                "remarks": remarks,
+                "outbounds": [{
+                    "protocol": "vless",
+                    "settings": {"vnext": [{
+                        "address": address, "port": 443,
+                        "users": [{"id": "id", "encryption": "none"}],
+                    }]},
+                    "streamSettings": stream,
+                }],
+            }
+        configs = [
+            config("203.0.113.1", "ws", "tls", "Fast from GitHub"),
+            config("203.0.113.2", "tcp", "reality", "Mobile compatible"),
+        ]
+        records = update_subscription.server_records(configs)
+        measurements = {"servers": {
+            records[0]["key"]: {
+                "latency_ms": 4, "speed_mbps": 50, "tunnel_ok": True,
+                "exit_country": "DE",
+            },
+            records[1]["key"]: {
+                "latency_ms": 40, "speed_mbps": 2, "tunnel_ok": True,
+                "exit_country": "FI",
+            },
+        }}
+        lines = update_subscription.build_subscription(configs, measurements)
+        self.assertIn("203.0.113.2", lines[0])
+
     def test_service_diagnostics_do_not_change_speed_ranking(self):
         def config(address, remarks):
             return {
