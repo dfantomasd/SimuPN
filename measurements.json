@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-23T08:53:21.503108+00:00",
+  "updated_at": "2026-08-23T09:48:16.378713+00:00",
   "method": {
     "latency": "median TCP connect time from two Globalping probes in Moscow",
     "speed": "512 KiB HTTPS download through the full VLESS/Xray tunnel from GitHub Actions",
@@ -7,27 +7,27 @@
     "policy": "publish a verified new node immediately; remove after 3 consecutive tunnel failures; re-add after 2 successes"
   },
   "servers": {
-    "659de969137f3004ef67": {
-      "label": "🇩🇪⚡Германия-1",
-      "address": "154.222.9.238",
+    "7e4e10daa499d3693c17": {
+      "label": "🇵🇱⚡Польша",
+      "address": "45.198.96.250",
       "port": 443,
-      "latency_ms": 44.63,
+      "latency_ms": 60.27,
       "packet_loss": 0.0,
       "moscow_probes": 2,
+      "raw_latency_ms": 60.17,
       "tunnel_ok": true,
-      "speed_mbps": 2.39,
+      "speed_mbps": 2.12,
       "download_bytes": 524288,
-      "download_seconds": 1.754,
-      "exit_ip": "95.177.109.138",
-      "exit_country": "DE",
+      "download_seconds": 2.058,
+      "exit_ip": "84.20.4.225",
+      "exit_country": "PL",
       "services": {
         "gemini": {
-          "ok": false,
+          "ok": true,
           "codes": [
-            0,
-            0
-          ],
-          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gemini.google.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to generativelanguage.goog"
+            200,
+            404
+          ]
         },
         "telegram": {
           "ok": true,
@@ -54,24 +54,91 @@
           ]
         }
       },
+      "raw_speed_mbps": 2.04,
+      "consecutive_failures": 0,
+      "consecutive_successes": 2,
+      "publishable": true,
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
+    },
+    "4e5bc5be4d3131a1ef61": {
+      "label": "🇭🇺⚡Венгрия",
+      "address": "45.195.111.108",
+      "port": 443,
+      "latency_ms": 57.8,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": false,
+      "speed_error": "curl: (28) Operation timed out after 15000 milliseconds with 515320 out of 524288 bytes received",
+      "consecutive_failures": 1,
+      "consecutive_successes": 0,
+      "publishable": false
+    },
+    "c9e0213682d622f80b0b": {
+      "label": "🇪🇸⚡Испания",
+      "address": "45.196.208.251",
+      "port": 443,
+      "latency_ms": 71.2,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": true,
+      "speed_mbps": 2.27,
+      "download_bytes": 524288,
+      "download_seconds": 1.849,
+      "exit_ip": "89.222.104.121",
+      "exit_country": "ES",
+      "services": {
+        "gemini": {
+          "ok": false,
+          "codes": [
+            200,
+            404
+          ],
+          "error": "curl: (28) Operation timed out after 10000 milliseconds with 456909 bytes received"
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": false,
+          "codes": [
+            200
+          ],
+          "error": "curl: (28) Operation timed out after 10001 milliseconds with 373732 bytes received"
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
     },
-    "a3e2498510fa71f76c0e": {
-      "label": "🇩🇪⚡Германия-2",
-      "address": "154.222.9.37",
+    "659de969137f3004ef67": {
+      "label": "🇩🇪⚡Германия-1",
+      "address": "154.222.9.238",
       "port": 443,
-      "latency_ms": 44.77,
+      "latency_ms": 43.47,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 44.85,
+      "raw_latency_ms": 41.73,
       "tunnel_ok": true,
-      "speed_mbps": 2.52,
+      "speed_mbps": 2.4,
       "download_bytes": 524288,
-      "download_seconds": 1.73,
-      "exit_ip": "95.177.109.137",
+      "download_seconds": 1.731,
+      "exit_ip": "95.177.109.138",
       "exit_country": "DE",
       "services": {
         "gemini": {
@@ -111,19 +178,124 @@
       "consecutive_failures": 0,
       "consecutive_successes": 2,
       "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
     },
-    "28202f95f073f1fb335a": {
-      "label": "🇨🇭⚡Швейцария-1",
-      "address": "45.195.2.246",
-      "port": 8443,
-      "latency_ms": 46.49,
+    "21c8f95f10e8298daf9d": {
+      "label": "🇩🇪⚡Германия-2",
+      "address": "154.222.9.37",
+      "port": 443,
+      "latency_ms": 49.69,
       "packet_loss": 0.0,
       "moscow_probes": 2,
       "tunnel_ok": true,
-      "speed_mbps": 2.56,
+      "speed_mbps": 2.46,
       "download_bytes": 524288,
-      "download_seconds": 1.638,
+      "download_seconds": 1.702,
+      "exit_ip": "95.177.109.137",
+      "exit_country": "DE",
+      "services": {
+        "gemini": {
+          "ok": false,
+          "codes": [
+            0,
+            0
+          ],
+          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gemini.google.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to generativelanguage.goog"
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": true,
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
+    },
+    "8cf6f845db4c53e58d81": {
+      "label": "🇬🇧⚡Англия",
+      "address": "45.206.52.22",
+      "port": 443,
+      "latency_ms": 50.37,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "raw_latency_ms": 50.86,
+      "tunnel_ok": true,
+      "speed_mbps": 3.21,
+      "download_bytes": 524288,
+      "download_seconds": 1.357,
+      "exit_ip": "216.106.188.94",
+      "exit_country": "GB",
+      "services": {
+        "gemini": {
+          "ok": true,
+          "codes": [
+            200,
+            404
+          ]
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "raw_speed_mbps": 3.09,
+      "consecutive_failures": 0,
+      "consecutive_successes": 3,
+      "publishable": true,
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
+    },
+    "e521a563230a439d3deb": {
+      "label": "🇨🇭⚡Швейцария-1",
+      "address": "45.195.2.246",
+      "port": 8443,
+      "latency_ms": 50.56,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": true,
+      "speed_mbps": 2.78,
+      "download_bytes": 524288,
+      "download_seconds": 1.51,
       "exit_ip": "208.69.78.161",
       "exit_country": "CH",
       "services": {
@@ -162,19 +334,20 @@
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
     },
     "307952afa6feff2a67a7": {
       "label": "🇨🇭⚡Швейцария-2",
       "address": "45.196.193.100",
       "port": 443,
-      "latency_ms": 51.16,
+      "latency_ms": 49.01,
       "packet_loss": 0.0,
       "moscow_probes": 2,
+      "raw_latency_ms": 45.78,
       "tunnel_ok": true,
-      "speed_mbps": 2.65,
+      "speed_mbps": 2.7,
       "download_bytes": 524288,
-      "download_seconds": 1.583,
+      "download_seconds": 1.508,
       "exit_ip": "208.69.78.116",
       "exit_country": "CH",
       "services": {
@@ -211,22 +384,74 @@
           ]
         }
       },
+      "raw_speed_mbps": 2.78,
       "consecutive_failures": 0,
-      "consecutive_successes": 1,
+      "consecutive_successes": 2,
       "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
     },
-    "160c14eb99d63f7f642c": {
-      "label": "🇸🇪⚡Швеция",
-      "address": "45.196.161.208",
+    "2d5451a44f0bd4593075": {
+      "label": "🇳🇱⚡Нидерланды",
+      "address": "154.83.246.3",
       "port": 443,
-      "latency_ms": 41.18,
+      "latency_ms": 43.36,
       "packet_loss": 0.0,
       "moscow_probes": 2,
       "tunnel_ok": true,
-      "speed_mbps": 2.44,
+      "speed_mbps": 2.92,
       "download_bytes": 524288,
-      "download_seconds": 1.722,
+      "download_seconds": 1.437,
+      "exit_ip": "169.150.196.161",
+      "exit_country": "NL",
+      "services": {
+        "gemini": {
+          "ok": true,
+          "codes": [
+            200,
+            404
+          ]
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": true,
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
+    },
+    "62bf53fae079d39aef69": {
+      "label": "🇸🇪⚡Швеция",
+      "address": "45.196.161.208",
+      "port": 443,
+      "latency_ms": 36.55,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": true,
+      "speed_mbps": 2.61,
+      "download_bytes": 524288,
+      "download_seconds": 1.604,
       "exit_ip": "212.102.62.65",
       "exit_country": "SE",
       "services": {
@@ -265,229 +490,19 @@
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
     },
-    "d18cba37608316127331": {
-      "label": "🇭🇺⚡Венгрия",
-      "address": "45.195.111.108",
-      "port": 443,
-      "latency_ms": 62.67,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "raw_latency_ms": 63.29,
-      "tunnel_ok": true,
-      "speed_mbps": 1.8,
-      "download_bytes": 524288,
-      "download_seconds": 4.438,
-      "exit_ip": "212.11.29.129",
-      "exit_country": "HU",
-      "services": {
-        "gemini": {
-          "ok": true,
-          "codes": [
-            429,
-            404
-          ]
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": false,
-          "codes": [
-            200
-          ],
-          "error": "curl: (28) Operation timed out after 10000 milliseconds with 242334 bytes received"
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "raw_speed_mbps": 0.94,
-      "consecutive_failures": 0,
-      "consecutive_successes": 4,
-      "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
-    },
-    "bc11a721e596c8b36cc2": {
-      "label": "🇳🇱⚡Нидерланды",
-      "address": "154.83.246.3",
-      "port": 443,
-      "latency_ms": 44.91,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "raw_latency_ms": 45.15,
-      "tunnel_ok": true,
-      "speed_mbps": 3.1,
-      "download_bytes": 524288,
-      "download_seconds": 1.58,
-      "exit_ip": "169.150.196.161",
-      "exit_country": "NL",
-      "services": {
-        "gemini": {
-          "ok": true,
-          "codes": [
-            200,
-            404
-          ]
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "raw_speed_mbps": 2.65,
-      "consecutive_failures": 0,
-      "consecutive_successes": 2,
-      "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
-    },
-    "8129abe628991d012600": {
-      "label": "🇪🇸⚡Испания",
-      "address": "45.196.208.251",
-      "port": 443,
-      "latency_ms": 71.19,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "tunnel_ok": true,
-      "speed_mbps": 0.58,
-      "download_bytes": 524288,
-      "download_seconds": 7.275,
-      "exit_ip": "89.222.104.121",
-      "exit_country": "ES",
-      "services": {
-        "gemini": {
-          "ok": true,
-          "codes": [
-            200,
-            404
-          ]
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "consecutive_failures": 0,
-      "consecutive_successes": 1,
-      "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
-    },
-    "7e4e10daa499d3693c17": {
-      "label": "🇵🇱⚡Польша",
-      "address": "45.198.96.250",
-      "port": 443,
-      "latency_ms": 60.33,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "tunnel_ok": true,
-      "speed_mbps": 2.18,
-      "download_bytes": 524288,
-      "download_seconds": 1.925,
-      "exit_ip": "84.20.4.225",
-      "exit_country": "PL",
-      "services": {
-        "gemini": {
-          "ok": true,
-          "codes": [
-            200,
-            404
-          ]
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "consecutive_failures": 0,
-      "consecutive_successes": 1,
-      "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
-    },
-    "fe864619b67906aeaa0e": {
+    "b6daf3293470d64d6d1f": {
       "label": "🇫🇷⚡Франция",
       "address": "45.192.2.72",
       "port": 443,
-      "latency_ms": 48.88,
+      "latency_ms": 44.81,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 48.41,
       "tunnel_ok": true,
-      "speed_mbps": 3.16,
+      "speed_mbps": 2.85,
       "download_bytes": 524288,
-      "download_seconds": 1.472,
+      "download_seconds": 1.471,
       "exit_ip": "216.106.189.166",
       "exit_country": "FR",
       "services": {
@@ -524,33 +539,33 @@
           ]
         }
       },
-      "raw_speed_mbps": 2.85,
       "consecutive_failures": 0,
-      "consecutive_successes": 2,
+      "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
     },
-    "8cf6f845db4c53e58d81": {
-      "label": "🇬🇧⚡Англия",
-      "address": "45.206.52.22",
+    "7f7d845c82fc7b65b84c": {
+      "label": "🇫🇮⚡Финляндия-1",
+      "address": "45.195.228.100",
       "port": 443,
-      "latency_ms": 50.05,
+      "latency_ms": 18.75,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 50.51,
+      "raw_latency_ms": 18.19,
       "tunnel_ok": true,
-      "speed_mbps": 3.29,
+      "speed_mbps": 0.51,
       "download_bytes": 524288,
-      "download_seconds": 1.38,
-      "exit_ip": "216.106.188.94",
-      "exit_country": "GB",
+      "download_seconds": 8.199,
+      "exit_ip": "66.234.150.135",
+      "exit_country": "FI",
       "services": {
         "gemini": {
-          "ok": true,
+          "ok": false,
           "codes": [
             200,
             404
-          ]
+          ],
+          "error": "curl: (28) Operation timed out after 10000 milliseconds with 223440 bytes received"
         },
         "telegram": {
           "ok": true,
@@ -565,10 +580,11 @@
           ]
         },
         "instagram": {
-          "ok": true,
+          "ok": false,
           "codes": [
             200
-          ]
+          ],
+          "error": "curl: (28) Operation timed out after 10001 milliseconds with 252196 bytes received"
         },
         "chatgpt": {
           "ok": true,
@@ -577,36 +593,22 @@
           ]
         }
       },
-      "raw_speed_mbps": 3.04,
       "consecutive_failures": 0,
-      "consecutive_successes": 2,
-      "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
+      "consecutive_successes": 1,
+      "publishable": false,
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
     },
-    "7f7d845c82fc7b65b84c": {
-      "label": "🇫🇮⚡Финляндия-1",
-      "address": "45.195.228.100",
-      "port": 443,
-      "latency_ms": 19.12,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "tunnel_ok": false,
-      "speed_error": "curl: (28) Operation timed out after 15002 milliseconds with 466171 out of 524288 bytes received",
-      "consecutive_failures": 1,
-      "consecutive_successes": 0,
-      "publishable": false
-    },
-    "60a1453bc67124dc208c": {
+    "a104e430481523446195": {
       "label": "🇫🇮⚡Финляндия-2",
       "address": "45.195.228.253",
       "port": 443,
-      "latency_ms": 19.48,
+      "latency_ms": 18.27,
       "packet_loss": 0.0,
       "moscow_probes": 2,
       "tunnel_ok": true,
-      "speed_mbps": 2.14,
+      "speed_mbps": 1.95,
       "download_bytes": 524288,
-      "download_seconds": 1.958,
+      "download_seconds": 2.154,
       "exit_ip": "66.234.150.226",
       "exit_country": "FI",
       "services": {
@@ -645,19 +647,73 @@
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
     },
-    "89d49fbbb34ce35734a6": {
+    "e014003add41154617bd": {
+      "label": "🇮🇳💳Индия",
+      "address": "31.59.149.100",
+      "port": 443,
+      "latency_ms": 243.79,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "raw_latency_ms": 417.35,
+      "tunnel_ok": true,
+      "speed_mbps": 0.78,
+      "download_bytes": 524288,
+      "download_seconds": 10.503,
+      "exit_ip": "31.59.149.2",
+      "exit_country": "NL",
+      "services": {
+        "gemini": {
+          "ok": true,
+          "codes": [
+            200,
+            404
+          ]
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": false,
+          "codes": [
+            0
+          ],
+          "error": "curl: (28) SSL connection timeout"
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "raw_speed_mbps": 0.4,
+      "consecutive_failures": 0,
+      "consecutive_successes": 3,
+      "publishable": true,
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
+    },
+    "04605b50555e8baba9b9": {
       "label": "🇧🇷💳Бразилия",
       "address": "31.59.142.16",
       "port": 443,
-      "latency_ms": 332.6,
+      "latency_ms": 726.75,
       "packet_loss": 0.0,
       "moscow_probes": 2,
       "tunnel_ok": true,
-      "speed_mbps": 1.1,
+      "speed_mbps": 0.64,
       "download_bytes": 524288,
-      "download_seconds": 3.825,
+      "download_seconds": 6.507,
       "exit_ip": "31.59.142.2",
       "exit_country": "NL",
       "services": {
@@ -665,9 +721,9 @@
           "ok": false,
           "codes": [
             0,
-            0
+            404
           ],
-          "error": "curl: (28) SSL connection timeout; curl: (28) SSL connection timeout"
+          "error": "curl: (28) SSL connection timeout"
         },
         "telegram": {
           "ok": true,
@@ -692,26 +748,25 @@
           "codes": [
             0
           ],
-          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to chatgpt.com:443"
+          "error": "curl: (28) SSL connection timeout"
         }
       },
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
     },
-    "31dea931e749f3a3e8c4": {
+    "f029a179a32fcb60bc2e": {
       "label": "🇹🇷💳Турция",
       "address": "45.194.9.184",
       "port": 443,
-      "latency_ms": 77.97,
+      "latency_ms": 78.47,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 78.61,
       "tunnel_ok": true,
-      "speed_mbps": 2.31,
+      "speed_mbps": 2.32,
       "download_bytes": 524288,
-      "download_seconds": 1.928,
+      "download_seconds": 1.804,
       "exit_ip": "152.233.53.89",
       "exit_country": "TR",
       "services": {
@@ -747,131 +802,23 @@
           ]
         }
       },
-      "raw_speed_mbps": 2.17,
-      "consecutive_failures": 0,
-      "consecutive_successes": 2,
-      "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
-    },
-    "07a6cfeeae0532e7ace4": {
-      "label": "🇰🇿💳Казахстан",
-      "address": "31.58.93.175",
-      "port": 443,
-      "latency_ms": 99.17,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "tunnel_ok": true,
-      "speed_mbps": 1.5,
-      "download_bytes": 524288,
-      "download_seconds": 2.805,
-      "exit_ip": "31.58.93.2",
-      "exit_country": "NL",
-      "services": {
-        "gemini": {
-          "ok": true,
-          "codes": [
-            200,
-            404
-          ]
-        },
-        "telegram": {
-          "ok": false,
-          "codes": [
-            0
-          ],
-          "error": "curl: (28) SSL connection timeout"
-        },
-        "youtube": {
-          "ok": false,
-          "codes": [
-            0
-          ],
-          "error": "curl: (28) SSL connection timeout"
-        },
-        "instagram": {
-          "ok": false,
-          "codes": [
-            0
-          ],
-          "error": "curl: (28) SSL connection timeout"
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
-    },
-    "e014003add41154617bd": {
-      "label": "🇮🇳💳Индия",
-      "address": "31.59.149.100",
-      "port": 443,
-      "latency_ms": 128.09,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "raw_latency_ms": 141.5,
-      "tunnel_ok": true,
-      "speed_mbps": 1.04,
-      "download_bytes": 524288,
-      "download_seconds": 4.26,
-      "exit_ip": "31.59.149.2",
-      "exit_country": "NL",
-      "services": {
-        "gemini": {
-          "ok": true,
-          "codes": [
-            200,
-            404
-          ]
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "raw_speed_mbps": 0.98,
-      "consecutive_failures": 0,
-      "consecutive_successes": 2,
-      "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
     },
     "56683e1145671852bf3d": {
       "label": "🇷🇺💳Россия-1",
       "address": "158.160.15.114",
       "port": 443,
-      "latency_ms": 8.13,
+      "latency_ms": 8.64,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 8.24,
+      "raw_latency_ms": 9.4,
       "tunnel_ok": true,
-      "speed_mbps": 2.23,
+      "speed_mbps": 2.06,
       "download_bytes": 524288,
-      "download_seconds": 2.065,
+      "download_seconds": 2.324,
       "exit_ip": "158.160.15.114",
       "exit_country": "RU",
       "services": {
@@ -890,11 +837,10 @@
           "error": "curl: (28) SSL connection timeout"
         },
         "youtube": {
-          "ok": false,
+          "ok": true,
           "codes": [
-            0
-          ],
-          "error": "curl: (28) SSL connection timeout"
+            204
+          ]
         },
         "instagram": {
           "ok": false,
@@ -910,23 +856,23 @@
           ]
         }
       },
-      "raw_speed_mbps": 2.03,
+      "raw_speed_mbps": 1.8,
       "consecutive_failures": 0,
-      "consecutive_successes": 2,
+      "consecutive_successes": 3,
       "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
     },
-    "9a796922116d994f3e8c": {
+    "8c4ef819eeac450656e5": {
       "label": "🇷🇺💳Россия-2",
       "address": "81.26.188.65",
       "port": 443,
-      "latency_ms": 6.31,
+      "latency_ms": 3.19,
       "packet_loss": 0.0,
       "moscow_probes": 2,
       "tunnel_ok": true,
-      "speed_mbps": 2.14,
+      "speed_mbps": 2.33,
       "download_bytes": 524288,
-      "download_seconds": 1.96,
+      "download_seconds": 1.803,
       "exit_ip": "81.26.188.65",
       "exit_country": "RU",
       "services": {
@@ -956,7 +902,7 @@
           "codes": [
             0
           ],
-          "error": "curl: (60) SSL certificate problem: self-signed certificate\nMore details here: https://curl.se/docs/sslcerts.html\n\ncurl "
+          "error": "curl: (28) SSL connection timeout"
         },
         "chatgpt": {
           "ok": true,
@@ -968,73 +914,45 @@
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
     },
-    "366a182563d06dc49c08": {
-      "label": "🇮🇹Италия",
-      "address": "45.196.214.230",
-      "port": 8443,
-      "latency_ms": 58.07,
+    "8bdc749713a2f271aa1d": {
+      "label": "🇰🇿💳Казахстан",
+      "address": "31.58.93.175",
+      "port": 443,
+      "latency_ms": 622.95,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 55.32,
-      "tunnel_ok": true,
-      "speed_mbps": 2.59,
-      "download_bytes": 524288,
-      "download_seconds": 1.666,
-      "exit_ip": "195.86.6.241",
-      "exit_country": "IT",
-      "services": {
-        "gemini": {
-          "ok": false,
-          "codes": [
-            0,
-            0
-          ],
-          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gemini.google.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to generativelanguage.goog"
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "raw_speed_mbps": 2.52,
-      "consecutive_failures": 0,
-      "consecutive_successes": 2,
-      "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
+      "tunnel_ok": false,
+      "speed_error": "curl: (28) SSL connection timeout",
+      "consecutive_failures": 1,
+      "consecutive_successes": 0,
+      "publishable": false
     },
-    "fb84258d7b872efff9e7": {
+    "1f7c2e94293df3b96613": {
+      "label": "🇺🇸США",
+      "address": "154.193.1.85",
+      "port": 443,
+      "latency_ms": 185.7,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": false,
+      "speed_error": "curl: (28) SSL connection timeout",
+      "consecutive_failures": 1,
+      "consecutive_successes": 0,
+      "publishable": false
+    },
+    "46691b4be5d2fa5a4b17": {
       "label": "🇭🇰Гонконг",
       "address": "31.58.176.81",
       "port": 443,
-      "latency_ms": 68.11,
+      "latency_ms": 230.93,
       "packet_loss": 0.0,
       "moscow_probes": 2,
       "tunnel_ok": true,
-      "speed_mbps": 2.45,
+      "speed_mbps": 2.49,
       "download_bytes": 524288,
-      "download_seconds": 1.713,
+      "download_seconds": 1.683,
       "exit_ip": "31.58.176.2",
       "exit_country": "PL",
       "services": {
@@ -1073,177 +991,19 @@
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
     },
-    "066db6d703e37a7cca69": {
-      "label": "🇲🇩Молдова",
-      "address": "31.59.36.69",
-      "port": 443,
-      "latency_ms": 117.4,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "tunnel_ok": true,
-      "speed_mbps": 1.48,
-      "download_bytes": 524288,
-      "download_seconds": 2.828,
-      "exit_ip": "31.59.36.2",
-      "exit_country": "NL",
-      "services": {
-        "gemini": {
-          "ok": true,
-          "codes": [
-            200,
-            404
-          ]
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "consecutive_failures": 0,
-      "consecutive_successes": 1,
-      "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
-    },
-    "497412f1cbdf66ccebd7": {
-      "label": "🇯🇵Япония",
-      "address": "94.183.241.31",
-      "port": 443,
-      "latency_ms": 290.56,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "raw_latency_ms": 316.0,
-      "tunnel_ok": true,
-      "speed_mbps": 1.46,
-      "download_bytes": 524288,
-      "download_seconds": 4.332,
-      "exit_ip": "94.183.241.6",
-      "exit_country": "PL",
-      "services": {
-        "gemini": {
-          "ok": true,
-          "codes": [
-            200,
-            404
-          ]
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": false,
-          "codes": [
-            0
-          ],
-          "error": "curl: (28) SSL connection timeout"
-        },
-        "instagram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "raw_speed_mbps": 0.97,
-      "consecutive_failures": 0,
-      "consecutive_successes": 2,
-      "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
-    },
-    "e8a9b3332e5c959a18c1": {
-      "label": "🇺🇸США",
-      "address": "154.193.1.85",
-      "port": 443,
-      "latency_ms": 185.61,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "raw_latency_ms": 188.6,
-      "tunnel_ok": true,
-      "speed_mbps": 22.19,
-      "download_bytes": 524288,
-      "download_seconds": 0.154,
-      "exit_ip": "149.34.247.177",
-      "exit_country": "US",
-      "services": {
-        "gemini": {
-          "ok": true,
-          "codes": [
-            200,
-            404
-          ]
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "raw_speed_mbps": 27.27,
-      "consecutive_failures": 0,
-      "consecutive_successes": 4,
-      "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
-    },
-    "a49c59fb8933b36485c6": {
+    "5f338473f52d480bc92c": {
       "label": "🇨🇦Канада",
       "address": "45.206.5.249",
       "port": 443,
-      "latency_ms": 129.1,
+      "latency_ms": 138.95,
       "packet_loss": 0.0,
       "moscow_probes": 2,
       "tunnel_ok": true,
-      "speed_mbps": 5.06,
+      "speed_mbps": 5.27,
       "download_bytes": 524288,
-      "download_seconds": 0.829,
+      "download_seconds": 0.796,
       "exit_ip": "195.86.1.225",
       "exit_country": "CA",
       "services": {
@@ -1282,41 +1042,40 @@
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
     },
-    "076acc7755ec27619208": {
-      "label": "proxy-wl-188-72-103-4-direct",
-      "address": "188.72.103.4",
+    "066db6d703e37a7cca69": {
+      "label": "🇲🇩Молдова",
+      "address": "31.59.36.69",
       "port": 443,
-      "latency_ms": 2.39,
+      "latency_ms": 322.12,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 1.99,
+      "raw_latency_ms": 629.2,
       "tunnel_ok": true,
-      "speed_mbps": 2.23,
+      "speed_mbps": 1.21,
       "download_bytes": 524288,
-      "download_seconds": 2.101,
+      "download_seconds": 5.219,
       "services": {
         "gemini": {
-          "ok": false,
-          "codes": [
-            200,
-            0
-          ],
-          "error": "curl: (28) SSL connection timeout"
-        },
-        "telegram": {
           "ok": true,
           "codes": [
-            200
+            200,
+            404
           ]
         },
-        "youtube": {
+        "telegram": {
           "ok": false,
           "codes": [
             0
           ],
           "error": "curl: (28) SSL connection timeout"
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
         },
         "instagram": {
           "ok": true,
@@ -1325,33 +1084,242 @@
           ]
         },
         "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "raw_speed_mbps": 0.8,
+      "exit_ip": "31.59.36.2",
+      "exit_country": "NL",
+      "consecutive_failures": 0,
+      "consecutive_successes": 2,
+      "publishable": true,
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
+    },
+    "543fa7e03e9114b1f2d8": {
+      "label": "🇯🇵Япония",
+      "address": "94.183.241.31",
+      "port": 443,
+      "latency_ms": 95.38,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": true,
+      "speed_mbps": 1.17,
+      "download_bytes": 524288,
+      "download_seconds": 3.579,
+      "exit_ip": "94.183.241.6",
+      "exit_country": "PL",
+      "services": {
+        "gemini": {
+          "ok": true,
+          "codes": [
+            200,
+            404
+          ]
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": true,
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
+    },
+    "e2e6986d20042b245ddc": {
+      "label": "🇮🇹Италия",
+      "address": "45.196.214.230",
+      "port": 8443,
+      "latency_ms": 56.86,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": true,
+      "speed_mbps": 2.16,
+      "download_bytes": 524288,
+      "download_seconds": 1.943,
+      "exit_ip": "195.86.6.241",
+      "exit_country": "IT",
+      "services": {
+        "gemini": {
+          "ok": false,
+          "codes": [
+            0,
+            0
+          ],
+          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gemini.google.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to generativelanguage.goog"
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": true,
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
+    },
+    "412813fed8c19191e452": {
+      "label": "proxy-wl-46-243-234-205-direct",
+      "address": "46.243.234.205",
+      "port": 2027,
+      "latency_ms": 1.61,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": true,
+      "speed_mbps": 0.32,
+      "download_bytes": 524288,
+      "download_seconds": 13.107,
+      "services": {
+        "gemini": {
+          "ok": false,
+          "codes": [
+            0,
+            0
+          ],
+          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gemini.google.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to generativelanguage.goog"
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": false,
+          "codes": [
+            200
+          ],
+          "error": "curl: (28) Operation timed out after 10000 milliseconds with 57724 bytes received"
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": true,
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
+    },
+    "076acc7755ec27619208": {
+      "label": "proxy-wl-188-72-103-4-direct",
+      "address": "188.72.103.4",
+      "port": 443,
+      "latency_ms": 2.83,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "raw_latency_ms": 3.5,
+      "tunnel_ok": true,
+      "speed_mbps": 2.15,
+      "download_bytes": 524288,
+      "download_seconds": 2.056,
+      "services": {
+        "gemini": {
+          "ok": false,
+          "codes": [
+            0,
+            0
+          ],
+          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gemini.google.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to generativelanguage.goog"
+        },
+        "telegram": {
           "ok": false,
           "codes": [
             0
           ],
           "error": "curl: (28) SSL connection timeout"
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": false,
+          "codes": [
+            0
+          ],
+          "error": "curl: (28) SSL connection timeout"
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
         }
       },
-      "raw_speed_mbps": 2.0,
+      "raw_speed_mbps": 2.04,
       "exit_ip": "95.177.109.137",
       "exit_country": "DE",
       "consecutive_failures": 0,
-      "consecutive_successes": 5,
+      "consecutive_successes": 6,
       "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
     },
     "b4858900945b06f68e54": {
       "label": "proxy-wl-95-129-236-252-direct",
       "address": "95.129.236.252",
       "port": 443,
-      "latency_ms": 2.08,
+      "latency_ms": 3.11,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 1.77,
+      "raw_latency_ms": 4.65,
       "tunnel_ok": true,
-      "speed_mbps": 2.06,
+      "speed_mbps": 2.01,
       "download_bytes": 524288,
-      "download_seconds": 2.256,
+      "download_seconds": 2.168,
       "exit_ip": "208.69.78.161",
       "exit_country": "CH",
       "services": {
@@ -1387,50 +1355,115 @@
           ]
         }
       },
-      "raw_speed_mbps": 1.86,
+      "raw_speed_mbps": 1.93,
       "consecutive_failures": 0,
-      "consecutive_successes": 8,
+      "consecutive_successes": 9,
       "publishable": true,
-      "verified_at": "2026-08-23T08:53:21.503108+00:00"
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
     },
     "7034ad23a008a38eb77f": {
       "label": "proxy-wl-46-243-142-42-direct",
       "address": "46.243.142.42",
       "port": 9443,
-      "latency_ms": 8.9,
+      "latency_ms": 7.45,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "tunnel_ok": false,
-      "speed_error": "curl: (28) SSL connection timeout",
-      "consecutive_failures": 1,
-      "consecutive_successes": 0,
-      "publishable": false
+      "raw_latency_ms": 5.28,
+      "tunnel_ok": true,
+      "speed_mbps": 1.45,
+      "download_bytes": 524288,
+      "download_seconds": 2.883,
+      "exit_ip": "208.69.78.161",
+      "exit_country": "CH",
+      "services": {
+        "gemini": {
+          "ok": true,
+          "codes": [
+            200,
+            404
+          ]
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": false,
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
     },
     "d1a3105730ce1ead70dd": {
       "label": "proxy-wl-95-163-232-194-direct",
       "address": "95.163.232.194",
       "port": 8444,
-      "latency_ms": 30.71,
+      "latency_ms": 25.83,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "tunnel_ok": false,
-      "speed_error": "curl: (28) SSL connection timeout",
-      "consecutive_failures": 1,
-      "consecutive_successes": 0,
-      "publishable": false
-    },
-    "316a19c4984383a60894": {
-      "label": "proxy-wl-46-243-234-205-direct",
-      "address": "46.243.234.205",
-      "port": 2027,
-      "latency_ms": 1.51,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "tunnel_ok": false,
-      "speed_error": "curl: (28) Operation timed out after 15002 milliseconds with 192645 out of 524288 bytes received",
-      "consecutive_failures": 1,
-      "consecutive_successes": 0,
-      "publishable": false
+      "raw_latency_ms": 18.51,
+      "tunnel_ok": true,
+      "speed_mbps": 1.1,
+      "download_bytes": 524288,
+      "download_seconds": 3.826,
+      "exit_ip": "208.69.78.161",
+      "exit_country": "CH",
+      "services": {
+        "gemini": {
+          "ok": true,
+          "codes": [
+            200,
+            404
+          ]
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": false,
+      "verified_at": "2026-08-23T09:48:16.378713+00:00"
     }
   }
 }
