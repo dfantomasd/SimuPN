@@ -64,6 +64,7 @@ jobs:
           python3 - <<'PY'
           import base64
           import json
+          import update_subscription
           from pathlib import Path
           from urllib.parse import urlsplit
 
@@ -84,6 +85,24 @@ jobs:
           assert status["source_server_count"] >= len(nodes)
           assert status["excluded_server_count"] == status["source_server_count"] - len(nodes)
           measurements = json.loads(Path("measurements.json").read_text())
+          configs = json.loads(Path("whitelist_configs_combined.json").read_text())
+          karing_plain = Path("subscription_karing_plain.txt").read_bytes()
+          karing_encoded = b"".join(Path("subscription_karing.txt").read_bytes().split())
+          assert base64.b64decode(karing_encoded, validate=True) == karing_plain
+          karing_nodes = karing_plain.decode().splitlines()
+          assert karing_nodes == update_subscription.build_subscription(
+              configs, measurements, confirmed_non_russian_only=True
+          )
+          assert status["karing_server_count"] == len(karing_nodes)
+          assert len(karing_nodes) >= 5
+          assert all(line.startswith("vless://") for line in karing_nodes)
+          records = update_subscription.server_records(configs)
+          by_identity = {record["identity"]: record for record in records}
+          for line in karing_nodes:
+              record = by_identity[line.partition("#")[0]]
+              data = measurements["servers"].get(record["key"], {})
+              country = update_subscription.inferred_exit_country(record, data)
+              assert country and country != "RU"
           assert measurements["method"]["latency"].endswith("in Moscow")
           assert len(measurements["servers"]) == status["source_server_count"]
           assert all("latency_ms" in value or "latency_error" in value
@@ -93,14 +112,17 @@ jobs:
           assert checked
           required = {"gemini", "telegram", "youtube", "instagram", "chatgpt"}
           assert all(required <= set(value["services"]) for value in checked)
-          print(f"Subscription OK: {len(nodes)} ranked Liberty VLESS servers + Russia routing")
+          print(
+              f"Subscription OK: {len(nodes)} Happ nodes + "
+              f"{len(karing_nodes)} confirmed non-RU Karing nodes"
+          )
           PY
 
       - name: Commit refreshed mirror
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          files="whitelist_configs_combined.json measurements.json subscription.txt subscription_base64.txt routing.txt routing.json status.json"
+          files="whitelist_configs_combined.json measurements.json subscription.txt subscription_base64.txt subscription_karing.txt subscription_karing_plain.txt routing.txt routing.json status.json"
           if git diff --quiet -- $files; then
             echo "No source changes"
             exit 0
