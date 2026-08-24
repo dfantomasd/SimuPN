@@ -247,6 +247,44 @@ class MirrorTests(unittest.TestCase):
         self.assertEqual(len(lines), 1)
         self.assertIn("203.0.113.2", lines[0])
 
+    def test_karing_subscription_excludes_ru_and_unknown_exits(self):
+        def config(address, remarks):
+            return {
+                "remarks": remarks,
+                "outbounds": [{
+                    "protocol": "vless",
+                    "settings": {"vnext": [{
+                        "address": address, "port": 443,
+                        "users": [{"id": "id", "encryption": "none"}],
+                    }]},
+                    "streamSettings": {
+                        "network": "tcp", "security": "reality",
+                        "realitySettings": {"serverName": "example.com", "publicKey": "key"},
+                    },
+                }],
+            }
+        configs = [
+            config("203.0.113.1", "Россия"),
+            config("203.0.113.2", "Финляндия"),
+            config("203.0.113.3", "proxy-wl-unknown"),
+            config("203.0.113.4", "proxy-wl-confirmed"),
+        ]
+        records = update_subscription.server_records(configs)
+        measurements = {"servers": {
+            records[0]["key"]: {"tunnel_ok": True, "exit_country": "RU"},
+            records[1]["key"]: {"tunnel_ok": True, "exit_country": "FI"},
+            records[2]["key"]: {"tunnel_ok": True},
+            records[3]["key"]: {"tunnel_ok": True, "exit_country": "DE"},
+        }}
+        lines = update_subscription.build_subscription(
+            configs, measurements, confirmed_non_russian_only=True
+        )
+        self.assertEqual(len(lines), 2)
+        self.assertTrue(any("203.0.113.2" in line for line in lines))
+        self.assertTrue(any("203.0.113.4" in line for line in lines))
+        self.assertFalse(any("203.0.113.1" in line for line in lines))
+        self.assertFalse(any("203.0.113.3" in line for line in lines))
+
     def test_technical_node_without_exit_country_is_reserve(self):
         def config(address, remarks):
             return {
@@ -323,7 +361,7 @@ class MirrorTests(unittest.TestCase):
     def test_generated_subscription_does_not_force_server_switching(self):
         def config(index):
             return {
-                "remarks": f"node-{index}",
+                "remarks": f"Финляндия-{index}",
                 "outbounds": [{
                     "protocol": "vless",
                     "settings": {"vnext": [{
@@ -341,15 +379,25 @@ class MirrorTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             update_subscription.generate(source, Path(directory))
             lines = Path(directory, "subscription.txt").read_text().splitlines()
+            karing_plain = Path(directory, "subscription_karing_plain.txt").read_bytes()
+            karing_encoded = Path(directory, "subscription_karing.txt").read_bytes()
         self.assertIn("#profile-update-interval: 1", lines)
         self.assertIn("#subscription-auto-update-open-enable: 1", lines)
         self.assertNotIn("#subscription-autoconnect: 1", lines)
         self.assertNotIn("#subscription-autoconnect-type: lowestdelay", lines)
+        self.assertEqual(
+            base64.b64decode(b"".join(karing_encoded.split()), validate=True),
+            karing_plain,
+        )
+        self.assertEqual(len(karing_plain.decode().splitlines()), 5)
+        self.assertTrue(all(
+            line.startswith("vless://") for line in karing_plain.decode().splitlines()
+        ))
 
     def test_generation_refuses_too_few_publishable_nodes(self):
         def config(index):
             return {
-                "remarks": f"node-{index}",
+                "remarks": f"Финляндия-{index}",
                 "outbounds": [{
                     "protocol": "vless",
                     "settings": {"vnext": [{

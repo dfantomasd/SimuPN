@@ -307,7 +307,21 @@ def ranked_uri(record, measurement):
     return record["identity"] + "#" + quote(label, safe="")
 
 
-def build_subscription(configs, measurements=None):
+def inferred_exit_country(record, measurement):
+    """Return a verified or explicitly named exit country, if known."""
+    measured = measurement.get("exit_country")
+    if measured:
+        return str(measured).upper()
+    label = record["label"].casefold()
+    if "russia" in label:
+        return "RU"
+    for code, name in COUNTRY_NAMES_RU.items():
+        if name.casefold() in label:
+            return code
+    return None
+
+
+def build_subscription(configs, measurements=None, confirmed_non_russian_only=False):
     servers_measurements = (measurements or {}).get("servers", {})
     records = server_records(configs)
 
@@ -320,6 +334,16 @@ def build_subscription(configs, measurements=None):
         # Backward compatibility with measurements created before publication
         # hysteresis was introduced.
         return int(data.get("consecutive_failures") or 0) < 3
+
+    def is_allowed_country(record):
+        if not confirmed_non_russian_only:
+            return True
+        country = inferred_exit_country(
+            record, servers_measurements.get(record["key"], {})
+        )
+        # Karing auto-select must never see an RU or unknown exit: an unknown
+        # technical node could otherwise resolve to Russia on the next run.
+        return country is not None and country != "RU"
 
     def sort_key(item):
         index, record = item
@@ -346,7 +370,10 @@ def build_subscription(configs, measurements=None):
             return (1, transport_tier, latency + exit_penalty, index)
         return (2, transport_tier, location_priority(record["label"]), index)
 
-    publishable = [record for record in records if is_publishable(record)]
+    publishable = [
+        record for record in records
+        if is_publishable(record) and is_allowed_country(record)
+    ]
     ordered = [record for _, record in sorted(enumerate(publishable), key=sort_key)]
     return [
         ranked_uri(record, servers_measurements.get(record["key"], {}))
@@ -420,6 +447,14 @@ def generate(source_bytes, output_dir=Path("."), measurements=None):
             f"refusing to replace the last-known-good subscription: only "
             f"{len(node_lines)} of {source_count} nodes are publishable"
         )
+    karing_node_lines = build_subscription(
+        configs, measurements, confirmed_non_russian_only=True
+    )
+    if len(karing_node_lines) < minimum:
+        raise ValueError(
+            f"refusing to replace the last-known-good Karing subscription: "
+            f"only {len(karing_node_lines)} confirmed non-RU nodes"
+        )
 
     lines = [
         routing_link(configs),
@@ -435,6 +470,11 @@ def generate(source_bytes, output_dir=Path("."), measurements=None):
     output_dir.joinpath("subscription_base64.txt").write_text(
         base64.b64encode(plain).decode() + "\n", encoding="utf-8"
     )
+    karing_plain = ("\n".join(karing_node_lines) + "\n").encode()
+    output_dir.joinpath("subscription_karing_plain.txt").write_bytes(karing_plain)
+    output_dir.joinpath("subscription_karing.txt").write_text(
+        base64.b64encode(karing_plain).decode() + "\n", encoding="utf-8"
+    )
     profile = routing_profile(configs)
     output_dir.joinpath("routing.json").write_text(
         json.dumps(profile, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
@@ -447,6 +487,8 @@ def generate(source_bytes, output_dir=Path("."), measurements=None):
         "source_sha256": hashlib.sha256(source_bytes).hexdigest(),
         "updated_at": datetime.now(timezone.utc).isoformat(),
         "server_count": len(node_lines),
+        "karing_server_count": len(karing_node_lines),
+        "karing_filter": "confirmed non-RU exits only",
         "source_server_count": source_count,
         "excluded_server_count": source_count - len(node_lines),
         "tunnel_verified_count": sum(
