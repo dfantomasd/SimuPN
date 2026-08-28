@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
-from urllib.parse import parse_qs, urlsplit
+from urllib.parse import parse_qs, unquote, urlsplit
 
 import update_subscription
 
@@ -285,6 +285,21 @@ class MirrorTests(unittest.TestCase):
         self.assertIn("%5BCOM%5D", line)
         self.assertIn("%D1%80%D0%B5%D0%B7%D0%B5%D1%80%D0%B2", line)
 
+    def test_ranked_name_is_compact_and_does_not_repeat_liberty(self):
+        record = {
+            "identity": "vless://id@example.com:443?security=reality",
+            "key": "node-key",
+            "label": "🇸🇪 Швеция • Liberty",
+            "source_short": "LIB",
+        }
+        line = update_subscription.ranked_uri(record, {
+            "tunnel_ok": True, "speed_mbps": 4.25, "latency_ms": 35,
+            "overloaded": False,
+        })
+        decoded = unquote(line.partition("#")[2])
+        self.assertEqual(decoded, "[LIB] 🟢 🇸🇪 Швеция • 4.2 Mbps • 35 ms")
+        self.assertNotIn("Liberty", decoded)
+
     def test_karing_subscription_excludes_ru_and_unknown_exits(self):
         def config(address, remarks):
             return {
@@ -350,7 +365,7 @@ class MirrorTests(unittest.TestCase):
         }}
         lines = update_subscription.build_subscription(configs, measurements)
         self.assertIn("203.0.113.2", lines[0])
-        self.assertIn("Liberty%20%E2%80%A2%20%D1%80%D0%B5%D0%B7%D0%B5%D1%80%D0%B2", lines[1])
+        self.assertIn("%D1%80%D0%B5%D0%B7%D0%B5%D1%80%D0%B2", lines[1])
 
     def test_minimal_routing_keeps_russia_direct_and_required_apps_proxied(self):
         configs = [{

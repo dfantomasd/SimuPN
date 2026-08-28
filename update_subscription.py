@@ -497,25 +497,37 @@ def location_priority(label):
 
 
 def ranked_uri(record, measurement):
-    label = record["label"]
+    label = record["label"].strip()
     exit_country = measurement.get("exit_country")
-    if label.startswith("proxy-") and exit_country:
+    technical_label = (
+        label.casefold().startswith(("proxy-", "vless-"))
+        or len(label) > 34
+    )
+    if technical_label and exit_country:
         flag = "".join(chr(127397 + ord(letter)) for letter in exit_country)
-        label = f"{flag} {COUNTRY_NAMES_RU.get(exit_country, exit_country)} • Liberty"
+        label = f"{flag} {COUNTRY_NAMES_RU.get(exit_country, exit_country)}"
     elif label.startswith("proxy-"):
-        label = f"🌐 Liberty • резерв {record['key'][:4]}"
+        label = f"🌐 узел {record['key'][:4]}"
+    elif label.casefold().startswith("vless-"):
+        label = label[:18]
+    # The short source marker already identifies Liberty. Repeating the full
+    # provider name wastes most of a phone-width server row.
+    for suffix in (" • Liberty", " · Liberty", " Liberty"):
+        if label.casefold().endswith(suffix.casefold()):
+            label = label[:-len(suffix)].rstrip(" •·-")
+            break
     latency = measurement.get("latency_ms")
     speed = measurement.get("speed_mbps")
     details = []
-    if latency is not None:
-        details.append(f"{latency:.0f} ms")
     if speed is not None and measurement.get("tunnel_ok"):
         details.append(f"{speed:.1f} Mbps")
+    if latency is not None:
+        details.append(f"{latency:.0f} ms")
     if details:
         label = f"{label} • {' • '.join(details)}"
-    if measurement.get("overloaded"):
-        label = f"🟠 резерв • {label}"
-    label = f"[{record.get('source_short') or 'SRC'}] {label}"
+    unknown_technical = record["label"].startswith("proxy-") and not exit_country
+    state = "🟠 резерв" if measurement.get("overloaded") or unknown_technical else "🟢"
+    label = f"[{record.get('source_short') or 'SRC'}] {state} {label}"
     return record["identity"] + "#" + quote(label, safe="")
 
 
@@ -576,12 +588,16 @@ def build_subscription(configs, measurements=None, confirmed_non_russian_only=Fa
         exit_penalty = 500 if russian_exit or "росси" in record["label"].casefold() else 0
         if record["label"].startswith("proxy-") and not data.get("exit_country"):
             exit_penalty = max(exit_penalty, 300)
+            overloaded = True
         if tunnel_ok:
             score = (latency if latency is not None else 500) + 160 / max(speed or 0.5, 0.5)
-            return (1 if overloaded else 0, transport_tier, score + exit_penalty, index)
+            # A verified healthy node must always precede every reserve,
+            # regardless of transport or a reserve's deceptively low ping.
+            tier = 1 if overloaded else 0
+            return (tier, transport_tier, score + exit_penalty, index)
         if latency is not None and failures < 2:
-            return (1, transport_tier, latency + exit_penalty, index)
-        return (2, transport_tier, location_priority(record["label"]), index)
+            return (2, transport_tier, latency + exit_penalty, index)
+        return (3, transport_tier, location_priority(record["label"]), index)
 
     publishable = [
         record for record in records
