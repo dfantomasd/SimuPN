@@ -23,6 +23,18 @@ class MirrorTests(unittest.TestCase):
         self.assertEqual([item["remarks"] for item in configs], ["France", "Finland"])
         self.assertEqual(configs[0]["outbounds"], [{"protocol": "freedom"}])
 
+    def test_extracts_plain_and_base64_vless_subscriptions(self):
+        uri = (
+            "vless://user-id@203.0.113.7:443?encryption=none&type=tcp&"
+            "security=reality&sni=example.com&fp=chrome&pbk=public-key#Fast%20node"
+        )
+        for payload in (uri, base64.b64encode((uri + "\n").encode()).decode()):
+            configs = update_subscription.extract_configs(payload)
+            records = update_subscription.server_records(configs)
+            self.assertEqual(len(records), 1)
+            self.assertEqual(records[0]["address"], "203.0.113.7")
+            self.assertIn("Fast node", records[0]["label"])
+
     def test_preserves_reality_parameters_and_shared_uuid_nodes(self):
         def config(address, public_key, remarks):
             return {
@@ -247,6 +259,32 @@ class MirrorTests(unittest.TestCase):
         self.assertEqual(len(lines), 1)
         self.assertIn("203.0.113.2", lines[0])
 
+    def test_ranked_name_contains_short_source_and_overload_reserve_marker(self):
+        config = {
+            "remarks": "Finland",
+            "_simupn_source": "community",
+            "_simupn_source_short": "COM",
+            "outbounds": [{
+                "protocol": "vless",
+                "_simupn_source": "community",
+                "_simupn_source_short": "COM",
+                "settings": {"vnext": [{
+                    "address": "203.0.113.9", "port": 443,
+                    "users": [{"id": "id", "encryption": "none"}],
+                }]},
+                "streamSettings": {
+                    "network": "tcp", "security": "reality",
+                    "realitySettings": {"serverName": "example.com", "publicKey": "key"},
+                },
+            }],
+        }
+        record = update_subscription.server_records([config])[0]
+        line = update_subscription.ranked_uri(record, {
+            "tunnel_ok": True, "speed_mbps": 2.0, "overloaded": True,
+        })
+        self.assertIn("%5BCOM%5D", line)
+        self.assertIn("%D1%80%D0%B5%D0%B7%D0%B5%D1%80%D0%B2", line)
+
     def test_karing_subscription_excludes_ru_and_unknown_exits(self):
         def config(address, remarks):
             return {
@@ -331,8 +369,8 @@ class MirrorTests(unittest.TestCase):
         self.assertRegex(profile["LastUpdated"], r"^\d{9,11}$")
         self.assertTrue(profile["Geositeurl"].startswith("https://"))
         self.assertTrue(profile["Geoipurl"].startswith("https://"))
-        self.assertIn("raw.githubusercontent.com/dfantomasd/VPN_BEST", profile["Geositeurl"])
-        self.assertIn("raw.githubusercontent.com/dfantomasd/VPN_BEST", profile["Geoipurl"])
+        self.assertIn("raw.githubusercontent.com/dfantomasd/SimuPN", profile["Geositeurl"])
+        self.assertIn("raw.githubusercontent.com/dfantomasd/SimuPN", profile["Geoipurl"])
         self.assertIn("/main/", profile["Geositeurl"])
         self.assertIn("/main/", profile["Geoipurl"])
         self.assertEqual(profile["RemoteDNSDomain"], "https://8.8.8.8/dns-query")

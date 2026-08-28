@@ -21,6 +21,9 @@ import update_subscription
 
 GLOBALPING_API = "https://api.globalping.io/v1/measurements"
 SPEED_TEST_URL = "https://speed.cloudflare.com/__down?bytes=524288"
+SPEED_ATTEMPTS = 3
+OVERLOAD_THRESHOLD_MBPS = 3.0
+INSTABILITY_RATIO = 0.45
 EXIT_TRACE_URL = "https://www.cloudflare.com/cdn-cgi/trace"
 SERVICE_CHECKS = {
     # Gemini needs both the web frontend and the Google Generative Language API.
@@ -191,7 +194,7 @@ def check_services(port):
     return services
 
 
-def curl_speed(port):
+def curl_speed_once(port):
     command = [
         "curl", "--silent", "--show-error", "--location", "--http1.1",
         "--socks5-hostname", f"127.0.0.1:{port}",
@@ -205,14 +208,42 @@ def curl_speed(port):
         return {"tunnel_ok": False, "speed_error": completed.stderr.strip()[:180]}
     code, size, bytes_per_second, elapsed = completed.stdout.strip().split()
     ok = code == "200" and float(size) >= 400_000
-    result = {
+    return {
         "tunnel_ok": ok,
         "speed_mbps": round(float(bytes_per_second) * 8 / 1_000_000, 2) if ok else None,
         "download_bytes": int(float(size)),
         "download_seconds": round(float(elapsed), 3),
         **({} if ok else {"speed_error": f"HTTP {code}, {size} bytes"}),
     }
-    if ok:
+
+
+def curl_speed(port):
+    """Use repeated transfers so a lucky burst cannot hide congestion."""
+    attempts = [curl_speed_once(port) for _ in range(SPEED_ATTEMPTS)]
+    successful = [item for item in attempts if item.get("tunnel_ok")]
+    if not successful:
+        return {
+            "tunnel_ok": False,
+            "speed_error": "; ".join(
+                item.get("speed_error", "failed") for item in attempts
+            )[:180],
+            "speed_samples_mbps": [],
+        }
+    samples = [float(item["speed_mbps"]) for item in successful]
+    median_speed = round(statistics.median(samples), 2)
+    stability = round(min(samples) / max(samples), 3) if max(samples) else 0
+    result = dict(successful[-1])
+    result.update({
+        "tunnel_ok": True,
+        "speed_mbps": median_speed,
+        "speed_samples_mbps": samples,
+        "speed_stability": stability,
+        "overloaded": median_speed < OVERLOAD_THRESHOLD_MBPS or stability < INSTABILITY_RATIO,
+        "overload_reason": (
+            "low-throughput" if median_speed < OVERLOAD_THRESHOLD_MBPS else "unstable-throughput"
+        ) if (median_speed < OVERLOAD_THRESHOLD_MBPS or stability < INSTABILITY_RATIO) else None,
+    })
+    if result["tunnel_ok"]:
         trace = subprocess.run(
             [
                 "curl", "--silent", "--show-error", "--location", "--http1.1",
@@ -287,6 +318,8 @@ def merge_measurements(records, latency, speeds, speed_attempted, previous):
             "label": record["label"],
             "address": record["address"],
             "port": record["port"],
+            "source": record.get("source", "liberty"),
+            "source_short": record.get("source_short", "LIB"),
         }
         latency_result = latency.get(endpoint, {})
         if latency_result.get("latency_ms") is not None:
@@ -352,6 +385,8 @@ def merge_measurements(records, latency, speeds, speed_attempted, previous):
                 "tunnel_ok", "speed_mbps", "download_bytes", "download_seconds",
                 "exit_ip", "exit_country", "services", "consecutive_failures",
                 "consecutive_successes", "publishable", "verified_at",
+                "speed_samples_mbps", "speed_stability", "overloaded",
+                "overload_reason",
             ):
                 if field in old:
                     current[field] = old[field]
@@ -361,7 +396,8 @@ def merge_measurements(records, latency, speeds, speed_attempted, previous):
         "updated_at": now,
         "method": {
             "latency": "median TCP connect time from two Globalping probes in Moscow",
-            "speed": "512 KiB HTTPS download through the full VLESS/Xray tunnel from GitHub Actions",
+            "speed": "median of 3 x 512 KiB HTTPS downloads through the full VLESS/Xray tunnel from GitHub Actions",
+            "overload": "reserve when median speed is below 3 Mbps or min/max sample ratio is below 0.45",
             "services": "HTTP reachability through each VLESS tunnel for Gemini, Telegram, YouTube, Instagram and ChatGPT",
             "policy": "publish a verified new node immediately; remove after 3 consecutive tunnel failures; re-add after 2 successes",
         },
