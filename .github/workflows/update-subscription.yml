@@ -92,7 +92,8 @@ jobs:
           assert base64.b64decode(karing_encoded, validate=True) == karing_plain
           karing_nodes = karing_plain.decode().splitlines()
           assert karing_nodes == update_subscription.build_subscription(
-              configs, measurements, confirmed_non_russian_only=True
+              configs, measurements, confirmed_non_russian_only=True,
+              healthy_only=True
           )
           assert status["karing_server_count"] == len(karing_nodes)
           assert len(karing_nodes) >= 5
@@ -104,6 +105,7 @@ jobs:
               data = measurements["servers"].get(record["key"], {})
               country = update_subscription.inferred_exit_country(record, data)
               assert country and country != "RU"
+              assert data.get("tunnel_ok") and not data.get("overloaded")
           assert measurements["method"]["latency"].endswith("in Moscow")
           assert len(measurements["servers"]) == status["source_server_count"]
           assert all("latency_ms" in value or "latency_error" in value
