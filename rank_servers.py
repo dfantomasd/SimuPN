@@ -267,9 +267,27 @@ def measure_tunnel_speeds(records, xray_path, workers=8):
         return {}, False
     base_port = 18080
     with tempfile.TemporaryDirectory() as directory:
+        valid_records, invalid_results = [], {}
+        for record in records:
+            candidate_path = Path(directory) / f"candidate-{record['key']}.json"
+            candidate_path.write_text(json.dumps(xray_config([record], base_port)))
+            checked = subprocess.run(
+                [str(Path(xray_path).resolve()), "run", "-test", "-c", str(candidate_path)],
+                text=True, capture_output=True, timeout=10,
+            )
+            if checked.returncode == 0:
+                valid_records.append(record)
+            else:
+                invalid_results[record["key"]] = {
+                    "tunnel_ok": False,
+                    "speed_error": (checked.stderr or checked.stdout or "invalid Xray config")[-180:],
+                    "config_valid": False,
+                }
+        if not valid_records:
+            return invalid_results, True
         config_path = Path(directory) / "rank-config.json"
         log_path = Path(directory) / "xray.log"
-        config_path.write_text(json.dumps(xray_config(records, base_port)))
+        config_path.write_text(json.dumps(xray_config(valid_records, base_port)))
         with log_path.open("w") as log:
             process = subprocess.Popen(
                 [str(Path(xray_path).resolve()), "run", "-c", str(config_path)],
@@ -277,12 +295,12 @@ def measure_tunnel_speeds(records, xray_path, workers=8):
                 stderr=subprocess.STDOUT,
             )
             try:
-                wait_for_xray(process, [base_port + i for i in range(len(records))])
-                results = {}
+                wait_for_xray(process, [base_port + i for i in range(len(valid_records))])
+                results = dict(invalid_results)
                 with ThreadPoolExecutor(max_workers=workers) as pool:
                     futures = {
                         pool.submit(curl_speed, base_port + index): record["key"]
-                        for index, record in enumerate(records)
+                        for index, record in enumerate(valid_records)
                     }
                     for future in as_completed(futures):
                         key = futures[future]
