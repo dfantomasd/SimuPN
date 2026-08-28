@@ -1,4 +1,5 @@
 import unittest
+from unittest import mock
 
 import rank_servers
 
@@ -112,6 +113,21 @@ class RankServersTests(unittest.TestCase):
             True, {"servers": {"node-key": first}},
         )["servers"]["node-key"]
         self.assertTrue(second["publishable"])
+
+    @mock.patch.object(rank_servers, "curl_speed_once")
+    @mock.patch.object(rank_servers, "check_services", return_value={})
+    @mock.patch.object(rank_servers.subprocess, "run")
+    def test_repeated_speed_samples_detect_congestion(self, run, _services, speed_once):
+        speed_once.side_effect = [
+            {"tunnel_ok": True, "speed_mbps": 2.0},
+            {"tunnel_ok": True, "speed_mbps": 2.5},
+            {"tunnel_ok": True, "speed_mbps": 8.0},
+        ]
+        run.return_value.returncode = 1
+        result = rank_servers.curl_speed(18080)
+        self.assertEqual(result["speed_mbps"], 2.5)
+        self.assertTrue(result["overloaded"])
+        self.assertEqual(result["overload_reason"], "low-throughput")
 
 
 if __name__ == "__main__":

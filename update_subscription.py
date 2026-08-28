@@ -6,13 +6,15 @@ import base64
 import hashlib
 import html
 import json
+import os
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
-from urllib.parse import quote, urlencode
+from urllib.parse import parse_qs, quote, unquote, urlencode, urlsplit
 
 
 SOURCE_URL = "https://connliberty.com/connection/subs/d950be8a-ab95-4618-bf67-21b76c969342?r=1"
+SOURCES_FILE = Path("sources.json")
 CONFIG_KEYS = {"remarks", "outbounds", "routing"}
 PROXY_SITES = [
     # The vendored geosite database maintains broad Russia-specific lists:
@@ -93,6 +95,135 @@ def fetch_source(url=SOURCE_URL):
     return (json.dumps(configs, ensure_ascii=False, indent=2) + "\n").encode()
 
 
+def source_specs(path=SOURCES_FILE):
+    """Load enabled upstreams, with an environment override for deployments."""
+    override = os.environ.get("SIMUPN_SOURCE_URLS", "").strip()
+    if override:
+        return [
+            {"name": f"source-{index}", "url": url.strip(), "enabled": True}
+            for index, url in enumerate(override.split(","), 1) if url.strip()
+        ]
+    try:
+        value = json.loads(Path(path).read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        value = [{"name": "liberty", "url": SOURCE_URL, "enabled": True}]
+    if not isinstance(value, list):
+        raise ValueError("sources.json must contain an array")
+    specs = [item for item in value if isinstance(item, dict) and item.get("enabled", True)]
+    if not specs or any(not item.get("name") or not item.get("url") for item in specs):
+        raise ValueError("every enabled source needs a name and url")
+    return specs
+
+
+def fetch_catalog(url):
+    request = urllib.request.Request(url, headers={
+        "User-Agent": "SimuPN multi-source/1.0",
+        "Accept": "application/json,text/plain,text/html,*/*",
+        "Cache-Control": "no-cache",
+    })
+    with urllib.request.urlopen(request, timeout=60) as response:
+        raw_text = response.read().decode("utf-8-sig", errors="replace")
+    configs = extract_configs(raw_text)
+    if "vless://" not in maybe_decode_subscription(raw_text):
+        configs = deduplicate_configs(configs)
+    if not configs:
+        raise ValueError("source returned no usable configurations")
+    return configs
+
+
+def select_candidates(configs, limit, source_name):
+    """Rotate a bounded public-source sample daily without random output churn."""
+    if not limit:
+        return configs
+    day = datetime.now(timezone.utc).date().isoformat()
+    ranked = []
+    for config in configs:
+        identities = [
+            outbound_uri(outbound, config.get("remarks") or source_name)
+            for outbound in vless_outbounds(config)
+        ]
+        identity = next((item.partition("#")[0] for item in identities if item), "")
+        digest = hashlib.sha256(f"{day}:{source_name}:{identity}".encode()).hexdigest()
+        ranked.append((digest, config))
+    return [config for _, config in sorted(ranked, key=lambda item: item[0])[:int(limit)]]
+
+
+def tag_source(configs, name, short=None):
+    short = (short or name[:3]).strip().upper()
+    result = []
+    for config in configs:
+        config = dict(config)
+        config["_simupn_source"] = name
+        config["_simupn_source_short"] = short
+        tagged_outbounds = []
+        for outbound in config.get("outbounds") or []:
+            outbound = dict(outbound)
+            outbound["_simupn_source"] = name
+            outbound["_simupn_source_short"] = short
+            tagged_outbounds.append(outbound)
+        config["outbounds"] = tagged_outbounds
+        result.append(config)
+    return result
+
+
+def load_catalogs(specs=None, fallback_path=Path("whitelist_configs_combined.json")):
+    """Fetch sources independently and retain the last-known-good part on failure."""
+    specs = specs or source_specs()
+    previous = []
+    if fallback_path.exists():
+        try:
+            previous = json.loads(fallback_path.read_text(encoding="utf-8-sig"))
+        except (OSError, json.JSONDecodeError):
+            previous = []
+    combined, report = [], []
+    for index, spec in enumerate(specs):
+        name, url = str(spec["name"]), str(spec["url"])
+        short = str(spec.get("short") or name[:3]).strip().upper()
+        old = [item for item in previous if item.get("_simupn_source") == name]
+        if not old and index == 0:
+            old = [item for item in previous if not item.get("_simupn_source")]
+        try:
+            fresh = select_candidates(
+                tag_source(fetch_catalog(url), name, short),
+                spec.get("max_nodes"), name,
+            )
+            fresh_count = len(server_records(fresh))
+            old_count = len(server_records(old))
+            minimum = max(int(spec.get("min_nodes") or 1), old_count // 2)
+            if old_count and fresh_count < minimum:
+                raise ValueError(f"catalog shrank unexpectedly: {fresh_count} < {minimum}")
+            combined.extend(fresh)
+            report.append({"name": name, "url": url, "status": "fresh", "nodes": fresh_count})
+        except Exception as exc:
+            if not old:
+                report.append({"name": name, "url": url, "status": "failed", "error": str(exc)[:180]})
+                continue
+            combined.extend(tag_source(old, name, short))
+            report.append({"name": name, "url": url, "status": "snapshot", "nodes": len(server_records(old)), "error": str(exc)[:180]})
+    combined = deduplicate_nodes(combined)
+    if not server_records(combined):
+        raise ValueError("all configured sources failed and no snapshot is available")
+    return (json.dumps(combined, ensure_ascii=False, indent=2) + "\n").encode(), report
+
+
+def deduplicate_nodes(configs):
+    """Deduplicate VLESS identities across providers, preferring source order."""
+    seen, result = set(), []
+    for config in configs:
+        kept = []
+        for outbound in vless_outbounds(config):
+            uri = outbound_uri(outbound, config.get("remarks") or "SimuPN")
+            identity = uri.partition("#")[0] if uri else None
+            if identity and identity not in seen:
+                seen.add(identity)
+                kept.append(outbound)
+        if kept:
+            config = dict(config)
+            config["outbounds"] = kept
+            result.append(config)
+    return result
+
+
 def looks_like_config(value):
     return isinstance(value, dict) and CONFIG_KEYS <= set(value)
 
@@ -119,13 +250,89 @@ def extract_configs(raw_text):
         if looks_like_config(value):
             configs.append(value)
     if not configs:
-        raise ValueError("Could not extract Liberty configurations")
+        configs = extract_vless_subscription(raw_text)
+    if not configs:
+        raise ValueError("Could not extract JSON or VLESS configurations")
     remarks_markers = raw_text.count('"remarks"')
     if remarks_markers and len(configs) != remarks_markers:
         raise ValueError(
             f"Liberty response looks partial: {len(configs)} configs for "
             f"{remarks_markers} remarks markers"
         )
+    return configs
+
+
+def maybe_decode_subscription(raw_text):
+    compact = "".join(raw_text.split())
+    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=_-"
+    if not compact or any(character not in alphabet for character in compact):
+        return raw_text
+    try:
+        decoded = base64.urlsafe_b64decode(
+            compact + "=" * (-len(compact) % 4)
+        ).decode("utf-8-sig")
+        return decoded if "vless://" in decoded else raw_text
+    except (ValueError, UnicodeDecodeError):
+        return raw_text
+
+
+def extract_vless_subscription(raw_text):
+    """Convert plain or Base64 VLESS subscriptions to the internal Xray shape."""
+    configs = []
+    for line in maybe_decode_subscription(raw_text).splitlines():
+        line = line.strip()
+        if not line.startswith("vless://"):
+            continue
+        try:
+            parsed = urlsplit(line)
+            params = {key: values[0] for key, values in parse_qs(parsed.query).items()}
+            user_id = unquote(parsed.username or "")
+            if not user_id or not parsed.hostname or not parsed.port:
+                continue
+            network = params.get("type", "tcp").lower()
+            security = params.get("security", "none").lower()
+            stream = {"network": network, "security": security}
+            if security == "reality":
+                stream["realitySettings"] = {
+                    "serverName": params.get("sni"),
+                    "fingerprint": params.get("fp", "chrome"),
+                    "publicKey": params.get("pbk"),
+                    "shortId": params.get("sid"),
+                    "spiderX": params.get("spx"),
+                }
+            elif security == "tls":
+                stream["tlsSettings"] = {
+                    "serverName": params.get("sni"),
+                    "fingerprint": params.get("fp", "chrome"),
+                }
+            transport_key = {
+                "ws": "wsSettings", "grpc": "grpcSettings",
+                "xhttp": "xhttpSettings", "httpupgrade": "httpupgradeSettings",
+            }.get(network)
+            if transport_key:
+                stream[transport_key] = {
+                    key: params[key] for key in (
+                        "path", "host", "serviceName", "authority", "mode"
+                    ) if params.get(key)
+                }
+            configs.append({
+                "remarks": unquote(parsed.fragment) or parsed.hostname,
+                "outbounds": [{
+                    "protocol": "vless",
+                    "settings": {"vnext": [{
+                        "address": parsed.hostname, "port": parsed.port,
+                        "users": [{
+                            "id": user_id,
+                            "encryption": params.get("encryption", "none"),
+                            **({"flow": params["flow"]} if params.get("flow") else {}),
+                        }],
+                    }]},
+                    "streamSettings": stream,
+                }],
+                "routing": {},
+            })
+        except (TypeError, ValueError):
+            continue
     return configs
 
 
@@ -265,6 +472,8 @@ def server_records(configs):
             "address": server.get("address"),
             "port": int(server.get("port") or 0),
             "outbound": outbound,
+            "source": outbound.get("_simupn_source") or "liberty",
+            "source_short": outbound.get("_simupn_source_short") or "LIB",
         })
     return records
 
@@ -304,6 +513,9 @@ def ranked_uri(record, measurement):
         details.append(f"{speed:.1f} Mbps")
     if details:
         label = f"{label} • {' • '.join(details)}"
+    if measurement.get("overloaded"):
+        label = f"🟠 резерв • {label}"
+    label = f"[{record.get('source_short') or 'SRC'}] {label}"
     return record["identity"] + "#" + quote(label, safe="")
 
 
@@ -358,6 +570,7 @@ def build_subscription(configs, measurements=None, confirmed_non_russian_only=Fa
         latency = data.get("latency_ms")
         speed = data.get("speed_mbps")
         tunnel_ok = bool(data.get("tunnel_ok"))
+        overloaded = bool(data.get("overloaded"))
         failures = int(data.get("consecutive_failures") or 0)
         russian_exit = data.get("exit_country") == "RU"
         exit_penalty = 500 if russian_exit or "росси" in record["label"].casefold() else 0
@@ -365,7 +578,7 @@ def build_subscription(configs, measurements=None, confirmed_non_russian_only=Fa
             exit_penalty = max(exit_penalty, 300)
         if tunnel_ok:
             score = (latency if latency is not None else 500) + 160 / max(speed or 0.5, 0.5)
-            return (0, transport_tier, score + exit_penalty, index)
+            return (1 if overloaded else 0, transport_tier, score + exit_penalty, index)
         if latency is not None and failures < 2:
             return (1, transport_tier, latency + exit_penalty, index)
         return (2, transport_tier, location_priority(record["label"]), index)
@@ -400,11 +613,11 @@ def routing_profile(configs):
         "DomesticDNSDomain": "",
         "DomesticDNSIP": "77.88.8.8",
         "Geositeurl": (
-            "https://raw.githubusercontent.com/dfantomasd/VPN_BEST/main/"
+            "https://raw.githubusercontent.com/dfantomasd/SimuPN/main/"
             "routing-data/geosite.dat"
         ),
         "Geoipurl": (
-            "https://raw.githubusercontent.com/dfantomasd/VPN_BEST/main/"
+            "https://raw.githubusercontent.com/dfantomasd/SimuPN/main/"
             "routing-data/geoip.dat"
         ),
         "LastUpdated": "1787410061",
@@ -433,7 +646,7 @@ def routing_link(configs):
     return "happ://routing/onadd/" + encoded
 
 
-def generate(source_bytes, output_dir=Path("."), measurements=None):
+def generate(source_bytes, output_dir=Path("."), measurements=None, sources_report=None):
     configs = json.loads(source_bytes.decode("utf-8-sig"))
     if not isinstance(configs, list):
         raise ValueError("Liberty source must contain a JSON array")
@@ -461,7 +674,7 @@ def generate(source_bytes, output_dir=Path("."), measurements=None):
         "#routing-enable: 1",
         "#profile-update-interval: 1",
         "#subscription-auto-update-open-enable: 1",
-        "#profile-title: VPN_BEST",
+        "#profile-title: SimuPN",
         *node_lines,
     ]
     plain = ("\n".join(lines) + "\n").encode()
@@ -484,6 +697,7 @@ def generate(source_bytes, output_dir=Path("."), measurements=None):
     )
     status = {
         "source": SOURCE_URL,
+        "sources": sources_report or [],
         "source_sha256": hashlib.sha256(source_bytes).hexdigest(),
         "updated_at": datetime.now(timezone.utc).isoformat(),
         "server_count": len(node_lines),
@@ -538,12 +752,16 @@ def main():
     parser.add_argument("--source-file")
     parser.add_argument("--measurements")
     args = parser.parse_args()
-    source = load_source(args.source_file)
+    sources_report = []
+    if args.source_file:
+        source = load_source(args.source_file)
+    else:
+        source, sources_report = load_catalogs()
     measurements = None
     if args.measurements and Path(args.measurements).exists():
         measurements = json.loads(Path(args.measurements).read_text())
-    lines = generate(source, measurements=measurements)
-    print(f"Built {len(lines)} unique VLESS servers directly from Liberty VPN")
+    lines = generate(source, measurements=measurements, sources_report=sources_report)
+    print(f"Built {len(lines)} unique VLESS servers from {max(1, len(sources_report))} source(s)")
 
 
 if __name__ == "__main__":
