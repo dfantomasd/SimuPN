@@ -417,9 +417,13 @@ class MirrorTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             update_subscription.generate(source, Path(directory))
             lines = Path(directory, "subscription.txt").read_text().splitlines()
+            status = json.loads(Path(directory, "status.json").read_text())
             karing_plain = Path(directory, "subscription_karing_plain.txt").read_bytes()
             karing_encoded = Path(directory, "subscription_karing.txt").read_bytes()
         self.assertIn("#profile-update-interval: 1", lines)
+        self.assertEqual(status["source"], "multi-source")
+        self.assertEqual(status["sources"][0]["short"], "LIB")
+        self.assertEqual(status["sources"][0]["nodes"], 5)
         self.assertIn("#subscription-auto-update-open-enable: 1", lines)
         self.assertNotIn("#subscription-autoconnect: 1", lines)
         self.assertNotIn("#subscription-autoconnect-type: lowestdelay", lines)

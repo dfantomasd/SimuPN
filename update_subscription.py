@@ -654,6 +654,22 @@ def generate(source_bytes, output_dir=Path("."), measurements=None, sources_repo
     if not node_lines:
         raise ValueError("source contains no valid VLESS outbounds")
     source_count = len(server_records(configs))
+    if not sources_report:
+        specs_by_name = {item["name"]: item for item in source_specs()}
+        counts = {}
+        for record in server_records(configs):
+            name = record.get("source") or "unknown"
+            counts[name] = counts.get(name, 0) + 1
+        sources_report = [
+            {
+                "name": name,
+                "short": str(specs_by_name.get(name, {}).get("short") or name[:3]).upper(),
+                "url": specs_by_name.get(name, {}).get("url"),
+                "status": "snapshot",
+                "nodes": count,
+            }
+            for name, count in sorted(counts.items())
+        ]
     minimum = min(5, source_count)
     if len(node_lines) < minimum:
         raise ValueError(
@@ -696,8 +712,8 @@ def generate(source_bytes, output_dir=Path("."), measurements=None, sources_repo
         routing_link(configs) + "\n", encoding="utf-8"
     )
     status = {
-        "source": SOURCE_URL,
-        "sources": sources_report or [],
+        "source": "multi-source",
+        "sources": sources_report,
         "source_sha256": hashlib.sha256(source_bytes).hexdigest(),
         "updated_at": datetime.now(timezone.utc).isoformat(),
         "server_count": len(node_lines),
