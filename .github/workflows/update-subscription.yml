@@ -7,6 +7,7 @@ on:
     paths:
       - update_subscription.py
       - rank_servers.py
+      - sources.json
       - test_update_subscription.py
       - test_rank_servers.py
       - .github/workflows/update-subscription.yml
@@ -23,7 +24,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -38,7 +39,7 @@ jobs:
           python3 -m py_compile update_subscription.py rank_servers.py test_update_subscription.py test_rank_servers.py
           python3 -m unittest -v
 
-      - name: Fetch Liberty VPN directly
+      - name: Fetch configured VPN sources
         run: python3 update_subscription.py
 
       - name: Measure Moscow latency and tunnel throughput
