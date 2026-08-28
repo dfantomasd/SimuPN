@@ -338,6 +338,49 @@ class MirrorTests(unittest.TestCase):
         self.assertFalse(any("203.0.113.1" in line for line in lines))
         self.assertFalse(any("203.0.113.3" in line for line in lines))
 
+    def test_karing_healthy_filter_excludes_reserves(self):
+        def config(address, remarks):
+            return {
+                "remarks": remarks,
+                "outbounds": [{
+                    "protocol": "vless",
+                    "settings": {"vnext": [{
+                        "address": address, "port": 443,
+                        "users": [{"id": "id", "encryption": "none"}],
+                    }]},
+                    "streamSettings": {
+                        "network": "tcp", "security": "reality",
+                        "realitySettings": {
+                            "serverName": "example.com", "publicKey": "key"
+                        },
+                    },
+                }],
+            }
+
+        configs = [
+            config("203.0.113.10", "Нидерланды"),
+            config("203.0.113.11", "Финляндия"),
+            config("203.0.113.12", "Германия"),
+        ]
+        records = update_subscription.server_records(configs)
+        measurements = {"servers": {
+            records[0]["key"]: {
+                "tunnel_ok": True, "overloaded": False, "exit_country": "NL"
+            },
+            records[1]["key"]: {
+                "tunnel_ok": True, "overloaded": True, "exit_country": "FI"
+            },
+            records[2]["key"]: {
+                "tunnel_ok": False, "overloaded": False, "exit_country": "DE"
+            },
+        }}
+        lines = update_subscription.build_subscription(
+            configs, measurements, confirmed_non_russian_only=True,
+            healthy_only=True,
+        )
+        self.assertEqual(len(lines), 1)
+        self.assertIn("203.0.113.10", lines[0])
+
     def test_technical_node_without_exit_country_is_reserve(self):
         def config(address, remarks):
             return {

@@ -1,0 +1,142 @@
+name: Update and rank Liberty VPN
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - update_subscription.py
+      - rank_servers.py
+      - sources.json
+      - test_update_subscription.py
+      - test_rank_servers.py
+      - .github/workflows/update-subscription.yml
+  schedule:
+    - cron: "17 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-ranked-liberty-subscription
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Test subscription builder and ranker
+        run: |
+          python3 -m py_compile update_subscription.py rank_servers.py test_update_subscription.py test_rank_servers.py
+          python3 -m unittest -v
+
+      - name: Fetch configured VPN sources
+        run: python3 update_subscription.py
+
+      - name: Measure Moscow latency and tunnel throughput
+        run: |
+          mkdir -p .xray
+          XRAY_ARGS=""
+          if curl --fail --location --retry 3 \
+            https://github.com/XTLS/Xray-core/releases/download/v26.3.27/Xray-linux-64.zip \
+            --output .xray/xray.zip && unzip -q .xray/xray.zip -d .xray; then
+            chmod +x .xray/xray
+            XRAY_ARGS="--xray .xray/xray"
+          else
+            echo "Xray unavailable; keeping previous speed results"
+          fi
+          python3 rank_servers.py $XRAY_ARGS
+          python3 update_subscription.py \
+            --source-file whitelist_configs_combined.json \
+            --measurements measurements.json
+
+      - name: Validate generated subscription
+        run: |
+          sha256sum --check routing-data/SHA256SUMS
+          python3 - <<'PY'
+          import base64
+          import json
+          import update_subscription
+          from pathlib import Path
+          from urllib.parse import urlsplit
+
+          plain = Path("subscription.txt").read_bytes()
+          encoded = b"".join(Path("subscription_base64.txt").read_bytes().split())
+          assert base64.b64decode(encoded, validate=True) == plain
+          lines = plain.decode().splitlines()
+          assert lines[0].startswith("happ://routing/onadd/")
+          routing_encoded = lines[0].removeprefix("happ://routing/onadd/")
+          routing = json.loads(base64.b64decode(routing_encoded, validate=True))
+          assert routing["Name"] == "Russia"
+          assert Path("routing.txt").read_text().strip() == lines[0]
+          assert json.loads(Path("routing.json").read_text()) == routing
+          nodes = [line for line in lines if line.startswith("vless://")]
+          assert len(nodes) >= 5 and all(urlsplit(line).scheme == "vless" for line in nodes)
+          status = json.loads(Path("status.json").read_text())
+          assert status["server_count"] == len(nodes)
+          assert status["source_server_count"] >= len(nodes)
+          assert status["excluded_server_count"] == status["source_server_count"] - len(nodes)
+          measurements = json.loads(Path("measurements.json").read_text())
+          configs = json.loads(Path("whitelist_configs_combined.json").read_text())
+          karing_plain = Path("subscription_karing_plain.txt").read_bytes()
+          karing_encoded = b"".join(Path("subscription_karing.txt").read_bytes().split())
+          assert base64.b64decode(karing_encoded, validate=True) == karing_plain
+          karing_nodes = karing_plain.decode().splitlines()
+          assert karing_nodes == update_subscription.build_subscription(
+              configs, measurements, confirmed_non_russian_only=True,
+              healthy_only=True
+          )
+          assert status["karing_server_count"] == len(karing_nodes)
+          assert len(karing_nodes) >= 5
+          assert all(line.startswith("vless://") for line in karing_nodes)
+          records = update_subscription.server_records(configs)
+          by_identity = {record["identity"]: record for record in records}
+          for line in karing_nodes:
+              record = by_identity[line.partition("#")[0]]
+              data = measurements["servers"].get(record["key"], {})
+              country = update_subscription.inferred_exit_country(record, data)
+              assert country and country != "RU"
+              assert data.get("tunnel_ok") and not data.get("overloaded")
+          assert measurements["method"]["latency"].endswith("in Moscow")
+          assert len(measurements["servers"]) == status["source_server_count"]
+          assert all("latency_ms" in value or "latency_error" in value
+                     for value in measurements["servers"].values())
+          checked = [value for value in measurements["servers"].values()
+                     if value.get("tunnel_ok") and value.get("services")]
+          assert checked
+          required = {"gemini", "telegram", "youtube", "instagram", "chatgpt"}
+          assert all(required <= set(value["services"]) for value in checked)
+          print(
+              f"Subscription OK: {len(nodes)} Happ nodes + "
+              f"{len(karing_nodes)} confirmed non-RU Karing nodes"
+          )
+          PY
+
+      - name: Commit refreshed mirror
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          files="whitelist_configs_combined.json measurements.json subscription.txt subscription_base64.txt subscription_karing.txt subscription_karing_plain.txt routing.txt routing.json status.json"
+          if git diff --quiet -- $files; then
+            echo "No source changes"
+            exit 0
+          fi
+          git fetch origin main
+          publish_dir="$RUNNER_TEMP/vpn-best-publish"
+          git worktree add "$publish_dir" origin/main
+          for file in $files; do
+            cp "$file" "$publish_dir/$file"
+          done
+          cd "$publish_dir"
+          git add -- $files
+          git commit -m "Update and rank Liberty VPN servers"
+          git push origin HEAD:main

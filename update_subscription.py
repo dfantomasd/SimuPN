@@ -545,7 +545,10 @@ def inferred_exit_country(record, measurement):
     return None
 
 
-def build_subscription(configs, measurements=None, confirmed_non_russian_only=False):
+def build_subscription(
+    configs, measurements=None, confirmed_non_russian_only=False,
+    healthy_only=False,
+):
     servers_measurements = (measurements or {}).get("servers", {})
     records = server_records(configs)
 
@@ -568,6 +571,19 @@ def build_subscription(configs, measurements=None, confirmed_non_russian_only=Fa
         # Karing auto-select must never see an RU or unknown exit: an unknown
         # technical node could otherwise resolve to Russia on the next run.
         return country is not None and country != "RU"
+
+    def is_healthy(record):
+        if not healthy_only or not servers_measurements:
+            return True
+        data = servers_measurements.get(record["key"], {})
+        unknown_technical = (
+            record["label"].startswith("proxy-") and not data.get("exit_country")
+        )
+        return (
+            bool(data.get("tunnel_ok"))
+            and not bool(data.get("overloaded"))
+            and not unknown_technical
+        )
 
     def sort_key(item):
         index, record = item
@@ -601,7 +617,7 @@ def build_subscription(configs, measurements=None, confirmed_non_russian_only=Fa
 
     publishable = [
         record for record in records
-        if is_publishable(record) and is_allowed_country(record)
+        if is_publishable(record) and is_allowed_country(record) and is_healthy(record)
     ]
     ordered = [record for _, record in sorted(enumerate(publishable), key=sort_key)]
     return [
@@ -693,7 +709,7 @@ def generate(source_bytes, output_dir=Path("."), measurements=None, sources_repo
             f"{len(node_lines)} of {source_count} nodes are publishable"
         )
     karing_node_lines = build_subscription(
-        configs, measurements, confirmed_non_russian_only=True
+        configs, measurements, confirmed_non_russian_only=True, healthy_only=True
     )
     if len(karing_node_lines) < minimum:
         raise ValueError(
@@ -734,7 +750,7 @@ def generate(source_bytes, output_dir=Path("."), measurements=None, sources_repo
         "updated_at": datetime.now(timezone.utc).isoformat(),
         "server_count": len(node_lines),
         "karing_server_count": len(karing_node_lines),
-        "karing_filter": "confirmed non-RU exits only",
+        "karing_filter": "healthy, non-overloaded, confirmed non-RU exits only",
         "source_server_count": source_count,
         "excluded_server_count": source_count - len(node_lines),
         "tunnel_verified_count": sum(
