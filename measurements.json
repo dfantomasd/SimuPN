@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-10T11:30:20.863205+00:00",
+  "updated_at": "2026-09-10T16:33:16.062399+00:00",
   "method": {
     "latency": "median TCP connect time from two Globalping probes in Moscow",
     "speed": "median of 3 x 512 KiB HTTPS downloads through the full VLESS/Xray tunnel from GitHub Actions",
@@ -8,37 +8,51 @@
     "policy": "publish a verified new node immediately; remove after 3 consecutive tunnel failures; re-add after 2 successes"
   },
   "servers": {
-    "87257143add9eb158df9": {
+    "462d9bb6cf1e0a90cbd1": {
+      "label": "🇬🇧⚡Англия-2 EXTRA",
+      "address": "234604.aib2bsas.online",
+      "port": 443,
+      "source": "liberty",
+      "source_short": "LIB",
+      "latency_error": "No successful Moscow probes",
+      "tunnel_ok": false,
+      "speed_error": "curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer",
+      "speed_samples_mbps": [],
+      "consecutive_failures": 1,
+      "consecutive_successes": 0,
+      "publishable": false
+    },
+    "e7ac10dd9afa93092512": {
       "label": "🇨🇭⚡Швейцария-1",
       "address": "31.56.150.190",
       "port": 8443,
       "source": "liberty",
       "source_short": "LIB",
-      "latency_ms": 47.27,
+      "latency_ms": 54.71,
       "packet_loss": 0.0,
       "moscow_probes": 2,
       "tunnel_ok": true,
-      "speed_mbps": 4.1,
+      "speed_mbps": 2.54,
       "download_bytes": 524288,
-      "download_seconds": 1.023,
+      "download_seconds": 1.648,
       "speed_samples_mbps": [
-        4.1,
-        4.09,
-        4.1
+        2.54,
+        2.52,
+        2.54
       ],
-      "speed_stability": 0.998,
-      "overloaded": false,
-      "overload_reason": null,
+      "speed_stability": 0.992,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
       "exit_ip": "208.69.78.161",
       "exit_country": "CH",
       "services": {
         "gemini": {
           "ok": false,
           "codes": [
-            200,
-            0
+            0,
+            404
           ],
-          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to generativelanguage.googleapis.com:443"
+          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gemini.google.com:443"
         },
         "telegram": {
           "ok": true,
@@ -68,15 +82,15 @@
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
-    "02d49a97eb5b4d28e1c4": {
+    "841d58fe9660791f05ab": {
       "label": "🇨🇭⚡Швейцария-2 EXTRA",
       "address": "2604:86c0:f401:a::4",
       "port": 8443,
       "source": "liberty",
       "source_short": "LIB",
-      "latency_ms": 64.45,
+      "latency_ms": 43.46,
       "packet_loss": 0.0,
       "moscow_probes": 2,
       "tunnel_ok": false,
@@ -86,39 +100,87 @@
       "consecutive_successes": 0,
       "publishable": false
     },
-    "1b5956d459c5b7d45818": {
-      "label": "🇬🇧⚡Англия-2 EXTRA",
-      "address": "234604.aib2bsas.online",
-      "port": 443,
+    "f55b61c8953d4d96a302": {
+      "label": "🇹🇷💳Турция Torrent",
+      "address": "31.56.150.25",
+      "port": 8443,
       "source": "liberty",
       "source_short": "LIB",
-      "latency_error": "No successful Moscow probes",
-      "tunnel_ok": false,
-      "speed_error": "curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer",
-      "speed_samples_mbps": [],
-      "consecutive_failures": 1,
-      "consecutive_successes": 0,
-      "publishable": false
+      "latency_ms": 91.77,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": true,
+      "speed_mbps": 2.01,
+      "download_bytes": 524288,
+      "download_seconds": 1.979,
+      "speed_samples_mbps": [
+        1.85,
+        2.01,
+        2.12
+      ],
+      "speed_stability": 0.873,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
+      "exit_ip": "152.233.53.89",
+      "exit_country": "TR",
+      "services": {
+        "gemini": {
+          "ok": false,
+          "codes": [
+            200,
+            0
+          ],
+          "error": "curl: (28) SSL connection timeout"
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": true,
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
-    "e48fd56b11cae830a5ef": {
+    "0735882a8dbfb5a5d1fd": {
       "label": "🇷🇺💳Россия",
       "address": "81.26.190.49",
       "port": 443,
       "source": "liberty",
       "source_short": "LIB",
-      "latency_ms": 3.94,
+      "latency_ms": 6.31,
       "packet_loss": 0.0,
       "moscow_probes": 2,
       "tunnel_ok": true,
-      "speed_mbps": 7.2,
+      "speed_mbps": 5.69,
       "download_bytes": 524288,
-      "download_seconds": 0.49,
+      "download_seconds": 0.574,
       "speed_samples_mbps": [
-        3.07,
-        7.2,
-        8.56
+        2.24,
+        5.69,
+        7.3
       ],
-      "speed_stability": 0.359,
+      "speed_stability": 0.307,
       "overloaded": true,
       "overload_reason": "unstable-throughput",
       "exit_ip": "81.26.190.49",
@@ -149,7 +211,7 @@
           "codes": [
             0
           ],
-          "error": "curl: (60) SSL certificate problem: self-signed certificate\nMore details here: https://curl.se/docs/sslcerts.html\n\ncurl "
+          "error": "curl: (28) SSL connection timeout"
         },
         "chatgpt": {
           "ok": true,
@@ -161,150 +223,27 @@
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
-    "cbfb0e5cd41fcdcf922b": {
-      "label": "🇹🇷💳Турция Torrent",
-      "address": "31.56.150.25",
-      "port": 8443,
-      "source": "liberty",
-      "source_short": "LIB",
-      "latency_ms": 94.6,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "tunnel_ok": true,
-      "speed_mbps": 3.03,
-      "download_bytes": 524288,
-      "download_seconds": 1.719,
-      "speed_samples_mbps": [
-        3.03,
-        3.13,
-        2.44
-      ],
-      "speed_stability": 0.78,
-      "overloaded": false,
-      "overload_reason": null,
-      "exit_ip": "152.233.53.89",
-      "exit_country": "TR",
-      "services": {
-        "gemini": {
-          "ok": true,
-          "codes": [
-            200,
-            404
-          ]
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "consecutive_failures": 0,
-      "consecutive_successes": 1,
-      "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
-    },
-    "d81e78522e7c3a993a51": {
-      "label": "🇺🇸США Torrent",
-      "address": "31.56.150.209",
-      "port": 443,
-      "source": "liberty",
-      "source_short": "LIB",
-      "latency_ms": 198.2,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "tunnel_ok": true,
-      "speed_mbps": 1.65,
-      "download_bytes": 524288,
-      "download_seconds": 2.58,
-      "speed_samples_mbps": [
-        1.65,
-        1.66,
-        1.63
-      ],
-      "speed_stability": 0.982,
-      "overloaded": true,
-      "overload_reason": "low-throughput",
-      "exit_ip": "149.34.247.177",
-      "exit_country": "US",
-      "services": {
-        "gemini": {
-          "ok": false,
-          "codes": [
-            200,
-            0
-          ],
-          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to generativelanguage.googleapis.com:443"
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "consecutive_failures": 0,
-      "consecutive_successes": 1,
-      "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
-    },
-    "e2650287445a2752a16d": {
+    "76e74b7f44f45ebd849c": {
       "label": "🇨🇦Канада Torrent",
       "address": "31.56.150.43",
       "port": 8443,
       "source": "liberty",
       "source_short": "LIB",
-      "latency_ms": 136.8,
+      "latency_ms": 133.85,
       "packet_loss": 0.0,
       "moscow_probes": 2,
       "tunnel_ok": true,
-      "speed_mbps": 2.21,
+      "speed_mbps": 1.67,
       "download_bytes": 524288,
-      "download_seconds": 1.877,
+      "download_seconds": 2.491,
       "speed_samples_mbps": [
-        2.2,
-        2.21,
-        2.23
+        1.67,
+        1.65,
+        1.68
       ],
-      "speed_stability": 0.987,
+      "speed_stability": 0.982,
       "overloaded": true,
       "overload_reason": "low-throughput",
       "exit_ip": "195.86.1.225",
@@ -345,86 +284,7 @@
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
-    },
-    "dd060350089ee4e865b2": {
-      "label": "🇧🇪Бельгия",
-      "address": "128.127.181.31",
-      "port": 443,
-      "source": "liberty",
-      "source_short": "LIB",
-      "latency_ms": 225.88,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "tunnel_ok": true,
-      "speed_mbps": 3.9,
-      "download_bytes": 524288,
-      "download_seconds": 1.077,
-      "speed_samples_mbps": [
-        4.26,
-        3.9,
-        3.89
-      ],
-      "speed_stability": 0.913,
-      "overloaded": false,
-      "overload_reason": null,
-      "exit_ip": "128.127.181.31",
-      "exit_country": "BE",
-      "services": {
-        "gemini": {
-          "ok": false,
-          "codes": [
-            0,
-            0
-          ],
-          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gemini.google.com:443; curl: (28) SSL connection timeout"
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "consecutive_failures": 0,
-      "consecutive_successes": 1,
-      "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
-    },
-    "74a06383219820bbd8d2": {
-      "label": "🇮🇹Италия Torrent",
-      "address": "31.56.150.84",
-      "port": 8443,
-      "source": "liberty",
-      "source_short": "LIB",
-      "latency_ms": 61.66,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "raw_latency_ms": 62.55,
-      "tunnel_ok": false,
-      "speed_error": "curl: (28) SSL connection timeout; curl: (28) SSL connection timeout; curl: (28) SSL connection timeout",
-      "speed_samples_mbps": [],
-      "consecutive_failures": 2,
-      "consecutive_successes": 0,
-      "publishable": false
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "efa5549cc00d1a64ffb2": {
       "label": "🇯🇵Япония",
@@ -432,22 +292,22 @@
       "port": 443,
       "source": "liberty",
       "source_short": "LIB",
-      "latency_ms": 60.01,
+      "latency_ms": 58.68,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 66.27,
+      "raw_latency_ms": 56.68,
       "tunnel_ok": true,
-      "speed_mbps": 3.77,
+      "speed_mbps": 3.25,
       "download_bytes": 524288,
-      "download_seconds": 1.233,
+      "download_seconds": 1.804,
       "speed_samples_mbps": [
-        3.79,
-        3.7,
-        3.4
+        2.48,
+        2.5,
+        2.33
       ],
-      "speed_stability": 0.897,
-      "overloaded": false,
-      "overload_reason": null,
+      "speed_stability": 0.932,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
       "exit_ip": "94.183.241.6",
       "exit_country": "PL",
       "services": {
@@ -483,105 +343,43 @@
           ]
         }
       },
-      "raw_speed_mbps": 3.7,
+      "raw_speed_mbps": 2.48,
       "consecutive_failures": 0,
-      "consecutive_successes": 2,
+      "consecutive_successes": 3,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
-    "7c3a2f2e93e397fde946": {
-      "label": "⬇️ Обходы белых списков ⬇️",
-      "address": "188.225.46.126",
+    "ce12d174cf30ddb388d4": {
+      "label": "🇺🇸США Torrent",
+      "address": "31.56.150.209",
       "port": 443,
       "source": "liberty",
       "source_short": "LIB",
-      "latency_ms": 130.59,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "raw_latency_ms": 37.85,
-      "tunnel_ok": true,
-      "speed_mbps": 4.0,
-      "download_bytes": 524288,
-      "download_seconds": 1.603,
-      "speed_samples_mbps": [
-        0.86,
-        4.57,
-        2.62
-      ],
-      "speed_stability": 0.188,
-      "overloaded": true,
-      "overload_reason": "low-throughput",
-      "exit_ip": "152.233.53.89",
-      "exit_country": "TR",
-      "services": {
-        "gemini": {
-          "ok": true,
-          "codes": [
-            200,
-            404
-          ]
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "raw_speed_mbps": 2.62,
-      "consecutive_failures": 0,
-      "consecutive_successes": 2,
-      "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
-    },
-    "b15febb9fb625779a23c": {
-      "label": "🇹🇷⚪Турция (БС-3)☁️",
-      "address": "87.242.127.82",
-      "port": 9443,
-      "source": "liberty",
-      "source_short": "LIB",
-      "latency_ms": 5.94,
+      "latency_ms": 194.7,
       "packet_loss": 0.0,
       "moscow_probes": 2,
       "tunnel_ok": true,
-      "speed_mbps": 1.45,
+      "speed_mbps": 1.28,
       "download_bytes": 524288,
-      "download_seconds": 3.26,
+      "download_seconds": 3.278,
       "speed_samples_mbps": [
-        1.45,
-        1.74,
-        1.29
+        1.28,
+        1.29,
+        1.28
       ],
-      "speed_stability": 0.741,
+      "speed_stability": 0.992,
       "overloaded": true,
       "overload_reason": "low-throughput",
-      "exit_ip": "152.233.53.89",
-      "exit_country": "TR",
+      "exit_ip": "149.34.247.177",
+      "exit_country": "US",
       "services": {
         "gemini": {
-          "ok": true,
+          "ok": false,
           "codes": [
-            200,
-            404
-          ]
+            0,
+            0
+          ],
+          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gemini.google.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to generativelanguage.goog"
         },
         "telegram": {
           "ok": true,
@@ -611,31 +409,110 @@
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
-    "77d9d8f6e380d802e834": {
-      "label": "🇹🇷⚪Турция (БС-5)☁️",
-      "address": "87.242.127.82",
-      "port": 8443,
+    "3025c0db37303dd34622": {
+      "label": "🇧🇪Бельгия",
+      "address": "128.127.181.31",
+      "port": 443,
       "source": "liberty",
       "source_short": "LIB",
-      "latency_ms": 5.63,
+      "latency_ms": 75.6,
       "packet_loss": 0.0,
       "moscow_probes": 2,
       "tunnel_ok": true,
-      "speed_mbps": 2.43,
+      "speed_mbps": 1.62,
       "download_bytes": 524288,
-      "download_seconds": 1.652,
+      "download_seconds": 3.554,
       "speed_samples_mbps": [
-        2.08,
-        2.43,
-        2.54
+        1.95,
+        1.62,
+        1.18
       ],
-      "speed_stability": 0.819,
+      "speed_stability": 0.605,
       "overloaded": true,
       "overload_reason": "low-throughput",
-      "exit_ip": "152.233.53.89",
-      "exit_country": "TR",
+      "exit_ip": "128.127.181.31",
+      "exit_country": "BE",
+      "services": {
+        "gemini": {
+          "ok": false,
+          "codes": [
+            0,
+            0
+          ],
+          "error": "curl: (28) SSL connection timeout; curl: (28) SSL connection timeout"
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": true,
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
+    },
+    "dbcc52baf3d8eff928b4": {
+      "label": "🇮🇹Италия Torrent",
+      "address": "31.56.150.84",
+      "port": 8443,
+      "source": "liberty",
+      "source_short": "LIB",
+      "latency_ms": 59.25,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": false,
+      "speed_error": "curl: (28) SSL connection timeout; curl: (28) SSL connection timeout; curl: (28) SSL connection timeout",
+      "speed_samples_mbps": [],
+      "consecutive_failures": 1,
+      "consecutive_successes": 0,
+      "publishable": false
+    },
+    "b7763820fd343833627c": {
+      "label": "⬇️ Обходы белых списков ⬇️",
+      "address": "46.243.142.42",
+      "port": 9443,
+      "source": "liberty",
+      "source_short": "LIB",
+      "latency_ms": 10.15,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "raw_latency_ms": 19.63,
+      "tunnel_ok": true,
+      "speed_mbps": 1.03,
+      "download_bytes": 524288,
+      "download_seconds": 5.538,
+      "speed_samples_mbps": [
+        0.43,
+        0.78,
+        0.76
+      ],
+      "speed_stability": 0.551,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
+      "exit_ip": "208.69.78.161",
+      "exit_country": "CH",
       "services": {
         "gemini": {
           "ok": false,
@@ -643,7 +520,7 @@
             200,
             0
           ],
-          "error": "curl: (28) SSL connection timeout"
+          "error": "curl: (28) Operation timed out after 10000 milliseconds with 706036 bytes received; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to generativelanguage.googleapis"
         },
         "telegram": {
           "ok": true,
@@ -670,31 +547,32 @@
           ]
         }
       },
+      "raw_speed_mbps": 0.76,
       "consecutive_failures": 0,
-      "consecutive_successes": 1,
+      "consecutive_successes": 3,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
-    "b7763820fd343833627c": {
-      "label": "🇨🇭⚪Швейцария (БС-1)☁️",
-      "address": "46.243.142.42",
-      "port": 9443,
+    "a82f062440f35b10ebd6": {
+      "label": "🇨🇭⚪Швейцария (БС-2)☁️",
+      "address": "46.243.142.212",
+      "port": 7443,
       "source": "liberty",
       "source_short": "LIB",
-      "latency_ms": 3.83,
+      "latency_ms": 287.81,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 5.71,
+      "raw_latency_ms": 184.78,
       "tunnel_ok": true,
-      "speed_mbps": 1.21,
+      "speed_mbps": 0.77,
       "download_bytes": 524288,
-      "download_seconds": 5.009,
+      "download_seconds": 6.029,
       "speed_samples_mbps": [
-        0.69,
-        0.82,
-        0.84
+        0.44,
+        0.47,
+        0.7
       ],
-      "speed_stability": 0.821,
+      "speed_stability": 0.629,
       "overloaded": true,
       "overload_reason": "low-throughput",
       "exit_ip": "208.69.78.161",
@@ -733,35 +611,35 @@
           ]
         }
       },
-      "raw_speed_mbps": 0.82,
+      "raw_speed_mbps": 0.47,
       "consecutive_failures": 0,
       "consecutive_successes": 2,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
-    "a82f062440f35b10ebd6": {
-      "label": "🇨🇭⚪Швейцария (БС-2)☁️",
-      "address": "46.243.142.212",
-      "port": 7443,
+    "14757447c7f2b3c772d8": {
+      "label": "🇹🇷⚪Турция (БС-3)☁️",
+      "address": "87.242.127.82",
+      "port": 9443,
       "source": "liberty",
       "source_short": "LIB",
-      "latency_ms": 356.5,
+      "latency_ms": 7.36,
       "packet_loss": 0.0,
-      "moscow_probes": 1,
+      "moscow_probes": 2,
       "tunnel_ok": true,
-      "speed_mbps": 0.97,
+      "speed_mbps": 0.72,
       "download_bytes": 524288,
-      "download_seconds": 4.111,
+      "download_seconds": 6.978,
       "speed_samples_mbps": [
-        0.89,
-        0.97,
-        1.02
+        0.79,
+        0.72,
+        0.6
       ],
-      "speed_stability": 0.873,
+      "speed_stability": 0.759,
       "overloaded": true,
       "overload_reason": "low-throughput",
-      "exit_ip": "208.69.78.161",
-      "exit_country": "CH",
+      "exit_ip": "152.233.53.89",
+      "exit_country": "TR",
       "services": {
         "gemini": {
           "ok": true,
@@ -798,47 +676,44 @@
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
-    "21b8ec177d1863a439d3": {
-      "label": "🇩🇪⚪Германия (БС-6)☁️",
-      "address": "188.72.103.4",
+    "bef754b89b5f4ceaae42": {
+      "label": "🇹🇷⚪Турция (БС-4)☁️",
+      "address": "188.225.46.126",
       "port": 443,
       "source": "liberty",
       "source_short": "LIB",
-      "latency_ms": 16.54,
+      "latency_ms": 14.07,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 2.55,
       "tunnel_ok": true,
-      "speed_mbps": 2.46,
+      "speed_mbps": 0.37,
       "download_bytes": 524288,
-      "download_seconds": 1.702,
+      "download_seconds": 3.109,
       "speed_samples_mbps": [
-        2.94,
-        2.36,
-        2.46
+        0.35,
+        0.37,
+        1.35
       ],
-      "speed_stability": 0.803,
+      "speed_stability": 0.259,
       "overloaded": true,
       "overload_reason": "low-throughput",
-      "exit_ip": "95.177.109.138",
-      "exit_country": "DE",
+      "exit_ip": "152.233.53.89",
+      "exit_country": "TR",
       "services": {
         "gemini": {
-          "ok": false,
+          "ok": true,
           "codes": [
-            0,
+            200,
             404
-          ],
-          "error": "curl: (28) SSL connection timeout"
+          ]
         },
         "telegram": {
-          "ok": false,
+          "ok": true,
           "codes": [
-            0
-          ],
-          "error": "curl: (28) SSL connection timeout"
+            200
+          ]
         },
         "youtube": {
           "ok": true,
@@ -862,10 +737,152 @@
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
+    },
+    "7445022d2dabba5d6359": {
+      "label": "🇹🇷⚪Турция (БС-5)☁️",
+      "address": "87.242.127.82",
+      "port": 8443,
+      "source": "liberty",
+      "source_short": "LIB",
+      "latency_ms": 3.82,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": true,
+      "speed_mbps": 0.84,
+      "download_bytes": 524288,
+      "download_seconds": 4.562,
+      "speed_samples_mbps": [
+        0.84,
+        0.79,
+        0.92
+      ],
+      "speed_stability": 0.859,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
+      "services": {
+        "gemini": {
+          "ok": true,
+          "codes": [
+            200,
+            404
+          ]
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": true,
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
+    },
+    "21b8ec177d1863a439d3": {
+      "label": "🇩🇪⚪Германия (БС-6)☁️",
+      "address": "188.72.103.4",
+      "port": 443,
+      "source": "liberty",
+      "source_short": "LIB",
+      "latency_ms": 10.88,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "raw_latency_ms": 2.38,
+      "tunnel_ok": true,
+      "speed_error": "curl: (28) SSL connection timeout; curl: (28) SSL connection timeout; curl: (28) SSL connection timeout",
+      "speed_samples_mbps": [],
+      "consecutive_failures": 1,
+      "consecutive_successes": 0,
+      "publishable": true,
+      "speed_mbps": 2.46,
+      "speed_stale": true,
+      "verified_at": "2026-09-10T11:30:20.863205+00:00",
+      "exit_ip": "95.177.109.138",
+      "exit_country": "DE"
+    },
+    "1289f4a9697d246fb9d7": {
+      "label": "vless-1221516018",
+      "address": "78.129.208.44",
+      "port": 421,
+      "source": "au1rxx",
+      "source_short": "AUX",
+      "latency_ms": 60.77,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": true,
+      "speed_mbps": 2.87,
+      "download_bytes": 524288,
+      "download_seconds": 1.451,
+      "speed_samples_mbps": [
+        2.87,
+        2.86,
+        2.89
+      ],
+      "speed_stability": 0.99,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
+      "exit_ip": "78.129.208.44",
+      "exit_country": "GB",
+      "services": {
+        "gemini": {
+          "ok": true,
+          "codes": [
+            200,
+            404
+          ]
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": true,
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "839d59c8f9685008b73e": {
-      "label": "vless-661025467",
+      "label": "vless-686793545",
       "address": "169.40.42.90",
       "port": 443,
       "source": "au1rxx",
@@ -873,16 +890,17 @@
       "latency_ms": 679.8,
       "packet_loss": 33.33,
       "moscow_probes": 1,
+      "latency_stale": true,
       "tunnel_ok": true,
-      "speed_mbps": 24.58,
+      "speed_mbps": 16.93,
       "download_bytes": 524288,
-      "download_seconds": 0.15,
+      "download_seconds": 0.729,
       "speed_samples_mbps": [
-        16.08,
-        20.34,
-        27.89
+        5.46,
+        5.04,
+        5.75
       ],
-      "speed_stability": 0.577,
+      "speed_stability": 0.877,
       "overloaded": false,
       "overload_reason": null,
       "exit_ip": "185.195.57.168",
@@ -920,108 +938,14 @@
           ]
         }
       },
-      "raw_speed_mbps": 20.34,
-      "consecutive_failures": 0,
-      "consecutive_successes": 2,
-      "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
-    },
-    "67a1e98e2ff329bba047": {
-      "label": "vless-1227876408",
-      "address": "104.26.6.214",
-      "port": 8880,
-      "source": "au1rxx",
-      "source_short": "AUX",
-      "latency_ms": 28.64,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "tunnel_ok": false,
-      "speed_error": "curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer",
-      "speed_samples_mbps": [],
-      "consecutive_failures": 1,
-      "consecutive_successes": 0,
-      "publishable": false
-    },
-    "88aa8a902d73fc6f014c": {
-      "label": "vless-1229153929",
-      "address": "104.17.57.40",
-      "port": 443,
-      "source": "au1rxx",
-      "source_short": "AUX",
-      "latency_ms": 24.25,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "tunnel_ok": false,
-      "speed_error": "curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer",
-      "speed_samples_mbps": [],
-      "consecutive_failures": 1,
-      "consecutive_successes": 0,
-      "publishable": false
-    },
-    "7358021dddb8aa3201d2": {
-      "label": "vless-1014987742",
-      "address": "47.129.204.35",
-      "port": 58335,
-      "source": "au1rxx",
-      "source_short": "AUX",
-      "latency_error": "HTTP Error 400: Bad Request",
-      "tunnel_ok": true,
-      "speed_mbps": 0.76,
-      "download_bytes": 524288,
-      "download_seconds": 9.806,
-      "speed_samples_mbps": [
-        0.61,
-        0.61,
-        0.43
-      ],
-      "speed_stability": 0.705,
-      "overloaded": true,
-      "overload_reason": "low-throughput",
-      "exit_ip": "2406:da18:1402:cb00:b3de:2d8:89f1:5c7",
-      "exit_country": "SG",
-      "services": {
-        "gemini": {
-          "ok": false,
-          "codes": [
-            200,
-            404
-          ],
-          "error": "curl: (28) Operation timed out after 10000 milliseconds with 765176 bytes received"
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": false,
-          "codes": [
-            200
-          ],
-          "error": "curl: (28) Operation timed out after 10000 milliseconds with 330811 bytes received"
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "raw_speed_mbps": 0.61,
+      "raw_speed_mbps": 5.46,
       "consecutive_failures": 0,
       "consecutive_successes": 3,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "b12af2337d000903b090": {
-      "label": "vless-855961125",
+      "label": "vless-850249007",
       "address": "169.40.42.225",
       "port": 443,
       "source": "au1rxx",
@@ -1029,18 +953,19 @@
       "latency_ms": 149.4,
       "packet_loss": 66.67,
       "moscow_probes": 1,
+      "latency_stale": true,
       "tunnel_ok": true,
-      "speed_mbps": 16.0,
+      "speed_mbps": 11.8,
       "download_bytes": 524288,
-      "download_seconds": 0.186,
+      "download_seconds": 0.76,
       "speed_samples_mbps": [
-        15.69,
-        15.16,
-        22.58
+        2.38,
+        5.51,
+        5.52
       ],
-      "speed_stability": 0.671,
-      "overloaded": false,
-      "overload_reason": null,
+      "speed_stability": 0.431,
+      "overloaded": true,
+      "overload_reason": "unstable-throughput",
       "exit_ip": "185.195.57.176",
       "exit_country": "US",
       "services": {
@@ -1076,11 +1001,72 @@
           ]
         }
       },
-      "raw_speed_mbps": 15.69,
+      "raw_speed_mbps": 5.51,
       "consecutive_failures": 0,
-      "consecutive_successes": 2,
+      "consecutive_successes": 3,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
+    },
+    "63b6439fda4d94740e7e": {
+      "label": "vless-1121839555",
+      "address": "104.194.74.73",
+      "port": 443,
+      "source": "au1rxx",
+      "source_short": "AUX",
+      "latency_ms": 184.9,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": true,
+      "speed_mbps": 10.37,
+      "download_bytes": 524288,
+      "download_seconds": 0.446,
+      "speed_samples_mbps": [
+        10.74,
+        10.37,
+        9.4
+      ],
+      "speed_stability": 0.875,
+      "overloaded": false,
+      "overload_reason": null,
+      "exit_ip": "104.194.74.73",
+      "exit_country": "US",
+      "services": {
+        "gemini": {
+          "ok": true,
+          "codes": [
+            200,
+            404
+          ]
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": true,
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "8b9f06932fd81a065017": {
       "label": "vless-1163745335",
@@ -1091,16 +1077,17 @@
       "latency_ms": 130.7,
       "packet_loss": 33.33,
       "moscow_probes": 1,
+      "latency_stale": true,
       "tunnel_ok": true,
-      "speed_mbps": 17.87,
+      "speed_mbps": 12.78,
       "download_bytes": 524288,
-      "download_seconds": 0.162,
+      "download_seconds": 0.775,
       "speed_samples_mbps": [
-        30.13,
-        21.29,
-        25.84
+        5.14,
+        5.04,
+        5.41
       ],
-      "speed_stability": 0.707,
+      "speed_stability": 0.932,
       "overloaded": false,
       "overload_reason": null,
       "exit_ip": "185.195.57.170",
@@ -1138,11 +1125,11 @@
           ]
         }
       },
-      "raw_speed_mbps": 25.84,
+      "raw_speed_mbps": 5.14,
       "consecutive_failures": 0,
-      "consecutive_successes": 3,
+      "consecutive_successes": 4,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "61590b12811d9bc533d1": {
       "label": "vless-1059475242",
@@ -1150,61 +1137,21 @@
       "port": 44848,
       "source": "au1rxx",
       "source_short": "AUX",
-      "latency_ms": 339.05,
+      "latency_ms": 338.67,
       "packet_loss": 0.0,
       "moscow_probes": 2,
+      "raw_latency_ms": 338.1,
       "tunnel_ok": true,
-      "speed_mbps": 1.85,
-      "download_bytes": 524288,
-      "download_seconds": 2.264,
-      "speed_samples_mbps": [
-        1.94,
-        1.12,
-        1.85
-      ],
-      "speed_stability": 0.577,
-      "overloaded": true,
-      "overload_reason": "low-throughput",
-      "exit_ip": "34.80.184.198",
-      "exit_country": "TW",
-      "services": {
-        "gemini": {
-          "ok": true,
-          "codes": [
-            200,
-            404
-          ]
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": false,
-          "codes": [
-            200
-          ],
-          "error": "curl: (28) Operation timed out after 10000 milliseconds with 255239 bytes received"
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "consecutive_failures": 0,
-      "consecutive_successes": 1,
+      "speed_error": "curl: (28) Operation timed out after 15002 milliseconds with 113147 out of 524288 bytes received; curl: (28) Operation timed out after 15001 milliseconds with 135567 out of 524288 ",
+      "speed_samples_mbps": [],
+      "consecutive_failures": 1,
+      "consecutive_successes": 0,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "speed_mbps": 1.85,
+      "speed_stale": true,
+      "verified_at": "2026-09-10T11:30:20.863205+00:00",
+      "exit_ip": "34.80.184.198",
+      "exit_country": "TW"
     },
     "46d5738d7725be576e25": {
       "label": "vless-734969288",
@@ -1212,21 +1159,22 @@
       "port": 443,
       "source": "au1rxx",
       "source_short": "AUX",
-      "latency_ms": 139.05,
+      "latency_ms": 139.17,
       "packet_loss": 0.0,
       "moscow_probes": 2,
+      "raw_latency_ms": 139.35,
       "tunnel_ok": true,
-      "speed_mbps": 16.89,
+      "speed_mbps": 12.15,
       "download_bytes": 524288,
-      "download_seconds": 0.248,
+      "download_seconds": 0.816,
       "speed_samples_mbps": [
-        17.91,
-        4.45,
-        16.89
+        5.03,
+        5.03,
+        5.14
       ],
-      "speed_stability": 0.248,
-      "overloaded": true,
-      "overload_reason": "unstable-throughput",
+      "speed_stability": 0.979,
+      "overloaded": false,
+      "overload_reason": null,
       "exit_ip": "158.69.112.254",
       "exit_country": "CA",
       "services": {
@@ -1262,28 +1210,31 @@
           ]
         }
       },
+      "raw_speed_mbps": 5.03,
       "consecutive_failures": 0,
-      "consecutive_successes": 1,
+      "consecutive_successes": 2,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "c39bc9034a4c486757c2": {
-      "label": "vless-1173976370",
+      "label": "vless-1186755712",
       "address": "118.167.200.67",
       "port": 24215,
       "source": "au1rxx",
       "source_short": "AUX",
-      "latency_error": "No successful Moscow probes",
+      "latency_ms": 360.9,
+      "packet_loss": 66.67,
+      "moscow_probes": 1,
       "tunnel_ok": true,
-      "speed_mbps": 1.6,
+      "speed_mbps": 1.57,
       "download_bytes": 524288,
-      "download_seconds": 3.006,
+      "download_seconds": 2.761,
       "speed_samples_mbps": [
-        1.43,
-        1.52,
-        1.4
+        1.48,
+        2.05,
+        1.52
       ],
-      "speed_stability": 0.921,
+      "speed_stability": 0.722,
       "overloaded": true,
       "overload_reason": "low-throughput",
       "exit_ip": "118.167.200.67",
@@ -1321,11 +1272,11 @@
           ]
         }
       },
-      "raw_speed_mbps": 1.43,
+      "raw_speed_mbps": 1.52,
       "consecutive_failures": 0,
-      "consecutive_successes": 2,
+      "consecutive_successes": 3,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "b64c7b09ca2cc88f8cc3": {
       "label": "vless-1044132095",
@@ -1333,22 +1284,22 @@
       "port": 29860,
       "source": "au1rxx",
       "source_short": "AUX",
-      "latency_ms": 250.12,
+      "latency_ms": 325.89,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 250.7,
+      "raw_latency_ms": 439.55,
       "tunnel_ok": true,
-      "speed_mbps": 2.69,
+      "speed_mbps": 3.2,
       "download_bytes": 524288,
-      "download_seconds": 1.649,
+      "download_seconds": 1.057,
       "speed_samples_mbps": [
-        2.56,
-        2.52,
-        2.54
+        3.27,
+        4.01,
+        3.97
       ],
-      "speed_stability": 0.984,
-      "overloaded": true,
-      "overload_reason": "low-throughput",
+      "speed_stability": 0.815,
+      "overloaded": false,
+      "overload_reason": null,
       "exit_ip": "2406:da14:1adf:9500:fb30:f6fb:522a:c397",
       "exit_country": "JP",
       "services": {
@@ -1384,11 +1335,11 @@
           ]
         }
       },
-      "raw_speed_mbps": 2.54,
+      "raw_speed_mbps": 3.97,
       "consecutive_failures": 0,
-      "consecutive_successes": 3,
+      "consecutive_successes": 4,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "a99a82c5aa09339ae737": {
       "label": "vless-1019457925",
@@ -1396,20 +1347,20 @@
       "port": 34033,
       "source": "au1rxx",
       "source_short": "AUX",
-      "latency_ms": 281.08,
+      "latency_ms": 270.53,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 292.3,
+      "raw_latency_ms": 254.7,
       "tunnel_ok": true,
-      "speed_mbps": 1.7,
+      "speed_mbps": 1.74,
       "download_bytes": 524288,
-      "download_seconds": 4.358,
+      "download_seconds": 2.346,
       "speed_samples_mbps": [
-        1.35,
-        1.37,
-        0.96
+        1.93,
+        0.97,
+        1.79
       ],
-      "speed_stability": 0.701,
+      "speed_stability": 0.503,
       "overloaded": true,
       "overload_reason": "low-throughput",
       "exit_ip": "2406:da18:bad:3500:141b:a850:5422:e914",
@@ -1447,11 +1398,73 @@
           ]
         }
       },
-      "raw_speed_mbps": 1.35,
+      "raw_speed_mbps": 1.79,
       "consecutive_failures": 0,
-      "consecutive_successes": 3,
+      "consecutive_successes": 4,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
+    },
+    "21dcdbd5f98e7ad9f331": {
+      "label": "vless-1232696195",
+      "address": "38.147.172.2",
+      "port": 18830,
+      "source": "au1rxx",
+      "source_short": "AUX",
+      "latency_ms": 211.3,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": true,
+      "speed_mbps": 0.44,
+      "download_bytes": 524288,
+      "download_seconds": 9.308,
+      "speed_samples_mbps": [
+        0.44,
+        0.31,
+        0.45
+      ],
+      "speed_stability": 0.689,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
+      "exit_ip": "2001:df1:7880:100::316",
+      "exit_country": "HK",
+      "services": {
+        "gemini": {
+          "ok": false,
+          "codes": [
+            302,
+            0
+          ],
+          "error": "curl: (28) Operation timed out after 747 milliseconds with 0 bytes received; curl: (28) SSL connection timeout"
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": true,
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "56c73cc488c240b17e5c": {
       "label": "vless-1107712078",
@@ -1459,20 +1472,20 @@
       "port": 2087,
       "source": "au1rxx",
       "source_short": "AUX",
-      "latency_ms": 37.02,
+      "latency_ms": 50.91,
       "packet_loss": 0.0,
       "moscow_probes": 1,
-      "raw_latency_ms": 38.15,
+      "raw_latency_ms": 71.74,
       "tunnel_ok": true,
-      "speed_mbps": 10.62,
+      "speed_mbps": 8.83,
       "download_bytes": 524288,
-      "download_seconds": 0.284,
+      "download_seconds": 0.507,
       "speed_samples_mbps": [
-        3.84,
-        11.77,
-        14.78
+        2.08,
+        6.14,
+        8.27
       ],
-      "speed_stability": 0.26,
+      "speed_stability": 0.252,
       "overloaded": true,
       "overload_reason": "unstable-throughput",
       "exit_ip": "31.56.189.27",
@@ -1510,72 +1523,11 @@
           ]
         }
       },
-      "raw_speed_mbps": 11.77,
+      "raw_speed_mbps": 6.14,
       "consecutive_failures": 0,
-      "consecutive_successes": 3,
+      "consecutive_successes": 4,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
-    },
-    "6c56b1488396d1be4447": {
-      "label": "vless-659125568",
-      "address": "169.40.42.74",
-      "port": 443,
-      "source": "au1rxx",
-      "source_short": "AUX",
-      "latency_ms": 137.2,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "tunnel_ok": true,
-      "speed_mbps": 16.55,
-      "download_bytes": 524288,
-      "download_seconds": 0.253,
-      "speed_samples_mbps": [
-        20.82,
-        16.51,
-        16.55
-      ],
-      "speed_stability": 0.793,
-      "overloaded": false,
-      "overload_reason": null,
-      "exit_ip": "185.195.57.174",
-      "exit_country": "US",
-      "services": {
-        "gemini": {
-          "ok": true,
-          "codes": [
-            200,
-            404
-          ]
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "consecutive_failures": 0,
-      "consecutive_successes": 1,
-      "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "6d5232d2a9d60f6b9cce": {
       "label": "vless-1083145195",
@@ -1583,22 +1535,22 @@
       "port": 443,
       "source": "au1rxx",
       "source_short": "AUX",
-      "latency_ms": 118.19,
+      "latency_ms": 117.73,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 115.65,
+      "raw_latency_ms": 117.05,
       "tunnel_ok": true,
-      "speed_mbps": 14.17,
+      "speed_mbps": 10.71,
       "download_bytes": 524288,
-      "download_seconds": 0.192,
+      "download_seconds": 0.86,
       "speed_samples_mbps": [
-        0.95,
-        14.85,
-        21.87
+        5.53,
+        5.73,
+        4.88
       ],
-      "speed_stability": 0.043,
-      "overloaded": true,
-      "overload_reason": "unstable-throughput",
+      "speed_stability": 0.852,
+      "overloaded": false,
+      "overload_reason": null,
       "exit_ip": "185.195.57.175",
       "exit_country": "US",
       "services": {
@@ -1634,32 +1586,110 @@
           ]
         }
       },
-      "raw_speed_mbps": 14.85,
+      "raw_speed_mbps": 5.53,
       "consecutive_failures": 0,
-      "consecutive_successes": 3,
+      "consecutive_successes": 4,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
+    },
+    "e8158bcad76f73e1f473": {
+      "label": "vless-1157879800",
+      "address": "50.7.5.163",
+      "port": 443,
+      "source": "au1rxx",
+      "source_short": "AUX",
+      "latency_ms": 66.08,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": false,
+      "speed_error": "curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer",
+      "speed_samples_mbps": [],
+      "consecutive_failures": 1,
+      "consecutive_successes": 0,
+      "publishable": false
+    },
+    "ab6bbb6dfed0e93558f9": {
+      "label": "vless-1019443911",
+      "address": "172.233.139.46",
+      "port": 53734,
+      "source": "au1rxx",
+      "source_short": "AUX",
+      "latency_ms": 191.0,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": true,
+      "speed_mbps": 10.52,
+      "download_bytes": 524288,
+      "download_seconds": 0.397,
+      "speed_samples_mbps": [
+        10.52,
+        8.87,
+        10.56
+      ],
+      "speed_stability": 0.84,
+      "overloaded": false,
+      "overload_reason": null,
+      "exit_ip": "2a01:7e03::2000:64ff:fe02:35cb",
+      "exit_country": "US",
+      "services": {
+        "gemini": {
+          "ok": false,
+          "codes": [
+            302,
+            404
+          ],
+          "error": "curl: (28) Operation timed out after 376 milliseconds with 0 bytes received"
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": true,
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "2be58d60aff1b0fe69f1": {
-      "label": "VLESS-TCP-REALITY-🇺🇸(US)-15.204.97.214_1",
+      "label": "VLESS-TCP-REALITY-🇺🇸(US)-15.204.97.214",
       "address": "15.204.97.214",
       "port": 23576,
       "source": "vovaplus",
       "source_short": "VOV",
-      "latency_ms": 197.41,
+      "latency_ms": 197.65,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 198.95,
+      "raw_latency_ms": 198.0,
       "tunnel_ok": true,
-      "speed_mbps": 6.57,
+      "speed_mbps": 16.61,
       "download_bytes": 524288,
-      "download_seconds": 0.664,
+      "download_seconds": 0.132,
       "speed_samples_mbps": [
-        6.26,
-        6.15,
-        6.31
+        24.31,
+        32.0,
+        31.67
       ],
-      "speed_stability": 0.975,
+      "speed_stability": 0.76,
       "overloaded": false,
       "overload_reason": null,
       "exit_ip": "2604:2dc0:200:26d6::",
@@ -1697,43 +1727,44 @@
           ]
         }
       },
-      "raw_speed_mbps": 6.26,
+      "raw_speed_mbps": 31.67,
       "consecutive_failures": 0,
-      "consecutive_successes": 3,
+      "consecutive_successes": 4,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "ada24a0beddf5d1b25b0": {
-      "label": "VLESS-TCP-REALITY-🇺🇸(US)-2.24.124.64_1",
+      "label": "VLESS-TCP-REALITY-🇺🇸(US)-2.24.124.64",
       "address": "2.24.124.64",
       "port": 443,
       "source": "vovaplus",
       "source_short": "VOV",
-      "latency_ms": 124.21,
+      "latency_ms": 132.51,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 122.4,
+      "raw_latency_ms": 144.95,
       "tunnel_ok": true,
-      "speed_mbps": 16.73,
+      "speed_mbps": 12.24,
       "download_bytes": 524288,
-      "download_seconds": 0.194,
+      "download_seconds": 0.763,
       "speed_samples_mbps": [
-        20.5,
-        22.05,
-        21.66
+        5.68,
+        5.48,
+        5.5
       ],
-      "speed_stability": 0.93,
+      "speed_stability": 0.965,
       "overloaded": false,
       "overload_reason": null,
       "exit_ip": "2a02:4780:75:ab4b::1",
       "exit_country": "US",
       "services": {
         "gemini": {
-          "ok": true,
+          "ok": false,
           "codes": [
             200,
             404
-          ]
+          ],
+          "error": "curl: (28) Operation timed out after 10000 milliseconds with 739538 bytes received"
         },
         "telegram": {
           "ok": true,
@@ -1760,11 +1791,11 @@
           ]
         }
       },
-      "raw_speed_mbps": 21.66,
+      "raw_speed_mbps": 5.5,
       "consecutive_failures": 0,
-      "consecutive_successes": 3,
+      "consecutive_successes": 4,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "23ea8aadbb6a4e8686d4": {
       "label": "VLESS-TCP-REALITY-🇺🇸(US)-15.204.97.216_1",
@@ -1772,31 +1803,32 @@
       "port": 23576,
       "source": "vovaplus",
       "source_short": "VOV",
-      "latency_ms": 197.45,
+      "latency_ms": 198.51,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 198.55,
+      "raw_latency_ms": 200.1,
       "tunnel_ok": true,
-      "speed_mbps": 6.37,
+      "speed_mbps": 15.32,
       "download_bytes": 524288,
-      "download_seconds": 0.82,
+      "download_seconds": 0.146,
       "speed_samples_mbps": [
-        6.18,
-        6.59,
-        5.12
+        30.8,
+        2.28,
+        28.75
       ],
-      "speed_stability": 0.777,
-      "overloaded": false,
-      "overload_reason": null,
+      "speed_stability": 0.074,
+      "overloaded": true,
+      "overload_reason": "unstable-throughput",
       "exit_ip": "2604:2dc0:200:26d8::",
       "exit_country": "US",
       "services": {
         "gemini": {
-          "ok": true,
+          "ok": false,
           "codes": [
-            200,
+            0,
             404
-          ]
+          ],
+          "error": "curl: (52) Empty reply from server"
         },
         "telegram": {
           "ok": true,
@@ -1823,34 +1855,48 @@
           ]
         }
       },
-      "raw_speed_mbps": 6.18,
+      "raw_speed_mbps": 28.75,
       "consecutive_failures": 0,
-      "consecutive_successes": 3,
+      "consecutive_successes": 4,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
-    "65ee3fdd686f7f87fde3": {
-      "label": "VLESS-TCP-REALITY-🇩🇪(DE)-207.241.172.98_3",
-      "address": "207.241.172.98",
+    "97e22125c716c392b27f": {
+      "label": "VLESS-TCP-REALITY-🇲🇾(MY)-43.217.16.8",
+      "address": "43.217.16.8",
+      "port": 21874,
+      "source": "vovaplus",
+      "source_short": "VOV",
+      "latency_error": "HTTP Error 400: Bad Request",
+      "tunnel_ok": false,
+      "speed_error": "curl: (28) SSL connection timeout; curl: (28) SSL connection timeout; curl: (28) SSL connection timeout",
+      "speed_samples_mbps": [],
+      "consecutive_failures": 1,
+      "consecutive_successes": 0,
+      "publishable": false
+    },
+    "b5031ef56be654d218e4": {
+      "label": "VLESS-TCP-REALITY-🇩🇪(DE)-207.241.172.254_1",
+      "address": "207.241.172.254",
       "port": 4777,
       "source": "vovaplus",
       "source_short": "VOV",
-      "latency_ms": 45.67,
+      "latency_ms": 45.19,
       "packet_loss": 0.0,
       "moscow_probes": 2,
       "tunnel_ok": true,
-      "speed_mbps": 4.02,
+      "speed_mbps": 2.53,
       "download_bytes": 524288,
-      "download_seconds": 1.042,
+      "download_seconds": 1.95,
       "speed_samples_mbps": [
-        3.86,
-        4.07,
-        4.02
+        2.53,
+        2.55,
+        2.15
       ],
-      "speed_stability": 0.948,
-      "overloaded": false,
-      "overload_reason": null,
-      "exit_ip": "2a04:c300:c00::2d3",
+      "speed_stability": 0.843,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
+      "exit_ip": "2a04:c300:c00::2f5",
       "exit_country": "DE",
       "services": {
         "gemini": {
@@ -1888,7 +1934,68 @@
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
+    },
+    "ddffec3acfc6be05f7ab": {
+      "label": "VLESS-TCP-REALITY-🇸🇬(SG)-54.169.200.246",
+      "address": "54.169.200.246",
+      "port": 41688,
+      "source": "vovaplus",
+      "source_short": "VOV",
+      "latency_ms": 240.85,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": true,
+      "speed_mbps": 2.36,
+      "download_bytes": 524288,
+      "download_seconds": 1.738,
+      "speed_samples_mbps": [
+        2.36,
+        2.3,
+        2.41
+      ],
+      "speed_stability": 0.954,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
+      "exit_ip": "2406:da18:16ca:7200:1fd7:f02a:7447:13dc",
+      "exit_country": "SG",
+      "services": {
+        "gemini": {
+          "ok": true,
+          "codes": [
+            200,
+            404
+          ]
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": true,
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "7ab1e9d041dda8c3fa5a": {
       "label": "VLESS-TCP-REALITY-🇺🇸(US)-15.204.97.197",
@@ -1896,20 +2003,20 @@
       "port": 23576,
       "source": "vovaplus",
       "source_short": "VOV",
-      "latency_ms": 198.92,
+      "latency_ms": 200.81,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 199.05,
+      "raw_latency_ms": 203.65,
       "tunnel_ok": true,
-      "speed_mbps": 6.6,
+      "speed_mbps": 14.69,
       "download_bytes": 524288,
-      "download_seconds": 0.673,
+      "download_seconds": 0.134,
       "speed_samples_mbps": [
-        6.63,
-        6.33,
-        6.24
+        26.47,
+        26.82,
+        31.2
       ],
-      "speed_stability": 0.941,
+      "speed_stability": 0.848,
       "overloaded": false,
       "overload_reason": null,
       "exit_ip": "2604:2dc0:200:26c5::",
@@ -1947,11 +2054,11 @@
           ]
         }
       },
-      "raw_speed_mbps": 6.33,
+      "raw_speed_mbps": 26.82,
       "consecutive_failures": 0,
-      "consecutive_successes": 3,
+      "consecutive_successes": 4,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "b197aeed66e7105f62cd": {
       "label": "VLESS-TCP-REALITY-🇺🇸(US)-47.89.186.170",
@@ -1964,18 +2071,18 @@
       "moscow_probes": 1,
       "latency_stale": true,
       "tunnel_ok": true,
-      "speed_mbps": 12.86,
+      "speed_mbps": 8.99,
       "download_bytes": 524288,
-      "download_seconds": 0.393,
+      "download_seconds": 1.036,
       "speed_samples_mbps": [
-        10.51,
-        11.0,
-        10.68
+        3.18,
+        3.12,
+        4.05
       ],
-      "speed_stability": 0.955,
+      "speed_stability": 0.77,
       "overloaded": false,
       "overload_reason": null,
-      "exit_ip": "2a09:bac5:c85c:2446::39d:5c",
+      "exit_ip": "47.89.186.170",
       "exit_country": "US",
       "services": {
         "gemini": {
@@ -1986,11 +2093,10 @@
           ]
         },
         "telegram": {
-          "ok": false,
+          "ok": true,
           "codes": [
-            0
-          ],
-          "error": "curl: (28) SSL connection timeout"
+            200
+          ]
         },
         "youtube": {
           "ok": true,
@@ -2011,11 +2117,11 @@
           ]
         }
       },
-      "raw_speed_mbps": 10.68,
+      "raw_speed_mbps": 3.18,
       "consecutive_failures": 0,
-      "consecutive_successes": 14,
+      "consecutive_successes": 15,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "6e2f3804bab5233ea971": {
       "label": "VLESS-TCP-REALITY-🇬🇧(GB)-51.89.194.151",
@@ -2023,20 +2129,20 @@
       "port": 2053,
       "source": "vovaplus",
       "source_short": "VOV",
-      "latency_ms": 58.39,
+      "latency_ms": 59.7,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 59.86,
+      "raw_latency_ms": 61.66,
       "tunnel_ok": true,
-      "speed_mbps": 4.86,
+      "speed_mbps": 4.13,
       "download_bytes": 524288,
-      "download_seconds": 0.775,
+      "download_seconds": 1.337,
       "speed_samples_mbps": [
-        5.53,
-        5.4,
-        5.41
+        2.7,
+        3.04,
+        3.14
       ],
-      "speed_stability": 0.976,
+      "speed_stability": 0.86,
       "overloaded": false,
       "overload_reason": null,
       "exit_ip": "51.89.194.151",
@@ -2074,11 +2180,11 @@
           ]
         }
       },
-      "raw_speed_mbps": 5.41,
+      "raw_speed_mbps": 3.04,
       "consecutive_failures": 0,
-      "consecutive_successes": 3,
+      "consecutive_successes": 4,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "b8c4e664c7afb2bdf75c": {
       "label": "VLESS-TCP-REALITY-🇳🇱(NL)-172.239.239.53_1",
@@ -2086,22 +2192,22 @@
       "port": 22746,
       "source": "vovaplus",
       "source_short": "VOV",
-      "latency_ms": 48.02,
+      "latency_ms": 57.51,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 55.05,
+      "raw_latency_ms": 71.75,
       "tunnel_ok": true,
-      "speed_mbps": 4.25,
+      "speed_mbps": 3.65,
       "download_bytes": 524288,
-      "download_seconds": 0.907,
+      "download_seconds": 1.53,
       "speed_samples_mbps": [
-        4.62,
-        4.73,
-        4.62
+        2.54,
+        2.83,
+        2.74
       ],
-      "speed_stability": 0.977,
-      "overloaded": false,
-      "overload_reason": null,
+      "speed_stability": 0.898,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
       "exit_ip": "2600:3c0e::2000:63ff:fe69:d153",
       "exit_country": "NL",
       "services": {
@@ -2137,34 +2243,95 @@
           ]
         }
       },
-      "raw_speed_mbps": 4.62,
+      "raw_speed_mbps": 2.74,
       "consecutive_failures": 0,
-      "consecutive_successes": 3,
+      "consecutive_successes": 4,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
-    "f1c50138b37f3a26e8c2": {
-      "label": "VLESS-GRPC-REALITY-🇺🇸(US)-82.202.157.181",
-      "address": "82.202.157.181",
-      "port": 9873,
+    "8d808c06a0dc5b5bad21": {
+      "label": "VLESS-XHTTP-REALITY-🇫🇷(FR)-fr-1.starsping.com_1",
+      "address": "fr-1.starsping.com",
+      "port": 443,
       "source": "vovaplus",
       "source_short": "VOV",
-      "latency_ms": 6.27,
+      "latency_ms": 51.16,
       "packet_loss": 0.0,
       "moscow_probes": 2,
+      "raw_latency_ms": 51.53,
       "tunnel_ok": true,
-      "speed_mbps": 2.75,
+      "speed_mbps": 3.73,
       "download_bytes": 524288,
-      "download_seconds": 1.429,
+      "download_seconds": 0.572,
       "speed_samples_mbps": [
-        1.91,
         2.75,
-        2.94
+        2.64,
+        7.33
       ],
-      "speed_stability": 0.65,
+      "speed_stability": 0.36,
       "overloaded": true,
       "overload_reason": "low-throughput",
-      "exit_ip": "2a0a:4cc0:2000:b55e:5495:1aff:fe33:6b69",
+      "exit_ip": "185.255.112.206",
+      "exit_country": "FR",
+      "services": {
+        "gemini": {
+          "ok": true,
+          "codes": [
+            403,
+            403
+          ]
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "raw_speed_mbps": 2.75,
+      "consecutive_failures": 0,
+      "consecutive_successes": 2,
+      "publishable": true,
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
+    },
+    "bf237f924f73b3e6b2fb": {
+      "label": "VLESS-TCP-REALITY-🇺🇸(US)-ww13.levikogjgfdd.ir",
+      "address": "ww13.levikogjgfdd.ir",
+      "port": 23576,
+      "source": "vovaplus",
+      "source_short": "VOV",
+      "latency_error": "No successful Moscow probes",
+      "tunnel_ok": true,
+      "speed_mbps": 11.63,
+      "download_bytes": 524288,
+      "download_seconds": 0.293,
+      "speed_samples_mbps": [
+        6.05,
+        11.63,
+        14.33
+      ],
+      "speed_stability": 0.422,
+      "overloaded": true,
+      "overload_reason": "unstable-throughput",
+      "exit_ip": "2604:2dc0:200:26ce::",
       "exit_country": "US",
       "services": {
         "gemini": {
@@ -2202,98 +2369,7 @@
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
-    },
-    "8d808c06a0dc5b5bad21": {
-      "label": "VLESS-XHTTP-REALITY-🇫🇷(FR)-fr-1.starsping.com_1",
-      "address": "fr-1.starsping.com",
-      "port": 443,
-      "source": "vovaplus",
-      "source_short": "VOV",
-      "latency_ms": 50.91,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "tunnel_ok": true,
-      "speed_mbps": 4.38,
-      "download_bytes": 524288,
-      "download_seconds": 0.991,
-      "speed_samples_mbps": [
-        4.38,
-        4.46,
-        4.23
-      ],
-      "speed_stability": 0.948,
-      "overloaded": false,
-      "overload_reason": null,
-      "exit_ip": "185.255.112.206",
-      "exit_country": "FR",
-      "services": {
-        "gemini": {
-          "ok": true,
-          "codes": [
-            403,
-            403
-          ]
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "consecutive_failures": 0,
-      "consecutive_successes": 1,
-      "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
-    },
-    "8887999ec5b77872bf22": {
-      "label": "VLESS-TCP-REALITY-🇫🇮(FI)-fin.zavqeron.ir",
-      "address": "fin.zavqeron.ir",
-      "port": 8447,
-      "source": "vovaplus",
-      "source_short": "VOV",
-      "latency_error": "No successful Moscow probes",
-      "tunnel_ok": false,
-      "speed_error": "curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer",
-      "speed_samples_mbps": [],
-      "consecutive_failures": 1,
-      "consecutive_successes": 0,
-      "publishable": false
-    },
-    "5ed36aa89f4df00bbf42": {
-      "label": "VLESS-TCP-REALITY-🇬🇧(GB)-51.38.70.192",
-      "address": "51.38.70.192",
-      "port": 443,
-      "source": "vovaplus",
-      "source_short": "VOV",
-      "latency_ms": 68.99,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "tunnel_ok": false,
-      "speed_error": "curl: (28) SSL connection timeout; curl: (28) SSL connection timeout; curl: (28) SSL connection timeout",
-      "speed_samples_mbps": [],
-      "consecutive_failures": 1,
-      "consecutive_successes": 0,
-      "publishable": false
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "dc681305df40affa3ac8": {
       "label": "VLESS-TCP-REALITY-🇯🇵(JP)-3.112.131.211_1",
@@ -2301,22 +2377,22 @@
       "port": 48086,
       "source": "vovaplus",
       "source_short": "VOV",
-      "latency_ms": 248.16,
+      "latency_ms": 251.64,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 251.0,
+      "raw_latency_ms": 256.85,
       "tunnel_ok": true,
-      "speed_mbps": 2.79,
+      "speed_mbps": 3.31,
       "download_bytes": 524288,
-      "download_seconds": 1.619,
+      "download_seconds": 1.026,
       "speed_samples_mbps": [
-        2.58,
-        2.66,
-        2.59
+        4.15,
+        3.29,
+        4.09
       ],
-      "speed_stability": 0.97,
-      "overloaded": true,
-      "overload_reason": "low-throughput",
+      "speed_stability": 0.793,
+      "overloaded": false,
+      "overload_reason": null,
       "exit_ip": "2406:da14:43c:ef00:92e3:7f78:9553:58ae",
       "exit_country": "JP",
       "services": {
@@ -2352,33 +2428,35 @@
           ]
         }
       },
-      "raw_speed_mbps": 2.59,
+      "raw_speed_mbps": 4.09,
       "consecutive_failures": 0,
-      "consecutive_successes": 3,
+      "consecutive_successes": 4,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
-    "8fe3126ed592dde01878": {
-      "label": "VLESS-TCP-REALITY-🇯🇵(JP)-43.207.162.145",
-      "address": "43.207.162.145",
-      "port": 32913,
+    "ed32a92fa09cb365e161": {
+      "label": "VLESS-TCP-REALITY-🇮🇹(IT)-172.238.232.239_1",
+      "address": "172.238.232.239",
+      "port": 32833,
       "source": "vovaplus",
       "source_short": "VOV",
-      "latency_error": "HTTP Error 400: Bad Request",
+      "latency_ms": 52.67,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
       "tunnel_ok": true,
-      "speed_mbps": 0.86,
+      "speed_mbps": 2.58,
       "download_bytes": 524288,
-      "download_seconds": 4.898,
+      "download_seconds": 1.62,
       "speed_samples_mbps": [
-        0.64,
-        1.24,
-        0.86
+        2.46,
+        2.58,
+        2.59
       ],
-      "speed_stability": 0.516,
+      "speed_stability": 0.95,
       "overloaded": true,
       "overload_reason": "low-throughput",
-      "exit_ip": "2406:da14:438:8100:4d26:2090:3219:91d4",
-      "exit_country": "JP",
+      "exit_ip": "2600:3c0b::2000:13ff:feb4:aeec",
+      "exit_country": "IT",
       "services": {
         "gemini": {
           "ok": true,
@@ -2415,32 +2493,29 @@
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
-    "69a486cddb6e7fbdc407": {
-      "label": "VLESS-TCP-REALITY-🇯🇵(JP)-18.177.61.231_1",
-      "address": "18.177.61.231",
-      "port": 30203,
+    "636790ba699c92c7b58c": {
+      "label": "VLESS-TCP-REALITY-🌐(XX)-13.212.10.131",
+      "address": "13.212.10.131",
+      "port": 30666,
       "source": "vovaplus",
       "source_short": "VOV",
-      "latency_ms": 256.83,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "raw_latency_ms": 265.55,
+      "latency_error": "HTTP Error 400: Bad Request",
       "tunnel_ok": true,
-      "speed_mbps": 2.36,
+      "speed_mbps": 2.4,
       "download_bytes": 524288,
-      "download_seconds": 2.961,
+      "download_seconds": 1.745,
       "speed_samples_mbps": [
-        1.54,
-        1.98,
-        1.42
+        2.45,
+        2.4,
+        2.4
       ],
-      "speed_stability": 0.717,
+      "speed_stability": 0.98,
       "overloaded": true,
       "overload_reason": "low-throughput",
-      "exit_ip": "2406:da14:1b6b:b100:a01b:203a:7118:81d4",
-      "exit_country": "JP",
+      "exit_ip": "2406:da18:1a09:4200:ad54:e54f:71c:62d7",
+      "exit_country": "SG",
       "services": {
         "gemini": {
           "ok": true,
@@ -2448,6 +2523,69 @@
             200,
             404
           ]
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            404
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": true,
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
+    },
+    "5afeba01db745eb1502e": {
+      "label": "🇫🇮 芬兰 | VLESS | 010",
+      "address": "fl.windconnect.pro",
+      "port": 443,
+      "source": "free-nodes",
+      "source_short": "FRE",
+      "latency_ms": 20.56,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "raw_latency_ms": 21.27,
+      "tunnel_ok": true,
+      "speed_mbps": 2.24,
+      "download_bytes": 524288,
+      "download_seconds": 1.909,
+      "speed_samples_mbps": [
+        2.23,
+        2.23,
+        2.2
+      ],
+      "speed_stability": 0.987,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
+      "exit_ip": "104.28.222.16",
+      "exit_country": "FI",
+      "services": {
+        "gemini": {
+          "ok": false,
+          "codes": [
+            302,
+            404
+          ],
+          "error": "curl: (28) Operation timed out after 480 milliseconds with 0 bytes received"
         },
         "telegram": {
           "ok": true,
@@ -2474,33 +2612,11 @@
           ]
         }
       },
-      "raw_speed_mbps": 1.54,
+      "raw_speed_mbps": 2.23,
       "consecutive_failures": 0,
-      "consecutive_successes": 3,
+      "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
-    },
-    "5afeba01db745eb1502e": {
-      "label": "🇫🇮 芬兰 | VLESS | 010",
-      "address": "fl.windconnect.pro",
-      "port": 443,
-      "source": "free-nodes",
-      "source_short": "FRE",
-      "latency_ms": 20.08,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "raw_latency_ms": 18.35,
-      "tunnel_ok": true,
-      "speed_error": "curl: (28) SSL connection timeout; curl: (28) SSL connection timeout; curl: (28) SSL connection timeout",
-      "speed_samples_mbps": [],
-      "consecutive_failures": 1,
-      "consecutive_successes": 0,
-      "publishable": true,
-      "speed_mbps": 2.24,
-      "speed_stale": true,
-      "verified_at": "2026-09-10T06:06:15.284690+00:00",
-      "exit_ip": "104.28.222.16",
-      "exit_country": "FI"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "ccbaeca026b0d61c8093": {
       "label": "🇫🇮 芬兰 | VLESS | 005",
@@ -2508,23 +2624,23 @@
       "port": 443,
       "source": "free-nodes",
       "source_short": "FRE",
-      "latency_ms": 14.96,
+      "latency_ms": 16.09,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 14.9,
+      "raw_latency_ms": 17.79,
       "tunnel_ok": true,
-      "speed_mbps": 3.62,
+      "speed_mbps": 3.12,
       "download_bytes": 524288,
-      "download_seconds": 1.18,
+      "download_seconds": 1.768,
       "speed_samples_mbps": [
-        3.7,
-        3.62,
-        3.56
+        2.36,
+        2.42,
+        2.37
       ],
-      "speed_stability": 0.962,
-      "overloaded": false,
-      "overload_reason": null,
-      "exit_ip": "2a09:3f00:3304:1::1",
+      "speed_stability": 0.975,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
+      "exit_ip": "31.76.121.2",
       "exit_country": "FI",
       "services": {
         "gemini": {
@@ -2560,11 +2676,11 @@
           ]
         }
       },
-      "raw_speed_mbps": 3.62,
+      "raw_speed_mbps": 2.37,
       "consecutive_failures": 0,
-      "consecutive_successes": 2,
+      "consecutive_successes": 3,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "59607276df4721e0043d": {
       "label": "🇺🇳 未知地区 | VLESS | 047",
@@ -2573,17 +2689,12 @@
       "source": "free-nodes",
       "source_short": "FRE",
       "latency_error": "No successful Moscow probes",
-      "tunnel_ok": true,
+      "tunnel_ok": false,
       "speed_error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com",
       "speed_samples_mbps": [],
-      "consecutive_failures": 1,
+      "consecutive_failures": 2,
       "consecutive_successes": 0,
-      "publishable": true,
-      "speed_mbps": 2.23,
-      "speed_stale": true,
-      "verified_at": "2026-09-10T06:06:15.284690+00:00",
-      "exit_ip": "51.161.199.124",
-      "exit_country": "AU"
+      "publishable": true
     },
     "fbd6dc96944813bdebfc": {
       "label": "🇩🇪 德国 | VLESS | 003",
@@ -2594,28 +2705,27 @@
       "latency_ms": 48.45,
       "packet_loss": 66.67,
       "moscow_probes": 1,
-      "raw_latency_ms": 45.59,
+      "latency_stale": true,
       "tunnel_ok": true,
-      "speed_mbps": 1.01,
+      "speed_mbps": 0.73,
       "download_bytes": 524288,
-      "download_seconds": 7.494,
+      "download_seconds": 13.42,
       "speed_samples_mbps": [
-        0.45,
-        0.52,
-        0.56
+        0.31
       ],
-      "speed_stability": 0.804,
+      "speed_stability": 1.0,
       "overloaded": true,
       "overload_reason": "low-throughput",
       "exit_ip": "2a01:4f8:1c16:b98a::1",
       "exit_country": "DE",
       "services": {
         "gemini": {
-          "ok": true,
+          "ok": false,
           "codes": [
             200,
             404
-          ]
+          ],
+          "error": "curl: (28) Operation timed out after 10001 milliseconds with 632975 bytes received"
         },
         "telegram": {
           "ok": true,
@@ -2642,11 +2752,11 @@
           ]
         }
       },
-      "raw_speed_mbps": 0.52,
+      "raw_speed_mbps": 0.31,
       "consecutive_failures": 0,
-      "consecutive_successes": 2,
+      "consecutive_successes": 3,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "3a9937c48898892ce5da": {
       "label": "🇫🇮 芬兰 | VLESS | 009",
@@ -2654,21 +2764,63 @@
       "port": 443,
       "source": "free-nodes",
       "source_short": "FRE",
-      "latency_ms": 20.77,
+      "latency_ms": 20.69,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 20.08,
+      "raw_latency_ms": 20.56,
       "tunnel_ok": true,
-      "speed_error": "curl: (28) SSL connection timeout; curl: (28) SSL connection timeout; curl: (28) SSL connection timeout",
-      "speed_samples_mbps": [],
-      "consecutive_failures": 1,
-      "consecutive_successes": 0,
-      "publishable": true,
-      "speed_mbps": 1.69,
-      "speed_stale": true,
-      "verified_at": "2026-09-10T06:06:15.284690+00:00",
+      "speed_mbps": 1.86,
+      "download_bytes": 524288,
+      "download_seconds": 1.975,
+      "speed_samples_mbps": [
+        2.11,
+        2.27,
+        2.12
+      ],
+      "speed_stability": 0.93,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
       "exit_ip": "104.28.222.16",
-      "exit_country": "FI"
+      "exit_country": "FI",
+      "services": {
+        "gemini": {
+          "ok": false,
+          "codes": [
+            302,
+            404
+          ],
+          "error": "curl: (28) Operation timed out after 636 milliseconds with 0 bytes received"
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "raw_speed_mbps": 2.12,
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": true,
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "27456c1bf55e3dfc0b02": {
       "label": "🇸🇬 新加坡 | VLESS | 002",
@@ -2676,14 +2828,14 @@
       "port": 8880,
       "source": "free-nodes",
       "source_short": "FRE",
-      "latency_ms": 24.37,
+      "latency_ms": 22.36,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 15.18,
+      "raw_latency_ms": 19.34,
       "tunnel_ok": false,
       "speed_error": "curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer",
       "speed_samples_mbps": [],
-      "consecutive_failures": 2,
+      "consecutive_failures": 3,
       "consecutive_successes": 0,
       "publishable": false
     },
@@ -2694,17 +2846,12 @@
       "source": "free-nodes",
       "source_short": "FRE",
       "latency_error": "No successful Moscow probes",
-      "tunnel_ok": true,
+      "tunnel_ok": false,
       "speed_error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com",
       "speed_samples_mbps": [],
-      "consecutive_failures": 1,
+      "consecutive_failures": 2,
       "consecutive_successes": 0,
-      "publishable": true,
-      "speed_mbps": 2.22,
-      "speed_stale": true,
-      "verified_at": "2026-09-10T06:06:15.284690+00:00",
-      "exit_ip": "51.161.199.124",
-      "exit_country": "AU"
+      "publishable": true
     },
     "23eb5e128d97de42ec3b": {
       "label": "🇺🇳 未知地区 | VLESS | 069",
@@ -2713,17 +2860,12 @@
       "source": "free-nodes",
       "source_short": "FRE",
       "latency_error": "No successful Moscow probes",
-      "tunnel_ok": true,
+      "tunnel_ok": false,
       "speed_error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com",
       "speed_samples_mbps": [],
-      "consecutive_failures": 1,
+      "consecutive_failures": 2,
       "consecutive_successes": 0,
-      "publishable": true,
-      "speed_mbps": 2.2,
-      "speed_stale": true,
-      "verified_at": "2026-09-10T06:06:15.284690+00:00",
-      "exit_ip": "51.161.199.124",
-      "exit_country": "AU"
+      "publishable": true
     },
     "ca65a88bee1c9004c97b": {
       "label": "🇺🇳 未知地区 | VLESS | 046",
@@ -2732,17 +2874,12 @@
       "source": "free-nodes",
       "source_short": "FRE",
       "latency_error": "No successful Moscow probes",
-      "tunnel_ok": true,
+      "tunnel_ok": false,
       "speed_error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com",
       "speed_samples_mbps": [],
-      "consecutive_failures": 1,
+      "consecutive_failures": 2,
       "consecutive_successes": 0,
-      "publishable": true,
-      "speed_mbps": 2.23,
-      "speed_stale": true,
-      "verified_at": "2026-09-10T06:06:15.284690+00:00",
-      "exit_ip": "51.161.199.124",
-      "exit_country": "AU"
+      "publishable": true
     },
     "db1c954f18feaae138b1": {
       "label": "🇺🇸 美国 | VLESS | 011",
@@ -2750,21 +2887,16 @@
       "port": 443,
       "source": "free-nodes",
       "source_short": "FRE",
-      "latency_ms": 25.24,
+      "latency_ms": 30.38,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 20.98,
-      "tunnel_ok": true,
+      "raw_latency_ms": 38.08,
+      "tunnel_ok": false,
       "speed_error": "curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer",
       "speed_samples_mbps": [],
-      "consecutive_failures": 1,
+      "consecutive_failures": 2,
       "consecutive_successes": 0,
-      "publishable": true,
-      "speed_mbps": 3.78,
-      "speed_stale": true,
-      "verified_at": "2026-09-10T06:06:15.284690+00:00",
-      "exit_ip": "144.202.108.119",
-      "exit_country": "US"
+      "publishable": true
     },
     "a19af9f09e6cec515316": {
       "label": "🇺🇳 未知地区 | VLESS | 059",
@@ -2772,22 +2904,22 @@
       "port": 443,
       "source": "free-nodes",
       "source_short": "FRE",
-      "latency_ms": 254.33,
+      "latency_ms": 321.34,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 255.8,
+      "raw_latency_ms": 421.85,
       "tunnel_ok": true,
-      "speed_mbps": 2.66,
+      "speed_mbps": 3.0,
       "download_bytes": 524288,
-      "download_seconds": 1.565,
+      "download_seconds": 1.03,
       "speed_samples_mbps": [
-        2.49,
-        2.77,
-        2.68
+        3.51,
+        3.19,
+        4.07
       ],
-      "speed_stability": 0.899,
-      "overloaded": true,
-      "overload_reason": "low-throughput",
+      "speed_stability": 0.784,
+      "overloaded": false,
+      "overload_reason": null,
       "exit_ip": "2a09:3f00:3306:1::1",
       "exit_country": "JP",
       "services": {
@@ -2824,11 +2956,11 @@
           ]
         }
       },
-      "raw_speed_mbps": 2.68,
+      "raw_speed_mbps": 3.51,
       "consecutive_failures": 0,
-      "consecutive_successes": 2,
+      "consecutive_successes": 3,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "9db6660605e0edfa0de3": {
       "label": "🇸🇬 新加坡 | VLESS | 007",
@@ -2836,14 +2968,14 @@
       "port": 443,
       "source": "free-nodes",
       "source_short": "FRE",
-      "latency_ms": 12.42,
+      "latency_ms": 11.07,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 15.36,
+      "raw_latency_ms": 9.05,
       "tunnel_ok": false,
       "speed_error": "curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer",
       "speed_samples_mbps": [],
-      "consecutive_failures": 2,
+      "consecutive_failures": 3,
       "consecutive_successes": 0,
       "publishable": false
     },
@@ -2853,19 +2985,19 @@
       "port": 443,
       "source": "free-nodes",
       "source_short": "FRE",
-      "latency_ms": 1235.96,
+      "latency_ms": 1300.4,
       "packet_loss": 16.66,
       "moscow_probes": 2,
-      "raw_latency_ms": 1752.87,
+      "raw_latency_ms": 1397.07,
       "tunnel_ok": true,
-      "speed_mbps": 1.14,
+      "speed_mbps": 1.3,
       "download_bytes": 524288,
-      "download_seconds": 4.949,
+      "download_seconds": 1.844,
       "speed_samples_mbps": [
-        0.9,
-        0.85
+        0.79,
+        2.27
       ],
-      "speed_stability": 0.944,
+      "speed_stability": 0.348,
       "overloaded": true,
       "overload_reason": "low-throughput",
       "exit_ip": "78.40.195.140",
@@ -2879,10 +3011,11 @@
           ]
         },
         "telegram": {
-          "ok": true,
+          "ok": false,
           "codes": [
-            200
-          ]
+            0
+          ],
+          "error": "curl: (28) SSL connection timeout"
         },
         "youtube": {
           "ok": true,
@@ -2897,18 +3030,17 @@
           ]
         },
         "chatgpt": {
-          "ok": false,
+          "ok": true,
           "codes": [
-            0
-          ],
-          "error": "curl: (28) SSL connection timeout"
+            403
+          ]
         }
       },
-      "raw_speed_mbps": 0.88,
+      "raw_speed_mbps": 1.53,
       "consecutive_failures": 0,
-      "consecutive_successes": 2,
+      "consecutive_successes": 3,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "21912f96f719c8d7b258": {
       "label": "🇺🇳 未知地区 | VLESS | 030",
@@ -2917,17 +3049,12 @@
       "source": "free-nodes",
       "source_short": "FRE",
       "latency_error": "No successful Moscow probes",
-      "tunnel_ok": true,
+      "tunnel_ok": false,
       "speed_error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com",
       "speed_samples_mbps": [],
-      "consecutive_failures": 1,
+      "consecutive_failures": 2,
       "consecutive_successes": 0,
-      "publishable": true,
-      "speed_mbps": 2.26,
-      "speed_stale": true,
-      "verified_at": "2026-09-10T06:06:15.284690+00:00",
-      "exit_ip": "51.161.199.124",
-      "exit_country": "AU"
+      "publishable": true
     },
     "ef513f233ced9fbcb24c": {
       "label": "🇺🇳 未知地区 | VLESS | 006",
@@ -2935,129 +3062,24 @@
       "port": 443,
       "source": "free-nodes",
       "source_short": "FRE",
-      "latency_ms": 103.76,
+      "latency_ms": 94.88,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 125.65,
+      "raw_latency_ms": 81.55,
       "tunnel_ok": true,
-      "speed_mbps": 2.61,
+      "speed_mbps": 2.42,
       "download_bytes": 524288,
-      "download_seconds": 1.608,
+      "download_seconds": 1.972,
       "speed_samples_mbps": [
-        2.61,
-        2.61
+        2.19,
+        0.54,
+        2.13
       ],
-      "speed_stability": 1.0,
+      "speed_stability": 0.247,
       "overloaded": true,
       "overload_reason": "low-throughput",
-      "services": {
-        "gemini": {
-          "ok": false,
-          "codes": [
-            0,
-            0
-          ],
-          "error": "curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer"
-        },
-        "telegram": {
-          "ok": false,
-          "codes": [
-            0
-          ],
-          "error": "curl: (35) Recv failure: Connection reset by peer"
-        },
-        "youtube": {
-          "ok": false,
-          "codes": [
-            0
-          ],
-          "error": "curl: (35) Recv failure: Connection reset by peer"
-        },
-        "instagram": {
-          "ok": false,
-          "codes": [
-            0
-          ],
-          "error": "curl: (35) Recv failure: Connection reset by peer"
-        },
-        "chatgpt": {
-          "ok": false,
-          "codes": [
-            0
-          ],
-          "error": "curl: (35) Recv failure: Connection reset by peer"
-        }
-      },
-      "consecutive_failures": 0,
-      "consecutive_successes": 1,
-      "publishable": false,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
-    },
-    "fa8b9e172e2da723ca17": {
-      "label": "🇺🇳 未知地区 | VLESS | 050",
-      "address": "51.161.199.124",
-      "port": 443,
-      "source": "free-nodes",
-      "source_short": "FRE",
-      "latency_error": "No successful Moscow probes",
-      "tunnel_ok": true,
-      "speed_error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com",
-      "speed_samples_mbps": [],
-      "consecutive_failures": 1,
-      "consecutive_successes": 0,
-      "publishable": true,
-      "speed_mbps": 2.22,
-      "speed_stale": true,
-      "verified_at": "2026-09-10T06:06:15.284690+00:00",
-      "exit_ip": "51.161.199.124",
-      "exit_country": "AU"
-    },
-    "feba7cad32a646b9022c": {
-      "label": "🇺🇳 未知地区 | VLESS | 064",
-      "address": "viper-5.moriarty-web.com",
-      "port": 443,
-      "source": "free-nodes",
-      "source_short": "FRE",
-      "latency_ms": 57.69,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "latency_stale": true,
-      "tunnel_ok": true,
-      "speed_error": "curl: (28) SSL connection timeout; curl: (28) SSL connection timeout; curl: (28) SSL connection timeout",
-      "speed_samples_mbps": [],
-      "consecutive_failures": 1,
-      "consecutive_successes": 0,
-      "publishable": true,
-      "speed_mbps": 2.1,
-      "speed_stale": true,
-      "verified_at": "2026-09-10T06:06:15.284690+00:00",
-      "exit_ip": "150.241.72.223",
-      "exit_country": "DE"
-    },
-    "ebaa766084ef85e27330": {
-      "label": "🇺🇸 美国 | VLESS | 008",
-      "address": "104.21.92.49",
-      "port": 443,
-      "source": "free-nodes",
-      "source_short": "FRE",
-      "latency_ms": 22.08,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "raw_latency_ms": 33.14,
-      "tunnel_ok": true,
-      "speed_mbps": 12.33,
-      "download_bytes": 524288,
-      "download_seconds": 0.265,
-      "speed_samples_mbps": [
-        3.66,
-        3.29,
-        15.83
-      ],
-      "speed_stability": 0.208,
-      "overloaded": true,
-      "overload_reason": "unstable-throughput",
-      "exit_ip": "185.122.166.65",
-      "exit_country": "US",
+      "exit_ip": "2a01:f900:12:165::1",
+      "exit_country": "TR",
       "services": {
         "gemini": {
           "ok": true,
@@ -3091,11 +3113,64 @@
           ]
         }
       },
-      "raw_speed_mbps": 3.66,
+      "raw_speed_mbps": 2.13,
       "consecutive_failures": 0,
       "consecutive_successes": 2,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
+    },
+    "fa8b9e172e2da723ca17": {
+      "label": "🇺🇳 未知地区 | VLESS | 050",
+      "address": "51.161.199.124",
+      "port": 443,
+      "source": "free-nodes",
+      "source_short": "FRE",
+      "latency_error": "No successful Moscow probes",
+      "tunnel_ok": false,
+      "speed_error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com",
+      "speed_samples_mbps": [],
+      "consecutive_failures": 2,
+      "consecutive_successes": 0,
+      "publishable": true
+    },
+    "feba7cad32a646b9022c": {
+      "label": "🇺🇳 未知地区 | VLESS | 064",
+      "address": "viper-5.moriarty-web.com",
+      "port": 443,
+      "source": "free-nodes",
+      "source_short": "FRE",
+      "latency_ms": 64.84,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "raw_latency_ms": 75.56,
+      "tunnel_ok": false,
+      "speed_error": "curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer",
+      "speed_samples_mbps": [],
+      "consecutive_failures": 2,
+      "consecutive_successes": 0,
+      "publishable": true
+    },
+    "ebaa766084ef85e27330": {
+      "label": "🇺🇸 美国 | VLESS | 008",
+      "address": "104.21.92.49",
+      "port": 443,
+      "source": "free-nodes",
+      "source_short": "FRE",
+      "latency_ms": 26.82,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "raw_latency_ms": 33.93,
+      "tunnel_ok": true,
+      "speed_error": "curl: (28) SSL connection timeout; curl: (28) SSL connection timeout; curl: (28) SSL connection timeout",
+      "speed_samples_mbps": [],
+      "consecutive_failures": 1,
+      "consecutive_successes": 0,
+      "publishable": true,
+      "speed_mbps": 12.33,
+      "speed_stale": true,
+      "verified_at": "2026-09-10T11:30:20.863205+00:00",
+      "exit_ip": "185.122.166.65",
+      "exit_country": "US"
     },
     "8f3922c0cc7e387d0fb2": {
       "label": "🇺🇳 未知地区 | VLESS | 071",
@@ -3104,17 +3179,12 @@
       "source": "free-nodes",
       "source_short": "FRE",
       "latency_error": "No successful Moscow probes",
-      "tunnel_ok": true,
+      "tunnel_ok": false,
       "speed_error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com",
       "speed_samples_mbps": [],
-      "consecutive_failures": 1,
+      "consecutive_failures": 2,
       "consecutive_successes": 0,
-      "publishable": true,
-      "speed_mbps": 2.22,
-      "speed_stale": true,
-      "verified_at": "2026-09-10T06:06:15.284690+00:00",
-      "exit_ip": "51.161.199.124",
-      "exit_country": "AU"
+      "publishable": true
     },
     "4f45d14d186e9a05f6ff": {
       "label": "🇺🇳 未知地区 | VLESS | 029",
@@ -3123,17 +3193,12 @@
       "source": "free-nodes",
       "source_short": "FRE",
       "latency_error": "No successful Moscow probes",
-      "tunnel_ok": true,
+      "tunnel_ok": false,
       "speed_error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com",
       "speed_samples_mbps": [],
-      "consecutive_failures": 1,
+      "consecutive_failures": 2,
       "consecutive_successes": 0,
-      "publishable": true,
-      "speed_mbps": 2.26,
-      "speed_stale": true,
-      "verified_at": "2026-09-10T06:06:15.284690+00:00",
-      "exit_ip": "51.161.199.124",
-      "exit_country": "AU"
+      "publishable": true
     },
     "c577488ced79a5aa95c7": {
       "label": "🇫🇮 芬兰 | VLESS | 017",
@@ -3141,64 +3206,24 @@
       "port": 443,
       "source": "free-nodes",
       "source_short": "FRE",
-      "latency_ms": 21.05,
+      "latency_ms": 20.91,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 20.77,
+      "raw_latency_ms": 20.69,
       "tunnel_ok": true,
-      "speed_error": "curl: (28) SSL connection timeout; curl: (28) SSL connection timeout; curl: (28) SSL connection timeout",
-      "speed_samples_mbps": [],
-      "consecutive_failures": 1,
-      "consecutive_successes": 0,
-      "publishable": true,
-      "speed_mbps": 2.45,
-      "speed_stale": true,
-      "verified_at": "2026-09-10T06:06:15.284690+00:00",
-      "exit_ip": "104.28.222.16",
-      "exit_country": "FI"
-    },
-    "25193d2add1e079781a4": {
-      "label": "🇺🇳 未知地区 | VLESS | 074",
-      "address": "51.161.199.124",
-      "port": 443,
-      "source": "free-nodes",
-      "source_short": "FRE",
-      "latency_error": "No successful Moscow probes",
-      "tunnel_ok": true,
-      "speed_error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com",
-      "speed_samples_mbps": [],
-      "consecutive_failures": 1,
-      "consecutive_successes": 0,
-      "publishable": true,
-      "speed_mbps": 2.23,
-      "speed_stale": true,
-      "verified_at": "2026-09-10T06:06:15.284690+00:00",
-      "exit_ip": "51.161.199.124",
-      "exit_country": "AU"
-    },
-    "b4d7a62a765054bcc946": {
-      "label": "🇺🇸 美国 | VLESS | 010",
-      "address": "5.34.178.120",
-      "port": 443,
-      "source": "free-nodes",
-      "source_short": "FRE",
-      "latency_ms": 155.0,
-      "packet_loss": 66.67,
-      "moscow_probes": 1,
-      "tunnel_ok": true,
-      "speed_mbps": 3.94,
+      "speed_mbps": 2.35,
       "download_bytes": 524288,
-      "download_seconds": 0.611,
+      "download_seconds": 1.933,
       "speed_samples_mbps": [
-        11.67,
-        3.09,
-        6.86
+        2.25,
+        2.21,
+        2.17
       ],
-      "speed_stability": 0.265,
+      "speed_stability": 0.964,
       "overloaded": true,
-      "overload_reason": "unstable-throughput",
-      "exit_ip": "2a05:9405:8000::2d9",
-      "exit_country": "US",
+      "overload_reason": "low-throughput",
+      "exit_ip": "104.28.222.16",
+      "exit_country": "FI",
       "services": {
         "gemini": {
           "ok": false,
@@ -3206,7 +3231,7 @@
             302,
             404
           ],
-          "error": "curl: (28) Operation timed out after 460 milliseconds with 0 bytes received"
+          "error": "curl: (28) Operation timed out after 720 milliseconds with 0 bytes received"
         },
         "telegram": {
           "ok": true,
@@ -3233,11 +3258,90 @@
           ]
         }
       },
-      "raw_speed_mbps": 6.86,
+      "raw_speed_mbps": 2.21,
       "consecutive_failures": 0,
-      "consecutive_successes": 2,
+      "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
+    },
+    "25193d2add1e079781a4": {
+      "label": "🇺🇳 未知地区 | VLESS | 074",
+      "address": "51.161.199.124",
+      "port": 443,
+      "source": "free-nodes",
+      "source_short": "FRE",
+      "latency_error": "No successful Moscow probes",
+      "tunnel_ok": false,
+      "speed_error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com",
+      "speed_samples_mbps": [],
+      "consecutive_failures": 2,
+      "consecutive_successes": 0,
+      "publishable": true
+    },
+    "b4d7a62a765054bcc946": {
+      "label": "🇺🇸 美国 | VLESS | 010",
+      "address": "5.34.178.120",
+      "port": 443,
+      "source": "free-nodes",
+      "source_short": "FRE",
+      "latency_ms": 154.16,
+      "packet_loss": 66.67,
+      "moscow_probes": 1,
+      "raw_latency_ms": 152.9,
+      "tunnel_ok": true,
+      "speed_mbps": 3.27,
+      "download_bytes": 524288,
+      "download_seconds": 1.636,
+      "speed_samples_mbps": [
+        2.27,
+        0.66,
+        2.56
+      ],
+      "speed_stability": 0.258,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
+      "services": {
+        "gemini": {
+          "ok": false,
+          "codes": [
+            302,
+            404
+          ],
+          "error": "curl: (28) SSL connection timeout"
+        },
+        "telegram": {
+          "ok": false,
+          "codes": [
+            0
+          ],
+          "error": "curl: (28) SSL connection timeout"
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "raw_speed_mbps": 2.27,
+      "exit_ip": "2a05:9405:8000::2d9",
+      "exit_country": "US",
+      "consecutive_failures": 0,
+      "consecutive_successes": 3,
+      "publishable": true,
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
     "2a13397ab9f0b3d0e89f": {
       "label": "🇺🇳 未知地区 | VLESS | 040",
@@ -3246,17 +3350,12 @@
       "source": "free-nodes",
       "source_short": "FRE",
       "latency_error": "No successful Moscow probes",
-      "tunnel_ok": true,
+      "tunnel_ok": false,
       "speed_error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to speed.cloudflare.com",
       "speed_samples_mbps": [],
-      "consecutive_failures": 1,
+      "consecutive_failures": 2,
       "consecutive_successes": 0,
-      "publishable": true,
-      "speed_mbps": 2.24,
-      "speed_stale": true,
-      "verified_at": "2026-09-10T06:06:15.284690+00:00",
-      "exit_ip": "51.161.199.124",
-      "exit_country": "AU"
+      "publishable": true
     },
     "1e0b20e43cfc053aadb3": {
       "label": "🇺🇳 未知地区 | VLESS | 048",
@@ -3264,23 +3363,23 @@
       "port": 443,
       "source": "free-nodes",
       "source_short": "FRE",
-      "latency_ms": 18.81,
+      "latency_ms": 18.53,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 25.18,
+      "raw_latency_ms": 18.11,
       "tunnel_ok": true,
-      "speed_mbps": 3.24,
+      "speed_mbps": 2.87,
       "download_bytes": 524288,
-      "download_seconds": 1.376,
+      "download_seconds": 1.764,
       "speed_samples_mbps": [
-        3.38,
-        3.64,
-        3.05
+        1.97,
+        2.32,
+        2.38
       ],
-      "speed_stability": 0.838,
-      "overloaded": false,
-      "overload_reason": null,
-      "exit_ip": "31.76.121.5",
+      "speed_stability": 0.828,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
+      "exit_ip": "31.76.121.4",
       "exit_country": "FI",
       "services": {
         "gemini": {
@@ -3316,159 +3415,35 @@
           ]
         }
       },
-      "raw_speed_mbps": 3.38,
+      "raw_speed_mbps": 2.32,
       "consecutive_failures": 0,
-      "consecutive_successes": 2,
+      "consecutive_successes": 3,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
-    "fa65567873ba4c8f924a": {
+    "88f2aa853a53b241b091": {
       "label": "proxy-31-56-150-164-direct",
       "address": "31.56.150.164",
       "port": 443,
       "source": "liberty",
       "source_short": "LIB",
-      "latency_ms": 56.03,
+      "latency_ms": 58.5,
       "packet_loss": 0.0,
       "moscow_probes": 2,
       "tunnel_ok": true,
-      "speed_mbps": 3.61,
+      "speed_mbps": 2.07,
       "download_bytes": 524288,
-      "download_seconds": 1.162,
+      "download_seconds": 2.029,
       "speed_samples_mbps": [
-        3.78,
-        3.6,
-        3.61
+        2.05,
+        2.1,
+        2.07
       ],
-      "speed_stability": 0.952,
-      "overloaded": false,
-      "overload_reason": null,
-      "exit_ip": "212.11.29.129",
-      "exit_country": "HU",
-      "services": {
-        "gemini": {
-          "ok": false,
-          "codes": [
-            0,
-            0
-          ],
-          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gemini.google.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to generativelanguage.goog"
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "consecutive_failures": 0,
-      "consecutive_successes": 1,
-      "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
-    },
-    "fad4d5ff6b16ffe6707a": {
-      "label": "proxy-31-56-150-51-direct",
-      "address": "31.56.150.51",
-      "port": 8443,
-      "source": "liberty",
-      "source_short": "LIB",
-      "latency_ms": 70.81,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "tunnel_ok": true,
-      "speed_mbps": 0.52,
-      "download_bytes": 524288,
-      "download_seconds": 7.887,
-      "speed_samples_mbps": [
-        0.52,
-        0.47,
-        0.53
-      ],
-      "speed_stability": 0.887,
+      "speed_stability": 0.976,
       "overloaded": true,
       "overload_reason": "low-throughput",
-      "exit_ip": "89.222.104.121",
-      "exit_country": "ES",
-      "services": {
-        "gemini": {
-          "ok": false,
-          "codes": [
-            0,
-            0
-          ],
-          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gemini.google.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to generativelanguage.goog"
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "consecutive_failures": 0,
-      "consecutive_successes": 1,
-      "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
-    },
-    "fa4c246eada9aa777059": {
-      "label": "proxy-31-56-150-130-direct",
-      "address": "31.56.150.130",
-      "port": 443,
-      "source": "liberty",
-      "source_short": "LIB",
-      "latency_ms": 68.16,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "tunnel_ok": true,
-      "speed_mbps": 3.07,
-      "download_bytes": 524288,
-      "download_seconds": 1.368,
-      "speed_samples_mbps": [
-        2.99,
-        3.21,
-        3.07
-      ],
-      "speed_stability": 0.931,
-      "overloaded": false,
-      "overload_reason": null,
-      "exit_ip": "84.20.4.225",
-      "exit_country": "PL",
+      "exit_ip": "212.11.29.129",
+      "exit_country": "HU",
       "services": {
         "gemini": {
           "ok": false,
@@ -3506,29 +3481,217 @@
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
-    "e770de81d2518ab85f8f": {
+    "2199ccacc13c0cdb0d3d": {
+      "label": "proxy-31-56-150-83-direct",
+      "address": "31.56.150.83",
+      "port": 443,
+      "source": "liberty",
+      "source_short": "LIB",
+      "latency_ms": 63.59,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": true,
+      "speed_mbps": 2.43,
+      "download_bytes": 524288,
+      "download_seconds": 1.711,
+      "speed_samples_mbps": [
+        2.42,
+        2.43,
+        2.45
+      ],
+      "speed_stability": 0.988,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
+      "exit_ip": "216.106.188.94",
+      "exit_country": "GB",
+      "services": {
+        "gemini": {
+          "ok": false,
+          "codes": [
+            0,
+            404
+          ],
+          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gemini.google.com:443"
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": true,
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
+    },
+    "0dc769e515f8cc349d87": {
+      "label": "proxy-31-56-150-23-direct",
+      "address": "31.56.150.23",
+      "port": 443,
+      "source": "liberty",
+      "source_short": "LIB",
+      "latency_ms": 75.24,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "raw_latency_ms": 71.8,
+      "tunnel_ok": true,
+      "speed_mbps": 2.45,
+      "download_bytes": 524288,
+      "download_seconds": 2.087,
+      "speed_samples_mbps": [
+        1.7,
+        2.05,
+        2.01
+      ],
+      "speed_stability": 0.829,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
+      "exit_ip": "212.102.62.65",
+      "exit_country": "SE",
+      "services": {
+        "gemini": {
+          "ok": false,
+          "codes": [
+            0,
+            0
+          ],
+          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gemini.google.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to generativelanguage.goog"
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "raw_speed_mbps": 2.01,
+      "consecutive_failures": 0,
+      "consecutive_successes": 2,
+      "publishable": true,
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
+    },
+    "5323592761efa2551f69": {
+      "label": "proxy-31-56-150-130-direct",
+      "address": "31.56.150.130",
+      "port": 443,
+      "source": "liberty",
+      "source_short": "LIB",
+      "latency_ms": 69.56,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": true,
+      "speed_mbps": 1.98,
+      "download_bytes": 524288,
+      "download_seconds": 2.055,
+      "speed_samples_mbps": [
+        1.98,
+        1.97,
+        2.04
+      ],
+      "speed_stability": 0.966,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
+      "exit_ip": "84.20.4.225",
+      "exit_country": "PL",
+      "services": {
+        "gemini": {
+          "ok": false,
+          "codes": [
+            0,
+            404
+          ],
+          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gemini.google.com:443"
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": true,
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
+    },
+    "15f3c648ac83513f167d": {
       "label": "proxy-31-56-150-66-direct",
       "address": "31.56.150.66",
       "port": 443,
       "source": "liberty",
       "source_short": "LIB",
-      "latency_ms": 55.7,
+      "latency_ms": 48.72,
       "packet_loss": 0.0,
       "moscow_probes": 2,
       "tunnel_ok": true,
-      "speed_mbps": 3.41,
+      "speed_mbps": 2.02,
       "download_bytes": 524288,
-      "download_seconds": 1.14,
+      "download_seconds": 2.041,
       "speed_samples_mbps": [
-        3.41,
-        3.41,
-        3.68
+        2.0,
+        2.02,
+        2.05
       ],
-      "speed_stability": 0.927,
-      "overloaded": false,
-      "overload_reason": null,
+      "speed_stability": 0.976,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
       "exit_ip": "95.177.109.138",
       "exit_country": "DE",
       "services": {
@@ -3552,10 +3715,11 @@
           ]
         },
         "instagram": {
-          "ok": true,
+          "ok": false,
           "codes": [
-            200
-          ]
+            0
+          ],
+          "error": "curl: (28) SSL connection timeout"
         },
         "chatgpt": {
           "ok": true,
@@ -3567,178 +3731,73 @@
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
-    "47040953ae1e9a819cd9": {
-      "label": "proxy-31-56-150-245-direct",
-      "address": "31.56.150.245",
+    "355092519942d6f9bf68": {
+      "label": "proxy-31-56-150-137-direct",
+      "address": "31.56.150.137",
+      "port": 443,
+      "source": "liberty",
+      "source_short": "LIB",
+      "latency_ms": 39.02,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": false,
+      "speed_error": "curl: (28) SSL connection timeout; curl: (28) SSL connection timeout; curl: (28) SSL connection timeout",
+      "speed_samples_mbps": [],
+      "consecutive_failures": 1,
+      "consecutive_successes": 0,
+      "publishable": false
+    },
+    "796b7e936d870e412a14": {
+      "label": "proxy-31-56-150-69-direct",
+      "address": "31.56.150.69",
       "port": 8443,
       "source": "liberty",
       "source_short": "LIB",
-      "latency_ms": 61.91,
+      "latency_ms": 41.24,
       "packet_loss": 0.0,
       "moscow_probes": 2,
-      "raw_latency_ms": 66.24,
-      "tunnel_ok": true,
-      "speed_mbps": 4.03,
-      "download_bytes": 524288,
-      "download_seconds": 1.025,
-      "speed_samples_mbps": [
-        3.96,
-        3.93,
-        4.09
-      ],
-      "speed_stability": 0.961,
-      "overloaded": false,
-      "overload_reason": null,
-      "exit_ip": "216.106.189.166",
-      "exit_country": "FR",
-      "services": {
-        "gemini": {
-          "ok": false,
-          "codes": [
-            0,
-            0
-          ],
-          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gemini.google.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to generativelanguage.goog"
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "raw_speed_mbps": 3.96,
-      "consecutive_failures": 0,
-      "consecutive_successes": 2,
-      "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
-    },
-    "1dd99eb693764efc178d": {
-      "label": "proxy-31-56-150-115-direct",
-      "address": "31.56.150.115",
-      "port": 443,
-      "source": "liberty",
-      "source_short": "LIB",
-      "latency_ms": 52.36,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "tunnel_ok": true,
-      "speed_mbps": 4.19,
-      "download_bytes": 524288,
-      "download_seconds": 0.98,
-      "speed_samples_mbps": [
-        4.19,
-        4.13,
-        4.28
-      ],
-      "speed_stability": 0.965,
-      "overloaded": false,
-      "overload_reason": null,
-      "exit_ip": "208.69.78.116",
-      "exit_country": "CH",
-      "services": {
-        "gemini": {
-          "ok": false,
-          "codes": [
-            0,
-            0
-          ],
-          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gemini.google.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to generativelanguage.goog"
-        },
-        "telegram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "youtube": {
-          "ok": true,
-          "codes": [
-            204
-          ]
-        },
-        "instagram": {
-          "ok": true,
-          "codes": [
-            200
-          ]
-        },
-        "chatgpt": {
-          "ok": true,
-          "codes": [
-            403
-          ]
-        }
-      },
-      "consecutive_failures": 0,
-      "consecutive_successes": 1,
-      "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
-    },
-    "a6eab1f155dc664f16ab": {
-      "label": "proxy-263160-aib2bsas-online-direct",
-      "address": "263160.aib2bsas.online",
-      "port": 443,
-      "source": "liberty",
-      "source_short": "LIB",
-      "latency_error": "No successful Moscow probes",
+      "raw_latency_ms": 45.94,
       "tunnel_ok": false,
-      "speed_error": "curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer",
+      "speed_error": "curl: (28) SSL connection timeout; curl: (28) SSL connection timeout; curl: (28) SSL connection timeout",
       "speed_samples_mbps": [],
       "consecutive_failures": 2,
       "consecutive_successes": 0,
       "publishable": false
     },
-    "bda2fb6d2c860a400a7b": {
-      "label": "proxy-31-56-150-83-direct",
-      "address": "31.56.150.83",
-      "port": 443,
+    "fad4d5ff6b16ffe6707a": {
+      "label": "proxy-31-56-150-51-direct",
+      "address": "31.56.150.51",
+      "port": 8443,
       "source": "liberty",
       "source_short": "LIB",
-      "latency_ms": 51.6,
+      "latency_ms": 70.1,
       "packet_loss": 0.0,
       "moscow_probes": 2,
+      "raw_latency_ms": 69.03,
       "tunnel_ok": true,
-      "speed_mbps": 3.88,
+      "speed_mbps": 0.48,
       "download_bytes": 524288,
-      "download_seconds": 1.076,
+      "download_seconds": 10.298,
       "speed_samples_mbps": [
-        3.88,
-        3.88,
-        3.9
+        0.41,
+        0.45,
+        0.41
       ],
-      "speed_stability": 0.995,
-      "overloaded": false,
-      "overload_reason": null,
-      "exit_ip": "216.106.188.94",
-      "exit_country": "GB",
+      "speed_stability": 0.911,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
+      "exit_ip": "89.222.104.121",
+      "exit_country": "ES",
       "services": {
         "gemini": {
-          "ok": true,
+          "ok": false,
           "codes": [
-            200,
+            0,
             404
-          ]
+          ],
+          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gemini.google.com:443"
         },
         "telegram": {
           "ok": true,
@@ -3753,10 +3812,11 @@
           ]
         },
         "instagram": {
-          "ok": true,
+          "ok": false,
           "codes": [
             200
-          ]
+          ],
+          "error": "curl: (28) Operation timed out after 10000 milliseconds with 373888 bytes received"
         },
         "chatgpt": {
           "ok": true,
@@ -3765,32 +3825,33 @@
           ]
         }
       },
+      "raw_speed_mbps": 0.41,
       "consecutive_failures": 0,
-      "consecutive_successes": 1,
+      "consecutive_successes": 2,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
-    "359d749764477ae4fee5": {
+    "d741f6763fc11d4d322c": {
       "label": "proxy-31-56-150-189-direct",
       "address": "31.56.150.189",
       "port": 8443,
       "source": "liberty",
       "source_short": "LIB",
-      "latency_ms": 50.48,
+      "latency_ms": 63.1,
       "packet_loss": 0.0,
       "moscow_probes": 2,
       "tunnel_ok": true,
-      "speed_mbps": 3.97,
+      "speed_mbps": 2.49,
       "download_bytes": 524288,
-      "download_seconds": 1.055,
+      "download_seconds": 1.657,
       "speed_samples_mbps": [
-        4.01,
-        3.65,
-        3.97
+        2.41,
+        2.49,
+        2.53
       ],
-      "speed_stability": 0.91,
-      "overloaded": false,
-      "overload_reason": null,
+      "speed_stability": 0.953,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
       "exit_ip": "169.150.196.161",
       "exit_country": "NL",
       "services": {
@@ -3830,71 +3891,39 @@
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     },
-    "9b6eb4608c475075406d": {
-      "label": "proxy-31-56-150-137-direct",
-      "address": "31.56.150.137",
+    "ad94000d20fe569c795c": {
+      "label": "proxy-31-56-150-115-direct",
+      "address": "31.56.150.115",
       "port": 443,
       "source": "liberty",
       "source_short": "LIB",
-      "latency_ms": 46.41,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "tunnel_ok": false,
-      "speed_error": "curl: (28) SSL connection timeout; curl: (28) SSL connection timeout; curl: (28) SSL connection timeout",
-      "speed_samples_mbps": [],
-      "consecutive_failures": 1,
-      "consecutive_successes": 0,
-      "publishable": false
-    },
-    "796b7e936d870e412a14": {
-      "label": "proxy-31-56-150-69-direct",
-      "address": "31.56.150.69",
-      "port": 8443,
-      "source": "liberty",
-      "source_short": "LIB",
-      "latency_ms": 38.11,
-      "packet_loss": 0.0,
-      "moscow_probes": 2,
-      "tunnel_ok": false,
-      "speed_error": "curl: (28) SSL connection timeout; curl: (28) SSL connection timeout; curl: (28) SSL connection timeout",
-      "speed_samples_mbps": [],
-      "consecutive_failures": 1,
-      "consecutive_successes": 0,
-      "publishable": false
-    },
-    "0dc769e515f8cc349d87": {
-      "label": "proxy-31-56-150-23-direct",
-      "address": "31.56.150.23",
-      "port": 443,
-      "source": "liberty",
-      "source_short": "LIB",
-      "latency_ms": 77.53,
+      "latency_ms": 51.34,
       "packet_loss": 0.0,
       "moscow_probes": 2,
       "tunnel_ok": true,
-      "speed_mbps": 2.75,
+      "speed_mbps": 2.56,
       "download_bytes": 524288,
-      "download_seconds": 1.454,
+      "download_seconds": 1.617,
       "speed_samples_mbps": [
-        2.72,
-        2.75,
-        2.89
+        2.56,
+        2.55,
+        2.59
       ],
-      "speed_stability": 0.941,
+      "speed_stability": 0.985,
       "overloaded": true,
       "overload_reason": "low-throughput",
-      "exit_ip": "212.102.62.65",
-      "exit_country": "SE",
+      "exit_ip": "208.69.78.116",
+      "exit_country": "CH",
       "services": {
         "gemini": {
           "ok": false,
           "codes": [
-            200,
+            0,
             0
           ],
-          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to generativelanguage.googleapis.com:443"
+          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gemini.google.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to generativelanguage.goog"
         },
         "telegram": {
           "ok": true,
@@ -3924,7 +3953,83 @@
       "consecutive_failures": 0,
       "consecutive_successes": 1,
       "publishable": true,
-      "verified_at": "2026-09-10T11:30:20.863205+00:00"
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
+    },
+    "a6eab1f155dc664f16ab": {
+      "label": "proxy-263160-aib2bsas-online-direct",
+      "address": "263160.aib2bsas.online",
+      "port": 443,
+      "source": "liberty",
+      "source_short": "LIB",
+      "latency_error": "No successful Moscow probes",
+      "tunnel_ok": false,
+      "speed_error": "curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer; curl: (35) Recv failure: Connection reset by peer",
+      "speed_samples_mbps": [],
+      "consecutive_failures": 3,
+      "consecutive_successes": 0,
+      "publishable": false
+    },
+    "bd57e4687753a424f306": {
+      "label": "proxy-31-56-150-245-direct",
+      "address": "31.56.150.245",
+      "port": 8443,
+      "source": "liberty",
+      "source_short": "LIB",
+      "latency_ms": 54.33,
+      "packet_loss": 0.0,
+      "moscow_probes": 2,
+      "tunnel_ok": true,
+      "speed_mbps": 2.52,
+      "download_bytes": 524288,
+      "download_seconds": 1.665,
+      "speed_samples_mbps": [
+        2.05,
+        2.55,
+        2.52
+      ],
+      "speed_stability": 0.804,
+      "overloaded": true,
+      "overload_reason": "low-throughput",
+      "exit_ip": "216.106.189.166",
+      "exit_country": "FR",
+      "services": {
+        "gemini": {
+          "ok": false,
+          "codes": [
+            0,
+            0
+          ],
+          "error": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to gemini.google.com:443; curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to generativelanguage.goog"
+        },
+        "telegram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "youtube": {
+          "ok": true,
+          "codes": [
+            204
+          ]
+        },
+        "instagram": {
+          "ok": true,
+          "codes": [
+            200
+          ]
+        },
+        "chatgpt": {
+          "ok": true,
+          "codes": [
+            403
+          ]
+        }
+      },
+      "consecutive_failures": 0,
+      "consecutive_successes": 1,
+      "publishable": true,
+      "verified_at": "2026-09-10T16:33:16.062399+00:00"
     }
   }
 }
